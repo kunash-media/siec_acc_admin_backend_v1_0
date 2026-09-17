@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 
 @Service
-@RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryServiceImpl.class);
@@ -29,6 +28,12 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryRepository inventoryRepository;
     private final ProductRepository productRepository;
     private final InventoryHistoryRepository inventoryHistoryRepository;
+
+    public InventoryServiceImpl(InventoryRepository inventoryRepository, ProductRepository productRepository, InventoryHistoryRepository inventoryHistoryRepository) {
+        this.inventoryRepository = inventoryRepository;
+        this.productRepository = productRepository;
+        this.inventoryHistoryRepository = inventoryHistoryRepository;
+    }
 
     @Override
     public InventoryResponseDTO getInventoryByProductStrId(String productStrId) {

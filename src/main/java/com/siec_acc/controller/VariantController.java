@@ -16,11 +16,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/variants/v1")
-@RequiredArgsConstructor
 public class VariantController {
 
     private static final Logger logger = LoggerFactory.getLogger(VariantController.class);
     private final VariantService variantService;
+
+    public VariantController(VariantService variantService) {
+        this.variantService = variantService;
+    }
 
     @PostMapping("/create-variant")
     public ResponseEntity<ApiResponse<VariantResponseDTO>> createVariant(@RequestBody VariantRequestDTO requestDTO) {

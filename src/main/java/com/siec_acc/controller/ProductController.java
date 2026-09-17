@@ -15,11 +15,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products/v1")
-@RequiredArgsConstructor
 public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/create-product")
     public ResponseEntity<ApiResponse<ProductResponseDTO>> createProduct(@RequestBody ProductRequestDTO requestDTO) {

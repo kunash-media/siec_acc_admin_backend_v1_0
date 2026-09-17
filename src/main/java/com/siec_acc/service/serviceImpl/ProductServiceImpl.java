@@ -2,12 +2,12 @@ package com.siec_acc.service.serviceImpl;
 
 
 import com.siec_acc.entity.InventoryEntity;
+import com.siec_acc.entity.InventoryHistoryEntity;
 import com.siec_acc.entity.ProductEntity;
 import com.siec_acc.exceptions.DuplicateResourceException;
 import com.siec_acc.exceptions.ResourceNotFoundException;
 import com.siec_acc.utils.StrIdGenerator;
 
-import com.siec_acc.entity.InventoryHistory;
 import com.siec_acc.repository.InventoryHistoryRepository;
 import com.siec_acc.repository.InventoryRepository;
 import com.siec_acc.dto.request.ProductRequestDTO;
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
@@ -36,6 +35,13 @@ public class ProductServiceImpl implements ProductService {
     private final InventoryRepository inventoryRepository;
     private final InventoryHistoryRepository inventoryHistoryRepository;
     private final VariantRepository variantRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, InventoryRepository inventoryRepository, InventoryHistoryRepository inventoryHistoryRepository, VariantRepository variantRepository) {
+        this.productRepository = productRepository;
+        this.inventoryRepository = inventoryRepository;
+        this.inventoryHistoryRepository = inventoryHistoryRepository;
+        this.variantRepository = variantRepository;
+    }
 
     @Override
     @Transactional
@@ -231,7 +237,7 @@ public class ProductServiceImpl implements ProductService {
 
     private void logHistory(ProductEntity product, String changeType, BigDecimal previousStock,
                             BigDecimal newStock, BigDecimal changeQty, String remarks) {
-        InventoryHistory history = InventoryHistory.builder()
+        InventoryHistoryEntity history = InventoryHistoryEntity.builder()
                 .productPrimeId(product.getProductPrimeId())
                 .productStrId(product.getProductStrId())
                 .historyChangeType(changeType)
@@ -240,7 +246,7 @@ public class ProductServiceImpl implements ProductService {
                 .historyChangeQty(changeQty)
                 .historyRemarks(remarks)
                 .build();
-        InventoryHistory saved = inventoryHistoryRepository.save(history);
+        InventoryHistoryEntity saved = inventoryHistoryRepository.save(history);
         saved.setHistoryStrId(StrIdGenerator.generate("HIST", saved.getHistoryPrimeId()));
         inventoryHistoryRepository.save(saved);
     }

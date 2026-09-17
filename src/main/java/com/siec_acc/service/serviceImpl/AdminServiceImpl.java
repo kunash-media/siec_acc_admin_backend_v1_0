@@ -58,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
                 .adminLastName(dto.getAdminLastName() != null ? dto.getAdminLastName().trim() : null)
                 .adminMobileNumber(dto.getAdminMobileNumber() != null ? dto.getAdminMobileNumber().trim() : null)
                 .adminAddress(dto.getAdminAddress() != null ? dto.getAdminAddress().trim() : null)
-                .adminEmail(dto.getAdminEmail() != null ? dto.getAdminEmail().trim() : null)  // ✅ Added
+                .adminEmail(dto.getAdminEmail() != null ? dto.getAdminEmail().trim() : null)
                 .adminRole(dto.getAdminRole().trim())
                 .adminPassword(passwordEncoder.encode(dto.getAdminPassword()))
                 .adminDepartment(dto.getAdminDepartment())

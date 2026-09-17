@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/inventory/v1")
-@RequiredArgsConstructor
 public class InventoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(InventoryController.class);
     private final InventoryService inventoryService;
+
+    public InventoryController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+    }
 
     @GetMapping("/get-inventory/{productStrId}")
     public ResponseEntity<ApiResponse<InventoryResponseDTO>> getInventory(@PathVariable String productStrId) {
