@@ -1,6 +1,5 @@
 package com.siec_acc.entity;
 
-import com.siec_acc.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -19,9 +18,17 @@ public class InventoryEntity {
     @Column(name = "inventory_str_id", unique = true, length = 30)
     private String inventoryStrId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_prime_id", referencedColumnName = "product_prime_id", unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_prime_id", referencedColumnName = "product_prime_id")
     private ProductEntity product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "variant_prime_id", referencedColumnName = "variant_prime_id")
+    private VariantEntity variant;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "warehouse_prime_id", referencedColumnName = "warehouse_prime_id", nullable = false)
+    private WarehouseEntity warehouse;
 
     @Column(name = "product_stock", precision = 15, scale = 2)
     private BigDecimal productStock;
@@ -43,10 +50,12 @@ public class InventoryEntity {
         this.inventoryUpdatedAt = LocalDateTime.now();
     }
 
-    public InventoryEntity(Long inventoryPrimeId, String inventoryStrId, ProductEntity product, BigDecimal productStock, LocalDateTime inventoryCreatedAt, LocalDateTime inventoryUpdatedAt) {
+    public InventoryEntity(Long inventoryPrimeId, String inventoryStrId, ProductEntity product, VariantEntity variant, WarehouseEntity warehouse, BigDecimal productStock, LocalDateTime inventoryCreatedAt, LocalDateTime inventoryUpdatedAt) {
         this.inventoryPrimeId = inventoryPrimeId;
         this.inventoryStrId = inventoryStrId;
         this.product = product;
+        this.variant = variant;
+        this.warehouse = warehouse;
         this.productStock = productStock;
         this.inventoryCreatedAt = inventoryCreatedAt;
         this.inventoryUpdatedAt = inventoryUpdatedAt;
@@ -100,5 +109,21 @@ public class InventoryEntity {
 
     public void setInventoryUpdatedAt(LocalDateTime inventoryUpdatedAt) {
         this.inventoryUpdatedAt = inventoryUpdatedAt;
+    }
+
+    public VariantEntity getVariant() {
+        return variant;
+    }
+
+    public void setVariant(VariantEntity variant) {
+        this.variant = variant;
+    }
+
+    public WarehouseEntity getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehouseEntity warehouse) {
+        this.warehouse = warehouse;
     }
 }

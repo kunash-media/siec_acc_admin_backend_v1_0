@@ -9,10 +9,8 @@ public interface PurchaseBillRepository extends JpaRepository<PurchaseBillEntity
     Optional<PurchaseBillEntity> findByPbStrId(String pbStrId);
     Optional<PurchaseBillEntity> findByPbNumber(String pbNumber);
 
-    // Used by PurchaseOrderService to block deleting a PO that already has bills against it.
     boolean existsByPoNumberIgnoreCase(String poNumber);
 
-    // Newest first, same order the frontend shows
     List<PurchaseBillEntity> findAllByOrderByCreatedAtDesc();
     List<PurchaseBillEntity> findByVendorNameContainingIgnoreCaseOrderByCreatedAtDesc(String vendorName);
     List<PurchaseBillEntity> findByPoNumberIgnoreCaseOrderByCreatedAtDesc(String poNumber);

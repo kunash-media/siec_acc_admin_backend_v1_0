@@ -1,14 +1,17 @@
 package com.siec_acc.service.serviceImpl;
 
-import com.siec_acc.entity.ProductEntity;
+import com.siec_acc.config.InventoryStockSupport;
+import com.siec_acc.entity.*;
 import com.siec_acc.exceptions.DuplicateResourceException;
 import com.siec_acc.exceptions.ResourceNotFoundException;
+import com.siec_acc.repository.InventoryHistoryRepository;
+import com.siec_acc.repository.InventoryRepository;
+import com.siec_acc.service.WarehouseService;
 import com.siec_acc.utils.StrIdGenerator;
 
 import com.siec_acc.repository.ProductRepository;
 import com.siec_acc.dto.request.VariantRequestDTO;
 import com.siec_acc.dto.response.VariantResponseDTO;
-import com.siec_acc.entity.VariantEntity;
 import com.siec_acc.repository.VariantRepository;
 import com.siec_acc.service.VariantService;
 import org.slf4j.Logger;
@@ -27,10 +30,18 @@ public class VariantServiceImpl implements VariantService {
 
     private final VariantRepository variantRepository;
     private final ProductRepository productRepository;
+    private final InventoryRepository inventoryRepository;
+    private final WarehouseService warehouseService;
+    private final InventoryStockSupport stockSupport;
 
-    public VariantServiceImpl(VariantRepository variantRepository, ProductRepository productRepository) {
+    public VariantServiceImpl(VariantRepository variantRepository, ProductRepository productRepository,
+                              InventoryRepository inventoryRepository, WarehouseService warehouseService,
+                              InventoryStockSupport stockSupport) {
         this.variantRepository = variantRepository;
         this.productRepository = productRepository;
+        this.inventoryRepository = inventoryRepository;
+        this.warehouseService = warehouseService;
+        this.stockSupport = stockSupport;
     }
 
     @Override
@@ -51,6 +62,8 @@ public class VariantServiceImpl implements VariantService {
             throw new DuplicateResourceException("A variant with SKU '" + requestDTO.getVariantSku() + "' already exists.");
         }
 
+        WarehouseEntity warehouse = warehouseService.resolveActiveWarehouse(requestDTO.getWarehouseStrId());
+
         VariantEntity variant = VariantEntity.builder()
                 .product(product)
                 .variantName(requestDTO.getVariantName())
@@ -70,6 +83,10 @@ public class VariantServiceImpl implements VariantService {
         VariantEntity saved = variantRepository.save(variant);
         saved.setVariantStrId(StrIdGenerator.generate("VAR", saved.getVariantPrimeId()));
         saved = variantRepository.save(saved);
+
+        BigDecimal openingStock = saved.getVariantStock();
+        stockSupport.createRow(null, saved, warehouse, openingStock);
+        stockSupport.recordVariantHistory(saved, warehouse, "CREATE", BigDecimal.ZERO, openingStock, openingStock, "VariantEntity created with opening stock");
 
         logger.info("VariantEntity created successfully: {}", saved.getVariantStrId());
         return mapToResponse(saved);
@@ -93,7 +110,9 @@ public class VariantServiceImpl implements VariantService {
         variant.setVariantProductNumber(requestDTO.getVariantProductNumber());
         variant.setVariantCategory(requestDTO.getVariantCategory());
         variant.setVariantSubCategory(requestDTO.getVariantSubCategory());
-        if (requestDTO.getVariantStock() != null) variant.setVariantStock(requestDTO.getVariantStock());
+
+        applyVariantStockChangeIfAny(variant, requestDTO.getVariantStock(), requestDTO.getWarehouseStrId(), "Stock updated via full variant update");
+
 
         VariantEntity updated = variantRepository.save(variant);
         logger.info("VariantEntity updated successfully: {}", variantStrId);
@@ -118,7 +137,8 @@ public class VariantServiceImpl implements VariantService {
         if (requestDTO.getVariantProductNumber() != null) variant.setVariantProductNumber(requestDTO.getVariantProductNumber());
         if (requestDTO.getVariantCategory() != null) variant.setVariantCategory(requestDTO.getVariantCategory());
         if (requestDTO.getVariantSubCategory() != null) variant.setVariantSubCategory(requestDTO.getVariantSubCategory());
-        if (requestDTO.getVariantStock() != null) variant.setVariantStock(requestDTO.getVariantStock());
+
+        applyVariantStockChangeIfAny(variant, requestDTO.getVariantStock(), requestDTO.getWarehouseStrId(), "Stock patched via partial variant update");
 
         VariantEntity patched = variantRepository.save(variant);
         logger.info("VariantEntity patched successfully: {}", variantStrId);
@@ -129,8 +149,10 @@ public class VariantServiceImpl implements VariantService {
     @Transactional
     public void deleteVariant(String variantStrId) {
         logger.info("Deleting variant: {}", variantStrId);
+
         VariantEntity variant = getVariantOrThrow(variantStrId);
-        variantRepository.delete(variant);
+
+        inventoryRepository.findAllByVariant_VariantPrimeId(variant.getVariantPrimeId()).forEach(inventoryRepository::delete);        variantRepository.delete(variant);
         logger.info("VariantEntity deleted successfully: {}", variantStrId);
     }
 
@@ -191,4 +213,35 @@ public class VariantServiceImpl implements VariantService {
                 .variantUpdatedAt(variant.getVariantUpdatedAt())
                 .build();
     }
+
+    private void applyVariantStockChangeIfAny(VariantEntity variant, BigDecimal newStock, String warehouseStrId, String remarks) {
+        if (newStock == null) return;
+
+        BigDecimal total = stockSupport.variantTotal(variant.getVariantPrimeId());
+        boolean warehouseGiven = warehouseStrId != null && !warehouseStrId.isBlank();
+        if (!warehouseGiven && newStock.compareTo(total) == 0) return;
+
+        List<InventoryEntity> rows = inventoryRepository.findAllByVariant_VariantPrimeId(variant.getVariantPrimeId());
+        WarehouseEntity warehouse;
+        if (warehouseGiven) {
+            warehouse = warehouseService.resolveActiveWarehouse(warehouseStrId);
+        } else if (rows.size() == 1) {
+            warehouse = warehouseService.resolveActiveWarehouse(rows.get(0).getWarehouse().getWarehouseStrId());
+        } else if (rows.isEmpty()) {
+            warehouse = warehouseService.resolveActiveWarehouse(null);
+        } else {
+            throw new IllegalArgumentException("Variant has stock in multiple warehouses. Specify warehouseStrId or use the variant stock add/reduce APIs.");
+        }
+
+        InventoryEntity inventory = stockSupport.lockOrCreateVariantRow(variant.getVariantStrId(), warehouse);
+        BigDecimal previous = inventory.getProductStock() != null ? inventory.getProductStock() : BigDecimal.ZERO;
+        if (newStock.compareTo(previous) == 0) return;
+
+        inventory.setProductStock(newStock);
+        inventoryRepository.save(inventory);
+        variant.setVariantStock(stockSupport.variantTotal(variant.getVariantPrimeId()));
+        stockSupport.recordVariantHistory(variant, warehouse, "MANUAL_UPDATE", previous, newStock, newStock.subtract(previous), remarks);
+    }
+
+
 }

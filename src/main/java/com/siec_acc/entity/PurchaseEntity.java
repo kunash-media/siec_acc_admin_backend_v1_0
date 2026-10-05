@@ -1,4 +1,3 @@
-
 package com.siec_acc.entity;
 
 import jakarta.persistence.*;
@@ -131,4 +130,3 @@ public class PurchaseEntity {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
-

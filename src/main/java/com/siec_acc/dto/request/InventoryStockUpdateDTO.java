@@ -7,10 +7,15 @@ import java.math.BigDecimal;
 public class InventoryStockUpdateDTO {
     private BigDecimal changeQty; // must be > 0; direction decided by endpoint (add/reduce)
     private String remarks;
+    private String source; // optional: null = normal add, "VENDOR_PURCHASE" = vendor flow
 
-    public InventoryStockUpdateDTO(BigDecimal changeQty, String remarks) {
+    private String warehouseStrId; // optional; omitted = default warehouse
+
+    public InventoryStockUpdateDTO(BigDecimal changeQty, String remarks, String source, String warehouseStrId) {
         this.changeQty = changeQty;
         this.remarks = remarks;
+        this.source = source;
+        this.warehouseStrId = warehouseStrId;
     }
 
     public InventoryStockUpdateDTO(){}
@@ -29,5 +34,21 @@ public class InventoryStockUpdateDTO {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getWarehouseStrId() {
+        return warehouseStrId;
+    }
+
+    public void setWarehouseStrId(String warehouseStrId) {
+        this.warehouseStrId = warehouseStrId;
     }
 }

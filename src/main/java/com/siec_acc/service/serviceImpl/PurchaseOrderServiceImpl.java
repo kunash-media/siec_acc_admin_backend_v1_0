@@ -14,6 +14,7 @@ import com.siec_acc.repository.GoodsReceiptRepository;
 import com.siec_acc.repository.PurchaseBillRepository;
 import com.siec_acc.repository.PurchaseOrderRepository;
 import com.siec_acc.repository.PurchaseRepository;
+import com.siec_acc.service.GoodsReceiptService;
 import com.siec_acc.service.PurchaseOrderService;
 import com.siec_acc.utils.StrIdGenerator;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private static final String DEFAULT_STATUS = "draft";
     private static final Set<String> ALLOWED_STATUSES =
             Set.of("draft", "approved", "sent", "partial", "fully_received", "closed");
+    // Only these can be set by hand. partial / fully_received / closed are driven by goods receipts, bills and payments.
+    private static final Set<String> MANUAL_STATUSES = Set.of("draft", "approved", "sent");
+    private static final Map<String, Set<String>> MANUAL_TRANSITIONS = Map.of(
+            "draft", Set.of("approved"),
+            "approved", Set.of("draft", "sent"),
+            "sent", Set.of("approved"));
     private static final String DEFAULT_UNIT = "Pcs";
     private static final String PR_STATUS_APPROVED = "approved";
 
@@ -43,15 +51,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final PurchaseRepository purchaseRepository;         // to read/patch the source Purchase Requirement
     private final PurchaseBillRepository purchaseBillRepository; // to block deleting a PO that has bills
     private final GoodsReceiptRepository goodsReceiptRepository; // to block deleting a PO / shrinking items below received qty
+    private final GoodsReceiptService goodsReceiptService;       // re-syncs receipt + PO status after the items change
 
     public PurchaseOrderServiceImpl(PurchaseOrderRepository purchaseOrderRepository,
                                     PurchaseRepository purchaseRepository,
                                     PurchaseBillRepository purchaseBillRepository,
-                                    GoodsReceiptRepository goodsReceiptRepository) {
+                                    GoodsReceiptRepository goodsReceiptRepository,
+                                    GoodsReceiptService goodsReceiptService) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.purchaseRepository = purchaseRepository;
         this.purchaseBillRepository = purchaseBillRepository;
         this.goodsReceiptRepository = goodsReceiptRepository;
+        this.goodsReceiptService = goodsReceiptService;
     }
 
     // ------------------------------------------------------------------
@@ -73,7 +84,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPoDate(dto.getPoDate());
         po.setDeliveryDate(dto.getDeliveryDate());
         po.setTaxPct(dto.getTaxPct() == null ? 0.0 : dto.getTaxPct());
-        po.setStatus(isBlank(dto.getStatus()) ? DEFAULT_STATUS : normalizeStatus(dto.getStatus()));
+        po.setStatus(initialStatus(dto.getStatus()));
         po.setItems(toItemEntities(dto.getItems()));
         po.setSourcePurchaseStrId(sourcePurchase != null ? sourcePurchase.getPurchaseStrId() : null);
 
@@ -106,6 +117,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         validateTax(dto.getTaxPct());
         validateItems(dto.getItems());
 
+        guardVendorChange(po, dto.getVendorName());
         po.setVendorName(dto.getVendorName().trim());
         po.setPoDate(dto.getPoDate());
         po.setDeliveryDate(dto.getDeliveryDate());
@@ -113,10 +125,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         guardItemsAgainstReceipts(po, dto.getItems());
         po.setItems(toItemEntities(dto.getItems()));
         if (!isBlank(dto.getStatus())) {
-            po.setStatus(normalizeStatus(dto.getStatus()));
+            applyManualStatus(po, dto.getStatus());
         }
 
         PurchaseOrderEntity updated = purchaseOrderRepository.save(po);
+        // Item quantities may have changed: refresh each receipt's ordered qty and the PO's partial / fully_received status.
+        goodsReceiptService.resyncPo(updated);
         logger.info("PurchaseOrderEntity updated successfully: {}", poStrId);
         return mapToResponse(updated);
     }
@@ -134,7 +148,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LocalDate newDeliveryDate = dto.getDeliveryDate() != null ? dto.getDeliveryDate() : po.getDeliveryDate();
         validateDates(newPoDate, newDeliveryDate);
 
-        if (dto.getVendorName() != null) po.setVendorName(dto.getVendorName().trim());
+        if (dto.getVendorName() != null) {
+            guardVendorChange(po, dto.getVendorName());
+            po.setVendorName(dto.getVendorName().trim());
+        }
         po.setPoDate(newPoDate);
         po.setDeliveryDate(newDeliveryDate);
         if (dto.getTaxPct() != null) {
@@ -147,10 +164,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setItems(toItemEntities(dto.getItems()));
         }
         if (!isBlank(dto.getStatus())) {
-            po.setStatus(normalizeStatus(dto.getStatus()));
+            applyManualStatus(po, dto.getStatus());
         }
 
         PurchaseOrderEntity patched = purchaseOrderRepository.save(po);
+        if (dto.getItems() != null) {
+            goodsReceiptService.resyncPo(patched);
+        }
         logger.info("PurchaseOrderEntity patched successfully: {}", poStrId);
         return mapToResponse(patched);
     }
@@ -232,6 +252,49 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     logger.warn("PurchaseOrderEntity not found: {}", poStrId);
                     return new ResourceNotFoundException("No purchase order found with ID '" + poStrId + "'.");
                 });
+    }
+
+    /** A new PO can start as draft or approved - never as a system-driven status. */
+    private String initialStatus(String raw) {
+        if (isBlank(raw)) return DEFAULT_STATUS;
+        String s = normalizeStatus(raw);
+        if (!"draft".equals(s) && !"approved".equals(s)) {
+            throw new InvalidOperationException("A new purchase order can only start as draft or approved.");
+        }
+        return s;
+    }
+
+    /**
+     * Manual status changes: draft -> approved -> sent only. partial / fully_received / closed are set by the
+     * system (goods receipts, bills, payments) and cannot be forced, nor can a PO in those states be moved by hand.
+     * Sending the status it already has is a harmless no-op (the edit form always sends it).
+     */
+    private void applyManualStatus(PurchaseOrderEntity po, String raw) {
+        String target = normalizeStatus(raw);
+        String current = isBlank(po.getStatus()) ? DEFAULT_STATUS : po.getStatus().trim().toLowerCase(Locale.ROOT);
+        if (target.equals(current)) return;
+        if (!MANUAL_STATUSES.contains(target)) {
+            throw new InvalidOperationException("Status '" + target + "' is set automatically from goods receipts, bills and payments and cannot be chosen by hand.");
+        }
+        if (!MANUAL_STATUSES.contains(current)) {
+            throw new InvalidOperationException(po.getPoNumber() + " is " + current.replace('_', ' ')
+                    + " - its status is now controlled by goods receipts, bills and payments.");
+        }
+        if (!MANUAL_TRANSITIONS.get(current).contains(target)) {
+            throw new InvalidOperationException("A purchase order cannot go from " + current + " to " + target + " directly.");
+        }
+        po.setStatus(target);
+    }
+
+    /** Receipts and bills carry the vendor name as text, so renaming the vendor after either exists would orphan them. */
+    private void guardVendorChange(PurchaseOrderEntity po, String newVendor) {
+        if (newVendor == null || po.getVendorName() == null) return;
+        if (po.getVendorName().trim().equalsIgnoreCase(newVendor.trim())) return;
+        if (goodsReceiptRepository.existsByPoStrId(po.getPoStrId())
+                || purchaseBillRepository.existsByPoNumberIgnoreCase(po.getPoNumber())) {
+            throw new InvalidOperationException("The vendor of " + po.getPoNumber()
+                    + " cannot be changed after goods have been received or a bill raised against it.");
+        }
     }
 
     /** Validates and resolves the Purchase Requirement being converted, if one was passed in. */

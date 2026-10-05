@@ -19,8 +19,9 @@ public class VariantRequestDTO {
     private String variantSubCategory;
     private BigDecimal variantStock;
 
+    private String warehouseStrId; // optional; omitted = default warehouse
 
-    public VariantRequestDTO(String productStrId, String variantName, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock) {
+    public VariantRequestDTO(String productStrId, String variantName, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, String warehouseStrId) {
         this.productStrId = productStrId;
         this.variantName = variantName;
         this.variantSku = variantSku;
@@ -34,7 +35,9 @@ public class VariantRequestDTO {
         this.variantCategory = variantCategory;
         this.variantSubCategory = variantSubCategory;
         this.variantStock = variantStock;
+        this.warehouseStrId = warehouseStrId;
     }
+
 
     public VariantRequestDTO(){}
 
@@ -140,5 +143,13 @@ public class VariantRequestDTO {
 
     public void setVariantStock(BigDecimal variantStock) {
         this.variantStock = variantStock;
+    }
+
+    public String getWarehouseStrId() {
+        return warehouseStrId;
+    }
+
+    public void setWarehouseStrId(String warehouseStrId) {
+        this.warehouseStrId = warehouseStrId;
     }
 }

@@ -48,12 +48,18 @@ public class InventoryHistoryEntity {
     @Column(name = "history_created_at")
     private LocalDateTime historyCreatedAt;
 
+    @Column(name = "warehouse_prime_id")
+    private Long warehousePrimeId;
+
+    @Column(name = "warehouse_str_id", length = 30)
+    private String warehouseStrId;
+
     @PrePersist
     protected void onCreate() {
         this.historyCreatedAt = LocalDateTime.now();
     }
 
-    public InventoryHistoryEntity(Long historyPrimeId, String historyStrId, Long productPrimeId, String productStrId, Long variantPrimeId, String variantStrId, String historyChangeType, BigDecimal historyPreviousStock, BigDecimal historyNewStock, BigDecimal historyChangeQty, String historyRemarks, LocalDateTime historyCreatedAt) {
+    public InventoryHistoryEntity(Long historyPrimeId, String historyStrId, Long productPrimeId, String productStrId, Long variantPrimeId, String variantStrId, String historyChangeType, BigDecimal historyPreviousStock, BigDecimal historyNewStock, BigDecimal historyChangeQty, String historyRemarks, LocalDateTime historyCreatedAt, Long warehousePrimeId, String warehouseStrId) {
         this.historyPrimeId = historyPrimeId;
         this.historyStrId = historyStrId;
         this.productPrimeId = productPrimeId;
@@ -66,7 +72,10 @@ public class InventoryHistoryEntity {
         this.historyChangeQty = historyChangeQty;
         this.historyRemarks = historyRemarks;
         this.historyCreatedAt = historyCreatedAt;
+        this.warehousePrimeId = warehousePrimeId;
+        this.warehouseStrId = warehouseStrId;
     }
+
     public InventoryHistoryEntity() {}
 
     public Long getHistoryPrimeId() {
@@ -163,5 +172,21 @@ public class InventoryHistoryEntity {
 
     public void setHistoryCreatedAt(LocalDateTime historyCreatedAt) {
         this.historyCreatedAt = historyCreatedAt;
+    }
+
+    public Long getWarehousePrimeId() {
+        return warehousePrimeId;
+    }
+
+    public void setWarehousePrimeId(Long warehousePrimeId) {
+        this.warehousePrimeId = warehousePrimeId;
+    }
+
+    public String getWarehouseStrId() {
+        return warehouseStrId;
+    }
+
+    public void setWarehouseStrId(String warehouseStrId) {
+        this.warehouseStrId = warehouseStrId;
     }
 }

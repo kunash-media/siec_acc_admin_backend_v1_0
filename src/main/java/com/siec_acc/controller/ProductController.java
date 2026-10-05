@@ -66,5 +66,4 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success("Products fetched successfully.", response));
     }
 
-
 }

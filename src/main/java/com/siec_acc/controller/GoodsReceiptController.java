@@ -3,7 +3,6 @@ package com.siec_acc.controller;
 import com.siec_acc.dto.request.GoodsReceiptRequestDto;
 import com.siec_acc.dto.response.GoodsReceiptResponseDto;
 import com.siec_acc.exceptions.ApiResponse;
-
 import com.siec_acc.service.GoodsReceiptService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

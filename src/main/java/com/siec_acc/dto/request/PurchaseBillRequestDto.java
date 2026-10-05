@@ -1,8 +1,12 @@
 package com.siec_acc.dto.request;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PurchaseBillRequestDto {
 
@@ -10,17 +14,17 @@ public class PurchaseBillRequestDto {
     @Size(max = 255, message = "Vendor name must be at most 255 characters")
     private String vendorName;
 
-    // Optional — set this to link the bill to an existing Purchase Order.
+    // Optional - set this to link the bill to an existing Purchase Order.
     @Size(max = 30, message = "PO number must be at most 30 characters")
     private String poNumber;
 
     private LocalDate billDate;
-
     private LocalDate dueDate;
 
-    @NotNull(message = "Bill amount is required")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Bill amount must be greater than 0")
-    private Double amount;
+    // The bill amount is NOT accepted from the client any more: the server works it out from these lines.
+    @NotEmpty(message = "Add at least one item to the bill")
+    @Valid
+    private List<PurchaseBillItemRequestDto> items;
 
     public PurchaseBillRequestDto() {}
 
@@ -36,8 +40,7 @@ public class PurchaseBillRequestDto {
     public LocalDate getDueDate() { return dueDate; }
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
 
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) { this.amount = amount; }
+    public List<PurchaseBillItemRequestDto> getItems() { return items; }
+    public void setItems(List<PurchaseBillItemRequestDto> items) { this.items = items; }
 }
-
 

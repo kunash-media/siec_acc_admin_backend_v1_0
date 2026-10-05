@@ -1,5 +1,6 @@
 package com.siec_acc.controller;
 
+import com.siec_acc.dto.response.StockSummaryResponseDTO;
 import com.siec_acc.exceptions.ApiResponse;
 import com.siec_acc.dto.response.InventoryResponseDTO;
 import com.siec_acc.dto.request.InventoryStockUpdateDTO;
@@ -20,12 +21,12 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
-    @GetMapping("/get-inventory/{productStrId}")
-    public ResponseEntity<ApiResponse<InventoryResponseDTO>> getInventory(@PathVariable String productStrId) {
-        logger.info("API HIT: GET /get-inventory/{}", productStrId);
-        InventoryResponseDTO response = inventoryService.getInventoryByProductStrId(productStrId);
-        return ResponseEntity.ok(ApiResponse.success("Inventory fetched successfully.", response));
-    }
+//    @GetMapping("/get-inventory/{productStrId}")
+//    public ResponseEntity<ApiResponse<InventoryResponseDTO>> getInventory(@PathVariable String productStrId) {
+//        logger.info("API HIT: GET /get-inventory/{}", productStrId);
+//        InventoryResponseDTO response = inventoryService.getInventoryByProductStrId(productStrId);
+//        return ResponseEntity.ok(ApiResponse.success("Inventory fetched successfully.", response));
+//    }
 
     // used by "Vendor Purchase -> Existing Item" flow on the frontend
     @PatchMapping("/add-stock/{productStrId}")
@@ -42,5 +43,37 @@ public class InventoryController {
         logger.info("API HIT: PATCH /reduce-stock/{}", productStrId);
         InventoryResponseDTO response = inventoryService.reduceStock(productStrId, requestDTO);
         return ResponseEntity.ok(ApiResponse.success("Stock reduced successfully.", response));
+    }
+
+//    @GetMapping("/get-variant-inventory/{variantStrId}")
+//    public ResponseEntity<ApiResponse<InventoryResponseDTO>> getVariantInventory(@PathVariable String variantStrId) {
+//        logger.info("API HIT: GET /get-variant-inventory/{}", variantStrId);
+//        return ResponseEntity.ok(ApiResponse.success("Variant inventory fetched successfully.", inventoryService.getInventoryByVariantStrId(variantStrId)));
+//    }
+
+    @PatchMapping("/add-variant-stock/{variantStrId}")
+    public ResponseEntity<ApiResponse<InventoryResponseDTO>> addVariantStock(
+            @PathVariable String variantStrId, @RequestBody InventoryStockUpdateDTO requestDTO) {
+        logger.info("API HIT: PATCH /add-variant-stock/{}", variantStrId);
+        return ResponseEntity.ok(ApiResponse.success("Variant stock added successfully.", inventoryService.addVariantStock(variantStrId, requestDTO)));
+    }
+
+    @PatchMapping("/reduce-variant-stock/{variantStrId}")
+    public ResponseEntity<ApiResponse<InventoryResponseDTO>> reduceVariantStock(
+            @PathVariable String variantStrId, @RequestBody InventoryStockUpdateDTO requestDTO) {
+        logger.info("API HIT: PATCH /reduce-variant-stock/{}", variantStrId);
+        return ResponseEntity.ok(ApiResponse.success("Variant stock reduced successfully.", inventoryService.reduceVariantStock(variantStrId, requestDTO)));
+    }
+
+    @GetMapping("/get-product-stock/{productStrId}")
+    public ResponseEntity<ApiResponse<StockSummaryResponseDTO>> getProductStock(@PathVariable String productStrId) {
+        logger.info("API HIT: GET /get-product-stock/{}", productStrId);
+        return ResponseEntity.ok(ApiResponse.success("Product stock fetched successfully.", inventoryService.getProductStockSummary(productStrId)));
+    }
+
+    @GetMapping("/get-variant-stock/{variantStrId}")
+    public ResponseEntity<ApiResponse<StockSummaryResponseDTO>> getVariantStock(@PathVariable String variantStrId) {
+        logger.info("API HIT: GET /get-variant-stock/{}", variantStrId);
+        return ResponseEntity.ok(ApiResponse.success("Variant stock fetched successfully.", inventoryService.getVariantStockSummary(variantStrId)));
     }
 }

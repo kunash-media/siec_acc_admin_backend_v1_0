@@ -55,3 +55,4 @@ public class GoodsReceiptRequestDto {
     public String getRemarks() { return remarks; }
     public void setRemarks(String v) { this.remarks = v; }
 }
+

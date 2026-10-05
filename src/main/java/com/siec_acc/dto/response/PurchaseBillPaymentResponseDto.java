@@ -35,4 +35,3 @@ public class PurchaseBillPaymentResponseDto {
     public String getRef() { return ref; }
     public void setRef(String ref) { this.ref = ref; }
 }
-

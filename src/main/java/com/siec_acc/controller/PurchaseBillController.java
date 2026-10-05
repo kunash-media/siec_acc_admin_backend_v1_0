@@ -3,6 +3,7 @@ package com.siec_acc.controller;
 import com.siec_acc.dto.request.PurchaseBillPatchDto;
 import com.siec_acc.dto.request.PurchaseBillPaymentRequestDto;
 import com.siec_acc.dto.request.PurchaseBillRequestDto;
+import com.siec_acc.dto.response.PurchaseBillItemResponseDto;
 import com.siec_acc.dto.response.PurchaseBillResponseDto;
 import com.siec_acc.exceptions.ApiResponse;
 import com.siec_acc.service.PurchaseBillService;
@@ -20,6 +21,7 @@ import java.util.List;
 public class PurchaseBillController {
 
     private static final Logger logger = LoggerFactory.getLogger(PurchaseBillController.class);
+
     private final PurchaseBillService purchaseBillService;
 
     public PurchaseBillController(PurchaseBillService purchaseBillService) {
@@ -70,7 +72,7 @@ public class PurchaseBillController {
         return ResponseEntity.ok(ApiResponse.success("Purchase bills fetched successfully.", response));
     }
 
-    // Status here is DERIVED (received/partial/paid/overdue) — not a stored column — same convention as the frontend.
+    // Status here is DERIVED (received/partial/paid/overdue) - not a stored column - same convention as the frontend.
     @GetMapping("/get-by-status/{status}")
     public ResponseEntity<ApiResponse<List<PurchaseBillResponseDto>>> getByStatus(@PathVariable String status) {
         logger.info("API HIT: GET /get-by-status/{}", status);
@@ -85,6 +87,22 @@ public class PurchaseBillController {
         PurchaseBillResponseDto response = purchaseBillService.recordPayment(pbStrId, paymentDto);
         return ResponseEntity.ok(ApiResponse.success("Payment recorded successfully.", response));
     }
-}
 
+    @DeleteMapping("/delete-payment/{pbStrId}/{paymentId}")
+    public ResponseEntity<ApiResponse<PurchaseBillResponseDto>> deletePayment(
+            @PathVariable String pbStrId, @PathVariable Long paymentId) {
+        logger.info("API HIT: DELETE /delete-payment/{}/{}", pbStrId, paymentId);
+        PurchaseBillResponseDto response = purchaseBillService.deletePayment(pbStrId, paymentId);
+        return ResponseEntity.ok(ApiResponse.success("Payment deleted successfully.", response));
+    }
+
+    // Items still billable on a PO (accepted goods received - already billed). Used to pre-fill a new bill.
+    @GetMapping("/billable-items/{poNumber}")
+    public ResponseEntity<ApiResponse<List<PurchaseBillItemResponseDto>>> getBillableItems(
+            @PathVariable String poNumber, @RequestParam(required = false) String excludePbStrId) {
+        logger.info("API HIT: GET /billable-items/{}", poNumber);
+        List<PurchaseBillItemResponseDto> response = purchaseBillService.getBillableItems(poNumber, excludePbStrId);
+        return ResponseEntity.ok(ApiResponse.success("Billable items fetched successfully.", response));
+    }
+}
 

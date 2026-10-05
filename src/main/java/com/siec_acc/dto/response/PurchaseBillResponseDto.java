@@ -13,39 +13,22 @@ public class PurchaseBillResponseDto {
     private String poNumber;
     private LocalDate billDate;
     private LocalDate dueDate;
-    private Double amount;
+
+    private List<PurchaseBillItemResponseDto> items;
+    private Double subtotal;   // sum of line amounts before GST
+    private Double gstAmount;  // sum of line GST
+    private Double amount;     // grand total (subtotal + GST)
 
     // Computed, never stored: kept consistent with the frontend's pbPaid()/pbBalance()/pbStatus().
     private Double paidAmount;
     private Double balance;
     private String status; // received (unpaid) | partial | paid | overdue
-
     private List<PurchaseBillPaymentResponseDto> payments;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public PurchaseBillResponseDto() {}
-
-    public PurchaseBillResponseDto(Long pbPrimeId, String pbStrId, String pbNumber, String vendorName, String poNumber,
-                                   LocalDate billDate, LocalDate dueDate, Double amount, Double paidAmount,
-                                   Double balance, String status, List<PurchaseBillPaymentResponseDto> payments,
-                                   LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.pbPrimeId = pbPrimeId;
-        this.pbStrId = pbStrId;
-        this.pbNumber = pbNumber;
-        this.vendorName = vendorName;
-        this.poNumber = poNumber;
-        this.billDate = billDate;
-        this.dueDate = dueDate;
-        this.amount = amount;
-        this.paidAmount = paidAmount;
-        this.balance = balance;
-        this.status = status;
-        this.payments = payments;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 
     public Long getPbPrimeId() { return pbPrimeId; }
     public void setPbPrimeId(Long pbPrimeId) { this.pbPrimeId = pbPrimeId; }
@@ -67,6 +50,15 @@ public class PurchaseBillResponseDto {
 
     public LocalDate getDueDate() { return dueDate; }
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+
+    public List<PurchaseBillItemResponseDto> getItems() { return items; }
+    public void setItems(List<PurchaseBillItemResponseDto> items) { this.items = items; }
+
+    public Double getSubtotal() { return subtotal; }
+    public void setSubtotal(Double subtotal) { this.subtotal = subtotal; }
+
+    public Double getGstAmount() { return gstAmount; }
+    public void setGstAmount(Double gstAmount) { this.gstAmount = gstAmount; }
 
     public Double getAmount() { return amount; }
     public void setAmount(Double amount) { this.amount = amount; }

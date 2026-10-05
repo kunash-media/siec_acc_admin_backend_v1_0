@@ -1,6 +1,7 @@
 package com.siec_acc.dto.request;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -14,11 +15,7 @@ public class PurchaseBillPatchDto {
     private String poNumber;
 
     private LocalDate billDate;
-
     private LocalDate dueDate;
-
-    @DecimalMin(value = "0.0", inclusive = false, message = "Bill amount must be greater than 0")
-    private Double amount;
 
     public PurchaseBillPatchDto() {}
 
@@ -33,8 +30,5 @@ public class PurchaseBillPatchDto {
 
     public LocalDate getDueDate() { return dueDate; }
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
-
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) { this.amount = amount; }
 }
 

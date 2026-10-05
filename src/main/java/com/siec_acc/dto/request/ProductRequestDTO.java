@@ -25,8 +25,9 @@ public class ProductRequestDTO {
     private String productVendorCompany;
     private BigDecimal productStock; // opening/updated stock -> written to Inventory
 
+    private String warehouseStrId; // optional; omitted = default warehouse
 
-    public ProductRequestDTO(String productName, String productSku, String productCategory, String productSubCategory, String productHsnCode, String productUnit, String productHeight, String productWidth, String productLength, String productMaterialType, String productSize, String productNumber, String productDescription, BigDecimal productSellingPrice, BigDecimal productMrpPrice, String productGstRate, String productVendorName, String productVendorCompany, BigDecimal productStock) {
+    public ProductRequestDTO(String productName, String productSku, String productCategory, String productSubCategory, String productHsnCode, String productUnit, String productHeight, String productWidth, String productLength, String productMaterialType, String productSize, String productNumber, String productDescription, BigDecimal productSellingPrice, BigDecimal productMrpPrice, String productGstRate, String productVendorName, String productVendorCompany, BigDecimal productStock, String warehouseStrId) {
         this.productName = productName;
         this.productSku = productSku;
         this.productCategory = productCategory;
@@ -46,6 +47,7 @@ public class ProductRequestDTO {
         this.productVendorName = productVendorName;
         this.productVendorCompany = productVendorCompany;
         this.productStock = productStock;
+        this.warehouseStrId = warehouseStrId;
     }
 
     public ProductRequestDTO(){}
@@ -200,5 +202,13 @@ public class ProductRequestDTO {
 
     public void setProductStock(BigDecimal productStock) {
         this.productStock = productStock;
+    }
+
+    public String getWarehouseStrId() {
+        return warehouseStrId;
+    }
+
+    public void setWarehouseStrId(String warehouseStrId) {
+        this.warehouseStrId = warehouseStrId;
     }
 }

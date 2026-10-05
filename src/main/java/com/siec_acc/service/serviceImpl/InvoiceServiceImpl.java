@@ -1,5 +1,6 @@
 package com.siec_acc.service.serviceImpl;
 
+import com.siec_acc.dto.request.InventoryStockUpdateDTO;
 import com.siec_acc.dto.request.InvoiceItemRequestDto;
 import com.siec_acc.dto.request.InvoiceRequestDto;
 import com.siec_acc.dto.response.FileDownloadDto;
@@ -393,6 +394,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         entity.setInvoiceTotalAmount(total.setScale(2, RoundingMode.HALF_UP));
         entity.setInvoiceTotalAmountInr(total.multiply(entity.getInvoiceExchangeRate()).setScale(2, RoundingMode.HALF_UP));
     }
+
 
     /**
      * "INV-25-26-00X" style number, scoped to the current Indian financial year.

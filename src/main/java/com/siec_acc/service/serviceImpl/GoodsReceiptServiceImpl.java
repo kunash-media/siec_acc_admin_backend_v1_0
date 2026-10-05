@@ -9,8 +9,8 @@ import com.siec_acc.exceptions.InvalidOperationException;
 import com.siec_acc.exceptions.ResourceNotFoundException;
 import com.siec_acc.repository.GoodsReceiptRepository;
 import com.siec_acc.repository.PurchaseOrderRepository;
-
 import com.siec_acc.service.GoodsReceiptService;
+import com.siec_acc.service.PurchaseOrderClosureService;
 import com.siec_acc.utils.StrIdGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,17 +29,19 @@ public class GoodsReceiptServiceImpl implements GoodsReceiptService {
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsReceiptServiceImpl.class);
 
-    // PO statuses in which NEW goods may be received / an existing receipt may still be corrected.
     private static final Set<String> RECEIVABLE = Set.of("approved", "sent", "partial");
     private static final Set<String> EDITABLE = Set.of("approved", "sent", "partial", "fully_received");
 
     private final GoodsReceiptRepository goodsReceiptRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
+    private final PurchaseOrderClosureService closureService; // closes the PO if goods arrive after it was already billed and paid
 
     public GoodsReceiptServiceImpl(GoodsReceiptRepository goodsReceiptRepository,
-                                   PurchaseOrderRepository purchaseOrderRepository) {
+                                   PurchaseOrderRepository purchaseOrderRepository,
+                                   PurchaseOrderClosureService closureService) {
         this.goodsReceiptRepository = goodsReceiptRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
+        this.closureService = closureService;
     }
 
     // ------------------------------------------------------------------
@@ -187,6 +189,9 @@ public class GoodsReceiptServiceImpl implements GoodsReceiptService {
             purchaseOrderRepository.save(po);
             logger.info("{} moved {} -> {}", po.getPoNumber(), current, next);
         }
+
+        // Bills may already be fully paid (goods arrived after billing) - let the single closing rule decide.
+        closureService.reevaluate(po);
     }
 
     // ------------------------------------------------------------------

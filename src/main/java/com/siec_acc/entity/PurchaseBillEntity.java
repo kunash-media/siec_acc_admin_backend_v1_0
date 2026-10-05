@@ -51,6 +51,10 @@ public class PurchaseBillEntity {
     @OneToMany(mappedBy = "purchaseBill", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PurchaseBillPaymentEntity> payments = new ArrayList<>();
 
+    // Line items. Bills created before this field existed simply have no rows here (their stored amount is kept).
+    @OneToMany(mappedBy = "purchaseBill", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<PurchaseBillItemEntity> items = new ArrayList<>();
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -96,6 +100,19 @@ public class PurchaseBillEntity {
 
     public List<PurchaseBillPaymentEntity> getPayments() { return payments; }
 
+    public List<PurchaseBillItemEntity> getItems() { return items; }
+
+    /** Replaces the whole line-item list while keeping the bidirectional link intact (orphanRemoval deletes old rows). */
+    public void replaceItems(List<PurchaseBillItemEntity> newItems) {
+        this.items.clear();
+        if (newItems != null) {
+            for (PurchaseBillItemEntity it : newItems) {
+                it.setPurchaseBill(this);
+                this.items.add(it);
+            }
+        }
+    }
+
     public void addPayment(PurchaseBillPaymentEntity payment) {
         payment.setPurchaseBill(this);
         this.payments.add(payment);
@@ -107,3 +124,4 @@ public class PurchaseBillEntity {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
+

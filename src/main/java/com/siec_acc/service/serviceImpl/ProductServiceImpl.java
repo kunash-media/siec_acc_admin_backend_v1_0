@@ -1,11 +1,14 @@
 package com.siec_acc.service.serviceImpl;
 
 
+import com.siec_acc.config.InventoryStockSupport;
 import com.siec_acc.entity.InventoryEntity;
 import com.siec_acc.entity.InventoryHistoryEntity;
 import com.siec_acc.entity.ProductEntity;
+import com.siec_acc.entity.WarehouseEntity;
 import com.siec_acc.exceptions.DuplicateResourceException;
 import com.siec_acc.exceptions.ResourceNotFoundException;
+import com.siec_acc.service.WarehouseService;
 import com.siec_acc.utils.StrIdGenerator;
 
 import com.siec_acc.repository.InventoryHistoryRepository;
@@ -34,12 +37,17 @@ public class ProductServiceImpl implements ProductService {
     private final InventoryRepository inventoryRepository;
     private final InventoryHistoryRepository inventoryHistoryRepository;
     private final VariantRepository variantRepository;
+    private final WarehouseService warehouseService;
+    private final InventoryStockSupport stockSupport;
 
-    public ProductServiceImpl(ProductRepository productRepository, InventoryRepository inventoryRepository, InventoryHistoryRepository inventoryHistoryRepository, VariantRepository variantRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, InventoryRepository inventoryRepository, InventoryHistoryRepository inventoryHistoryRepository,
+                              VariantRepository variantRepository, WarehouseService warehouseService, InventoryStockSupport stockSupport) {
         this.productRepository = productRepository;
         this.inventoryRepository = inventoryRepository;
         this.inventoryHistoryRepository = inventoryHistoryRepository;
         this.variantRepository = variantRepository;
+        this.warehouseService = warehouseService;
+        this.stockSupport = stockSupport;
     }
 
     @Override
@@ -53,6 +61,8 @@ public class ProductServiceImpl implements ProductService {
             throw new DuplicateResourceException(
                     "A product with SKU '" + requestDTO.getProductSku() + "' already exists.");
         }
+
+        WarehouseEntity warehouse = warehouseService.resolveActiveWarehouse(requestDTO.getWarehouseStrId());
 
         ProductEntity product = ProductEntity.builder()
                 .productName(requestDTO.getProductName())
@@ -82,13 +92,9 @@ public class ProductServiceImpl implements ProductService {
         savedProduct.setProductStatus(computeStatus(openingStock));
         savedProduct = productRepository.save(savedProduct);
 
-        InventoryEntity inventory = InventoryEntity.builder().product(savedProduct).productStock(openingStock).build();
-        InventoryEntity savedInventory = inventoryRepository.save(inventory);
-        savedInventory.setInventoryStrId(StrIdGenerator.generate("INV", savedInventory.getInventoryPrimeId()));
-        inventoryRepository.save(savedInventory);
+        stockSupport.createRow(savedProduct, null, warehouse, openingStock);
 
-        logHistory(savedProduct, "CREATE", BigDecimal.ZERO, openingStock, openingStock, "ProductEntity created with opening stock");
-
+        stockSupport.recordProductHistory(savedProduct, warehouse, "CREATE", BigDecimal.ZERO, openingStock, openingStock, "ProductEntity created with opening stock");
         logger.info("ProductEntity created successfully: {}", savedProduct.getProductStrId());
         return mapToResponse(savedProduct, openingStock);
     }
@@ -121,9 +127,7 @@ public class ProductServiceImpl implements ProductService {
         product.setProductVendorCompany(requestDTO.getProductVendorCompany());
 
         ProductEntity updated = productRepository.save(product);
-        BigDecimal currentStock = applyStockChangeIfAny(updated, requestDTO.getProductStock(), "MANUAL_UPDATE", "Stock updated via full product update");
-
-        updated.setProductStatus(computeStatus(currentStock));
+        BigDecimal currentStock = applyStockChangeIfAny(updated, requestDTO.getProductStock(), requestDTO.getWarehouseStrId(), "MANUAL_UPDATE", "Stock updated via full product update");        updated.setProductStatus(computeStatus(currentStock));
         productRepository.save(updated);
 
         logger.info("ProductEntity updated successfully: {}", productStrId);
@@ -158,8 +162,7 @@ public class ProductServiceImpl implements ProductService {
         if (requestDTO.getProductVendorCompany() != null) product.setProductVendorCompany(requestDTO.getProductVendorCompany());
 
         ProductEntity patched = productRepository.save(product);
-        BigDecimal currentStock = applyStockChangeIfAny(patched, requestDTO.getProductStock(), "MANUAL_UPDATE", "Stock patched via partial product update");
-
+        BigDecimal currentStock = applyStockChangeIfAny(patched, requestDTO.getProductStock(), requestDTO.getWarehouseStrId(), "MANUAL_UPDATE", "Stock patched via partial product update");
         patched.setProductStatus(computeStatus(currentStock));
         productRepository.save(patched);
 
@@ -173,9 +176,11 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Deleting product: {}", productStrId);
         ProductEntity product = getProductEntityOrThrow(productStrId);
 
-        variantRepository.findByProduct_ProductStrId(productStrId).forEach(variantRepository::delete);
-        inventoryRepository.findByProduct_ProductPrimeId(product.getProductPrimeId()).ifPresent(inventoryRepository::delete);
-        productRepository.delete(product);
+        variantRepository.findByProduct_ProductStrId(productStrId).forEach(v -> {
+            inventoryRepository.findAllByVariant_VariantPrimeId(v.getVariantPrimeId()).forEach(inventoryRepository::delete);
+            variantRepository.delete(v);
+        });
+        inventoryRepository.findAllByProduct_ProductPrimeId(product.getProductPrimeId()).forEach(inventoryRepository::delete);        productRepository.delete(product);
 
         logger.info("ProductEntity (with its variants and inventory) deleted successfully: {}", productStrId);
     }
@@ -215,40 +220,40 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private BigDecimal getCurrentStock(ProductEntity product) {
-        return inventoryRepository.findByProduct_ProductPrimeId(product.getProductPrimeId())
-                .map(InventoryEntity::getProductStock).orElse(BigDecimal.ZERO);
+        return stockSupport.productTotal(product.getProductPrimeId());
     }
 
-    private BigDecimal applyStockChangeIfAny(ProductEntity product, BigDecimal newStock, String changeType, String remarks) {
-        BigDecimal currentStock = getCurrentStock(product);
-        if (newStock == null || newStock.compareTo(currentStock) == 0) return currentStock;
 
-        InventoryEntity inventory = inventoryRepository.findByProduct_ProductPrimeId(product.getProductPrimeId())
-                .orElseThrow(() -> new ResourceNotFoundException("InventoryEntity record not found for product '" + product.getProductStrId() + "'."));
+    private BigDecimal applyStockChangeIfAny(ProductEntity product, BigDecimal newStock, String warehouseStrId, String changeType, String remarks) {
+        BigDecimal total = stockSupport.productTotal(product.getProductPrimeId());
+        if (newStock == null) return total;
 
+        boolean warehouseGiven = warehouseStrId != null && !warehouseStrId.isBlank();
+        if (!warehouseGiven && newStock.compareTo(total) == 0) return total;
+
+        List<InventoryEntity> rows = inventoryRepository.findAllByProduct_ProductPrimeId(product.getProductPrimeId());
+        WarehouseEntity warehouse;
+        if (warehouseGiven) {
+            warehouse = warehouseService.resolveActiveWarehouse(warehouseStrId);
+        } else if (rows.size() == 1) {
+            warehouse = warehouseService.resolveActiveWarehouse(rows.get(0).getWarehouse().getWarehouseStrId());
+        } else if (rows.isEmpty()) {
+            warehouse = warehouseService.resolveActiveWarehouse(null);
+        } else {
+            throw new IllegalArgumentException("Product has stock in multiple warehouses. Specify warehouseStrId or use the stock add/reduce APIs.");
+        }
+
+        InventoryEntity inventory = stockSupport.lockOrCreateProductRow(product.getProductStrId(), warehouse);
         BigDecimal previousStock = inventory.getProductStock() != null ? inventory.getProductStock() : BigDecimal.ZERO;
+        if (newStock.compareTo(previousStock) == 0) return total;
+
         inventory.setProductStock(newStock);
         inventoryRepository.save(inventory);
 
-        logHistory(product, changeType, previousStock, newStock, newStock.subtract(previousStock), remarks);
-        return newStock;
+        stockSupport.recordProductHistory(product, warehouse, changeType, previousStock, newStock, newStock.subtract(previousStock), remarks);
+        return stockSupport.productTotal(product.getProductPrimeId());
     }
 
-    private void logHistory(ProductEntity product, String changeType, BigDecimal previousStock,
-                            BigDecimal newStock, BigDecimal changeQty, String remarks) {
-        InventoryHistoryEntity history = InventoryHistoryEntity.builder()
-                .productPrimeId(product.getProductPrimeId())
-                .productStrId(product.getProductStrId())
-                .historyChangeType(changeType)
-                .historyPreviousStock(previousStock)
-                .historyNewStock(newStock)
-                .historyChangeQty(changeQty)
-                .historyRemarks(remarks)
-                .build();
-        InventoryHistoryEntity saved = inventoryHistoryRepository.save(history);
-        saved.setHistoryStrId(StrIdGenerator.generate("HIST", saved.getHistoryPrimeId()));
-        inventoryHistoryRepository.save(saved);
-    }
 
     private String computeStatus(BigDecimal stock) {
         if (stock == null) stock = BigDecimal.ZERO;

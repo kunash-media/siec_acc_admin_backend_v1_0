@@ -126,3 +126,5 @@ public class GoodsReceiptEntity {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime v) { this.updatedAt = v; }
 }
+
+
