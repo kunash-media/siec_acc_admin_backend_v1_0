@@ -4,13 +4,11 @@ import com.siec_acc.exceptions.ApiResponse;
 import com.siec_acc.dto.request.ProductRequestDTO;
 import com.siec_acc.dto.response.ProductResponseDTO;
 import com.siec_acc.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -67,4 +65,6 @@ public class ProductController {
         List<ProductResponseDTO> response = productService.getAllProducts();
         return ResponseEntity.ok(ApiResponse.success("Products fetched successfully.", response));
     }
+
+
 }

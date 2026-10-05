@@ -1,6 +1,5 @@
 package com.siec_acc.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;

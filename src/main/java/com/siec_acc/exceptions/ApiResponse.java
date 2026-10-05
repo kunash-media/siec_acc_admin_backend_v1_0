@@ -1,6 +1,5 @@
 package com.siec_acc.exceptions;
 
-
 import lombok.*;
 import java.time.LocalDateTime;
 

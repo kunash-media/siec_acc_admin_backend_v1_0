@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-
 public class VariantServiceImpl implements VariantService {
 
     private static final Logger logger = LoggerFactory.getLogger(VariantServiceImpl.class);

@@ -31,7 +31,7 @@ public class InventoryHistoryEntity {
     private String variantStrId;
 
     @Column(name = "history_change_type", length = 30)
-    private String historyChangeType; // CREATE, STOCK_ADD, STOCK_REDUCE, MANUAL_UPDATE, VENDOR_PURCHASE_ADD
+    private String historyChangeType;          // CREATE, STOCK_ADD, STOCK_REDUCE, MANUAL_UPDATE, VENDOR_PURCHASE_ADD
 
     @Column(name = "history_previous_stock", precision = 15, scale = 2)
     private BigDecimal historyPreviousStock;
