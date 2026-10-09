@@ -25,6 +25,10 @@ public class VariantEntity {
     @Column(name = "variant_name")
     private String variantName;
 
+    private BigDecimal variantMrpPrice;
+
+    private BigDecimal variantSellingPrice;
+
     @Column(name = "variant_sku")
     private String variantSku;
 
@@ -75,11 +79,15 @@ public class VariantEntity {
         this.variantUpdatedAt = LocalDateTime.now();
     }
 
-    public VariantEntity(Long variantPrimeId, String variantStrId, ProductEntity product, String variantName, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, LocalDateTime variantCreatedAt, LocalDateTime variantUpdatedAt) {
+    public VariantEntity(){}
+
+    public VariantEntity(Long variantPrimeId, String variantStrId, ProductEntity product, String variantName, BigDecimal variantMrpPrice, BigDecimal variantSellingPrice, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, LocalDateTime variantCreatedAt, LocalDateTime variantUpdatedAt) {
         this.variantPrimeId = variantPrimeId;
         this.variantStrId = variantStrId;
         this.product = product;
         this.variantName = variantName;
+        this.variantMrpPrice = variantMrpPrice;
+        this.variantSellingPrice = variantSellingPrice;
         this.variantSku = variantSku;
         this.variantHeight = variantHeight;
         this.variantWidth = variantWidth;
@@ -94,8 +102,6 @@ public class VariantEntity {
         this.variantCreatedAt = variantCreatedAt;
         this.variantUpdatedAt = variantUpdatedAt;
     }
-    public VariantEntity(){}
-
 
     public Long getVariantPrimeId() {
         return variantPrimeId;
@@ -127,6 +133,22 @@ public class VariantEntity {
 
     public void setVariantName(String variantName) {
         this.variantName = variantName;
+    }
+
+    public BigDecimal getVariantMrpPrice() {
+        return variantMrpPrice;
+    }
+
+    public void setVariantMrpPrice(BigDecimal variantMrpPrice) {
+        this.variantMrpPrice = variantMrpPrice;
+    }
+
+    public BigDecimal getVariantSellingPrice() {
+        return variantSellingPrice;
+    }
+
+    public void setVariantSellingPrice(BigDecimal variantSellingPrice) {
+        this.variantSellingPrice = variantSellingPrice;
     }
 
     public String getVariantSku() {

@@ -67,6 +67,8 @@ public class VariantServiceImpl implements VariantService {
         VariantEntity variant = VariantEntity.builder()
                 .product(product)
                 .variantName(requestDTO.getVariantName())
+                .variantMrpPrice(requestDTO.getVariantMrpPrice())
+                .variantSellingPrice(requestDTO.getVariantSellingPrice())
                 .variantSku(requestDTO.getVariantSku())
                 .variantHeight(requestDTO.getVariantHeight())
                 .variantWidth(requestDTO.getVariantWidth())
@@ -100,6 +102,8 @@ public class VariantServiceImpl implements VariantService {
         checkDuplicateSkuOnUpdate(variant, requestDTO.getVariantSku());
 
         variant.setVariantName(requestDTO.getVariantName());
+        variant.setVariantMrpPrice(requestDTO.getVariantMrpPrice());
+        variant.setVariantSellingPrice(requestDTO.getVariantSellingPrice());
         variant.setVariantSku(requestDTO.getVariantSku());
         variant.setVariantHeight(requestDTO.getVariantHeight());
         variant.setVariantWidth(requestDTO.getVariantWidth());
@@ -127,6 +131,10 @@ public class VariantServiceImpl implements VariantService {
         checkDuplicateSkuOnUpdate(variant, requestDTO.getVariantSku());
 
         if (requestDTO.getVariantName() != null) variant.setVariantName(requestDTO.getVariantName());
+
+        if (requestDTO.getVariantMrpPrice() != null) variant.setVariantMrpPrice(requestDTO.getVariantMrpPrice());
+        if (requestDTO.getVariantSellingPrice() != null) variant.setVariantSellingPrice(requestDTO.getVariantSellingPrice());
+
         if (requestDTO.getVariantSku() != null) variant.setVariantSku(requestDTO.getVariantSku());
         if (requestDTO.getVariantHeight() != null) variant.setVariantHeight(requestDTO.getVariantHeight());
         if (requestDTO.getVariantWidth() != null) variant.setVariantWidth(requestDTO.getVariantWidth());
@@ -198,6 +206,8 @@ public class VariantServiceImpl implements VariantService {
                 .variantStrId(variant.getVariantStrId())
                 .productStrId(variant.getProduct().getProductStrId())
                 .variantName(variant.getVariantName())
+                .variantMrpPrice(variant.getVariantMrpPrice())
+                .variantSellingPrice(variant.getVariantSellingPrice())
                 .variantSku(variant.getVariantSku())
                 .variantHeight(variant.getVariantHeight())
                 .variantWidth(variant.getVariantWidth())

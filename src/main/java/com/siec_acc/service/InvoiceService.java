@@ -1,13 +1,11 @@
 package com.siec_acc.service;
 
 import com.siec_acc.dto.request.InvoiceRequestDto;
-import com.siec_acc.dto.response.FileDownloadDto;
-import com.siec_acc.dto.response.InvoiceResponseDto;
-import com.siec_acc.dto.response.InvoiceStatsResponseDto;
-import com.siec_acc.dto.response.PagedResponseDto;
+import com.siec_acc.dto.response.*;
 import com.siec_acc.enum_status.InvoiceStatus;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface InvoiceService {
 
@@ -65,4 +63,5 @@ public interface InvoiceService {
      * what GET /api/v1/invoices/{invoiceStrId} streams back.
      */
     FileDownloadDto downloadInvoicePdf(String invoiceStrId);
-}
+
+    PagedResponseDto<InvoiceSummaryResponseDto> getInvoiceSummaries(String search, int pageNumber, int pageSize);}

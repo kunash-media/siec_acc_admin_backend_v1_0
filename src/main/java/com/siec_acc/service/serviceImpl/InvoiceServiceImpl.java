@@ -1,13 +1,8 @@
 package com.siec_acc.service.serviceImpl;
 
-import com.siec_acc.dto.request.InventoryStockUpdateDTO;
 import com.siec_acc.dto.request.InvoiceItemRequestDto;
 import com.siec_acc.dto.request.InvoiceRequestDto;
-import com.siec_acc.dto.response.FileDownloadDto;
-import com.siec_acc.dto.response.InvoiceItemResponseDto;
-import com.siec_acc.dto.response.InvoiceResponseDto;
-import com.siec_acc.dto.response.InvoiceStatsResponseDto;
-import com.siec_acc.dto.response.PagedResponseDto;
+import com.siec_acc.dto.response.*;
 import com.siec_acc.entity.InvoiceEntity;
 import com.siec_acc.entity.InvoiceItemEntity;
 import com.siec_acc.enum_status.InvoiceStatus;
@@ -484,5 +479,24 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private String blankToNull(String value) {
         return (value == null || value.trim().isEmpty()) ? null : value.trim();
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public PagedResponseDto<InvoiceSummaryResponseDto> getInvoiceSummaries(String search, int pageNumber, int pageSize) {
+        int safePage = Math.max(pageNumber, 1) - 1; // frontend is 1-based
+        int safeSize = pageSize <= 0 ? 25 : pageSize;
+
+        Page<InvoiceSummaryResponseDto> page = invoiceRepository.searchInvoiceSummaries(
+                blankToNull(search), PageRequest.of(safePage, safeSize));
+
+        return PagedResponseDto.<InvoiceSummaryResponseDto>builder()
+                .content(page.getContent())
+                .pageNumber(pageNumber)
+                .pageSize(safeSize)
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
     }
 }

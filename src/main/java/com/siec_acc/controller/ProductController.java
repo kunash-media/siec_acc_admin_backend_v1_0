@@ -1,5 +1,7 @@
 package com.siec_acc.controller;
 
+import com.siec_acc.dto.response.ProductLiteResponseDTO;
+import com.siec_acc.dto.response.SliceResponseDTO;
 import com.siec_acc.exceptions.ApiResponse;
 import com.siec_acc.dto.request.ProductRequestDTO;
 import com.siec_acc.dto.response.ProductResponseDTO;
@@ -66,4 +68,14 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success("Products fetched successfully.", response));
     }
 
+
+    @GetMapping("/get-product-list")
+    public ResponseEntity<ApiResponse<SliceResponseDTO<ProductLiteResponseDTO>>> getProductList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) String search) {
+        logger.info("API HIT: GET /get-product-list | page={} | size={}", page, size);
+        SliceResponseDTO<ProductLiteResponseDTO> response = productService.getProductList(page, size, search);
+        return ResponseEntity.ok(ApiResponse.success("Product list fetched successfully.", response));
+    }
 }

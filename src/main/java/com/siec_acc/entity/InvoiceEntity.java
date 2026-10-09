@@ -21,10 +21,7 @@ import java.util.List;
  * real relations once CustomerEntity / CompanyEntity are confirmed.
  */
 @Entity
-@Table(name = "inventory", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_inventory_product_wh", columnNames = {"product_prime_id", "warehouse_prime_id"}),
-        @UniqueConstraint(name = "uk_inventory_variant_wh", columnNames = {"variant_prime_id", "warehouse_prime_id"})
-})
+@Table(name = "invoices")
 @Data
 @Builder
 public class InvoiceEntity {

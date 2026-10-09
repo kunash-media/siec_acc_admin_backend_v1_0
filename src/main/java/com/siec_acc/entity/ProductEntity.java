@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", indexes = @Index(name = "idx_products_name", columnList = "product_name"))
 @Builder
 public class ProductEntity {
 

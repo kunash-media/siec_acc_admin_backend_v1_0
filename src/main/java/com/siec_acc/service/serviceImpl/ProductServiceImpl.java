@@ -2,6 +2,9 @@ package com.siec_acc.service.serviceImpl;
 
 
 import com.siec_acc.config.InventoryStockSupport;
+import com.siec_acc.dto.response.ProductLiteResponseDTO;
+import com.siec_acc.dto.response.SliceResponseDTO;
+import com.siec_acc.dto.response.VariantLiteResponseDTO;
 import com.siec_acc.entity.InventoryEntity;
 import com.siec_acc.entity.InventoryHistoryEntity;
 import com.siec_acc.entity.ProductEntity;
@@ -21,11 +24,16 @@ import com.siec_acc.service.ProductService;
 import com.siec_acc.repository.VariantRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +47,8 @@ public class ProductServiceImpl implements ProductService {
     private final VariantRepository variantRepository;
     private final WarehouseService warehouseService;
     private final InventoryStockSupport stockSupport;
+
+    private static final int MAX_LITE_PAGE_SIZE = 100;
 
     public ProductServiceImpl(ProductRepository productRepository, InventoryRepository inventoryRepository, InventoryHistoryRepository inventoryHistoryRepository,
                               VariantRepository variantRepository, WarehouseService warehouseService, InventoryStockSupport stockSupport) {
@@ -289,5 +299,41 @@ public class ProductServiceImpl implements ProductService {
                 .productCreatedAt(product.getProductCreatedAt())
                 .productUpdatedAt(product.getProductUpdatedAt())
                 .build();
+    }
+
+    private String toLikePattern(String search) {
+        if (search == null) return null;
+        String trimmed = search.trim();
+        if (trimmed.isEmpty()) return null;
+        if (trimmed.length() > 100) trimmed = trimmed.substring(0, 100);
+        String escaped = trimmed.toLowerCase(Locale.ROOT).replace("!", "!!").replace("%", "!%").replace("_", "!_");
+        return "%" + escaped + "%";
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SliceResponseDTO<ProductLiteResponseDTO> getProductList(int page, int size, String search) {
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, 1), MAX_LITE_PAGE_SIZE);
+        Pageable pageable = PageRequest.of(safePage, safeSize);
+        String pattern = toLikePattern(search);
+        logger.info("Fetching product list | page={} | size={} | search={}", safePage, safeSize, pattern != null);
+
+        Slice<ProductLiteResponseDTO> slice = pattern == null
+                ? productRepository.findAllLite(pageable)
+                : productRepository.searchLite(pattern, pageable);
+        List<ProductLiteResponseDTO> rows = slice.getContent();
+
+        Map<String, List<VariantLiteResponseDTO>> variantsByProduct = rows.isEmpty()
+                ? Map.of()
+                : variantRepository.findLiteByProductStrIds(
+                        rows.stream().map(ProductLiteResponseDTO::productStrId).collect(Collectors.toList()))
+                .stream().collect(Collectors.groupingBy(VariantLiteResponseDTO::productStrId));
+
+        List<ProductLiteResponseDTO> content = rows.stream()
+                .map(r -> r.withVariants(variantsByProduct.getOrDefault(r.productStrId(), List.of())))
+                .collect(Collectors.toList());
+
+        return new SliceResponseDTO<>(content, safePage, safeSize, slice.hasNext(), slice.hasNext() ? safePage + 1 : null);
     }
 }

@@ -3,6 +3,7 @@ package com.siec_acc.controller;
 import com.siec_acc.dto.request.InvoiceRequestDto;
 import com.siec_acc.dto.response.InvoiceResponseDto;
 import com.siec_acc.dto.response.InvoiceStatsResponseDto;
+import com.siec_acc.dto.response.InvoiceSummaryResponseDto;
 import com.siec_acc.dto.response.PagedResponseDto;
 import com.siec_acc.enum_status.InvoiceStatus;
 import com.siec_acc.exceptions.FileProcessingException;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Backs the "Invoices" tab on the frontend — CRUD, filters (status/customer/
@@ -161,5 +163,13 @@ public class InvoiceController {
                 .contentType(MediaType.parseMediaType(file.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFileName() + "\"")
                 .body(file.getData());
+    }
+
+    @GetMapping("/invoice-list")
+    public ResponseEntity<PagedResponseDto<InvoiceSummaryResponseDto>> getInvoiceSummaries(
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "25") int pageSize) {
+        return ResponseEntity.ok(invoiceService.getInvoiceSummaries(search, pageNumber, pageSize));
     }
 }

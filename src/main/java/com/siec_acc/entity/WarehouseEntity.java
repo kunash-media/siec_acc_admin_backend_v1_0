@@ -47,6 +47,8 @@ public class WarehouseEntity {
         this.warehouseUpdatedAt = LocalDateTime.now();
     }
 
+    public WarehouseEntity(){}
+
     public WarehouseEntity(Long warehousePrimeId, String warehouseStrId, String warehouseName, String warehouseAddress, Boolean warehouseIsDefault, String warehouseStatus, LocalDateTime warehouseCreatedAt, LocalDateTime warehouseUpdatedAt) {
         this.warehousePrimeId = warehousePrimeId;
         this.warehouseStrId = warehouseStrId;

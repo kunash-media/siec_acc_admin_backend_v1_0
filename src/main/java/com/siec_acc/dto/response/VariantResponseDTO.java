@@ -10,6 +10,8 @@ public class VariantResponseDTO {
     private String variantStrId;
     private String productStrId;
     private String variantName;
+    private BigDecimal variantMrpPrice;
+    private BigDecimal variantSellingPrice;
     private String variantSku;
     private String variantHeight;
     private String variantWidth;
@@ -24,11 +26,16 @@ public class VariantResponseDTO {
     private LocalDateTime variantCreatedAt;
     private LocalDateTime variantUpdatedAt;
 
-    public VariantResponseDTO(Long variantPrimeId, String variantStrId, String productStrId, String variantName, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, LocalDateTime variantCreatedAt, LocalDateTime variantUpdatedAt) {
+
+    public VariantResponseDTO(){}
+
+    public VariantResponseDTO(Long variantPrimeId, String variantStrId, String productStrId, String variantName, BigDecimal variantMrpPrice, BigDecimal variantSellingPrice, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, LocalDateTime variantCreatedAt, LocalDateTime variantUpdatedAt) {
         this.variantPrimeId = variantPrimeId;
         this.variantStrId = variantStrId;
         this.productStrId = productStrId;
         this.variantName = variantName;
+        this.variantMrpPrice = variantMrpPrice;
+        this.variantSellingPrice = variantSellingPrice;
         this.variantSku = variantSku;
         this.variantHeight = variantHeight;
         this.variantWidth = variantWidth;
@@ -43,8 +50,6 @@ public class VariantResponseDTO {
         this.variantCreatedAt = variantCreatedAt;
         this.variantUpdatedAt = variantUpdatedAt;
     }
-
-    public VariantResponseDTO(){}
 
     public Long getVariantPrimeId() {
         return variantPrimeId;
@@ -180,5 +185,21 @@ public class VariantResponseDTO {
 
     public void setVariantUpdatedAt(LocalDateTime variantUpdatedAt) {
         this.variantUpdatedAt = variantUpdatedAt;
+    }
+
+    public BigDecimal getVariantMrpPrice() {
+        return variantMrpPrice;
+    }
+
+    public void setVariantMrpPrice(BigDecimal variantMrpPrice) {
+        this.variantMrpPrice = variantMrpPrice;
+    }
+
+    public BigDecimal getVariantSellingPrice() {
+        return variantSellingPrice;
+    }
+
+    public void setVariantSellingPrice(BigDecimal variantSellingPrice) {
+        this.variantSellingPrice = variantSellingPrice;
     }
 }

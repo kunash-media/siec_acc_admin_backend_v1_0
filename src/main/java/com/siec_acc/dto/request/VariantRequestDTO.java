@@ -7,6 +7,10 @@ import java.math.BigDecimal;
 public class VariantRequestDTO {
     private String productStrId; // required only on create, to link the parent product
     private String variantName;
+
+    private BigDecimal variantMrpPrice;
+    private BigDecimal variantSellingPrice;
+
     private String variantSku;
     private String variantHeight;
     private String variantWidth;
@@ -19,11 +23,15 @@ public class VariantRequestDTO {
     private String variantSubCategory;
     private BigDecimal variantStock;
 
+
+
     private String warehouseStrId; // optional; omitted = default warehouse
 
-    public VariantRequestDTO(String productStrId, String variantName, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, String warehouseStrId) {
+    public VariantRequestDTO(String productStrId, String variantName, BigDecimal variantMrpPrice, BigDecimal variantSellingPrice, String variantSku, String variantHeight, String variantWidth, String variantLength, String variantUnit, String variantMaterialType, String variantSize, String variantProductNumber, String variantCategory, String variantSubCategory, BigDecimal variantStock, String warehouseStrId) {
         this.productStrId = productStrId;
         this.variantName = variantName;
+        this.variantMrpPrice = variantMrpPrice;
+        this.variantSellingPrice = variantSellingPrice;
         this.variantSku = variantSku;
         this.variantHeight = variantHeight;
         this.variantWidth = variantWidth;
@@ -37,7 +45,6 @@ public class VariantRequestDTO {
         this.variantStock = variantStock;
         this.warehouseStrId = warehouseStrId;
     }
-
 
     public VariantRequestDTO(){}
 
@@ -151,5 +158,21 @@ public class VariantRequestDTO {
 
     public void setWarehouseStrId(String warehouseStrId) {
         this.warehouseStrId = warehouseStrId;
+    }
+
+    public BigDecimal getVariantMrpPrice() {
+        return variantMrpPrice;
+    }
+
+    public void setVariantMrpPrice(BigDecimal variantMrpPrice) {
+        this.variantMrpPrice = variantMrpPrice;
+    }
+
+    public BigDecimal getVariantSellingPrice() {
+        return variantSellingPrice;
+    }
+
+    public void setVariantSellingPrice(BigDecimal variantSellingPrice) {
+        this.variantSellingPrice = variantSellingPrice;
     }
 }
