@@ -1,5 +1,8 @@
 package com.siec_acc.controller;
 
+import com.siec_acc.dto.request.InventoryAdjustDTO;
+import com.siec_acc.dto.response.InventoryHistoryResponseDTO;
+import com.siec_acc.dto.response.InventoryListItemDTO;
 import com.siec_acc.dto.response.StockSummaryResponseDTO;
 import com.siec_acc.exceptions.ApiResponse;
 import com.siec_acc.dto.response.InventoryResponseDTO;
@@ -9,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory/v1")
@@ -75,5 +80,25 @@ public class InventoryController {
     public ResponseEntity<ApiResponse<StockSummaryResponseDTO>> getVariantStock(@PathVariable String variantStrId) {
         logger.info("API HIT: GET /get-variant-stock/{}", variantStrId);
         return ResponseEntity.ok(ApiResponse.success("Variant stock fetched successfully.", inventoryService.getVariantStockSummary(variantStrId)));
+    }
+
+
+    @GetMapping("/get-all-inventory")
+    public ResponseEntity<ApiResponse<List<InventoryListItemDTO>>> getAllInventory() {
+        logger.info("API HIT: GET /get-all-inventory");
+        return ResponseEntity.ok(ApiResponse.success("Inventory fetched successfully.", inventoryService.getAllInventory()));
+    }
+
+    @GetMapping("/get-history/{productStrId}")
+    public ResponseEntity<ApiResponse<List<InventoryHistoryResponseDTO>>> getHistory(@PathVariable String productStrId) {
+        logger.info("API HIT: GET /get-history/{}", productStrId);
+        return ResponseEntity.ok(ApiResponse.success("History fetched successfully.", inventoryService.getHistory(productStrId)));
+    }
+
+    @PatchMapping("/adjust-stock/{productStrId}")
+    public ResponseEntity<ApiResponse<InventoryResponseDTO>> adjustStock(
+            @PathVariable String productStrId, @RequestBody InventoryAdjustDTO requestDTO) {
+        logger.info("API HIT: PATCH /adjust-stock/{}", productStrId);
+        return ResponseEntity.ok(ApiResponse.success("Stock adjusted successfully.", inventoryService.adjustStock(productStrId, requestDTO)));
     }
 }

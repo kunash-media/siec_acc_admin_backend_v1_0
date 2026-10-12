@@ -1,8 +1,10 @@
 package com.siec_acc.service.serviceImpl;
 
+import com.siec_acc.dto.request.VendorQuickCreateRequestDto;
 import com.siec_acc.dto.request.VendorRequestDto;
 import com.siec_acc.dto.request.VendorRequestDto.SecondaryContactDto;
 import com.siec_acc.dto.response.VendorListDto;
+import com.siec_acc.dto.response.VendorQuickCreateResponseDto;
 import com.siec_acc.dto.response.VendorResponseDto;
 import com.siec_acc.dto.response.VendorResponseDto.PagedResponseDto;
 import com.siec_acc.dto.response.VendorResponseDto.DocumentDto;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -388,5 +391,33 @@ public class VendorServiceImpl implements VendorService {
         }
         d.setDocuments(documents);
         return d;
+    }
+
+    @Override
+    @Transactional
+    public VendorQuickCreateResponseDto quickCreateVendor(VendorQuickCreateRequestDto requestDto) {
+        if (requestDto.getVendorName() == null || requestDto.getVendorName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Vendor name is required.");
+        }
+
+        VendorEntity vendor = new VendorEntity();
+        vendor.setVendorName(requestDto.getVendorName().trim());
+        vendor.setCompanyName(requestDto.getCompanyName());
+        vendor.setPhone(requestDto.getPhone());
+        vendor.setCreatedAt(LocalDate.now());
+
+        VendorEntity saved = vendorRepository.save(vendor);
+
+        // Auto-increment style str id derived from the IDENTITY id, e.g. VEN-0001
+        saved.setVendorStrId(String.format("VEN-%04d", saved.getVendorPrimeId()));
+        saved = vendorRepository.save(saved);
+
+        return VendorQuickCreateResponseDto.builder()
+                .vendorPrimeId(saved.getVendorPrimeId())
+                .vendorStrId(saved.getVendorStrId())
+                .vendorName(saved.getVendorName())
+                .companyName(saved.getCompanyName())
+                .phone(saved.getPhone())
+                .build();
     }
 }

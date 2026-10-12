@@ -1,12 +1,16 @@
 package com.siec_acc.service.serviceImpl;
 
 import com.siec_acc.config.InventoryStockSupport;
+import com.siec_acc.dto.request.InventoryAdjustDTO;
+import com.siec_acc.dto.response.InventoryHistoryResponseDTO;
+import com.siec_acc.dto.response.InventoryListItemDTO;
 import com.siec_acc.dto.response.StockSummaryResponseDTO;
 import com.siec_acc.entity.*;
+
 import com.siec_acc.exceptions.ResourceNotFoundException;
+import com.siec_acc.repository.InventoryHistoryRepository;
 import com.siec_acc.repository.VariantRepository;
 import com.siec_acc.service.WarehouseService;
-import com.siec_acc.utils.StrIdGenerator;
 import com.siec_acc.dto.response.InventoryResponseDTO;
 import com.siec_acc.dto.request.InventoryStockUpdateDTO;
 import com.siec_acc.repository.InventoryRepository;
@@ -33,15 +37,17 @@ public class InventoryServiceImpl implements InventoryService {
     private final VariantRepository variantRepository;
     private final WarehouseService warehouseService;
     private final InventoryStockSupport stockSupport;
+    private final InventoryHistoryRepository inventoryHistoryRepository;
 
     public InventoryServiceImpl(InventoryRepository inventoryRepository, ProductRepository productRepository,
                                 VariantRepository variantRepository, WarehouseService warehouseService,
-                                InventoryStockSupport stockSupport) {
+                                InventoryStockSupport stockSupport, InventoryHistoryRepository inventoryHistoryRepository) {
         this.inventoryRepository = inventoryRepository;
         this.productRepository = productRepository;
         this.variantRepository = variantRepository;
         this.warehouseService = warehouseService;
         this.stockSupport = stockSupport;
+        this.inventoryHistoryRepository = inventoryHistoryRepository;
     }
 
     @Override
@@ -153,6 +159,12 @@ public class InventoryServiceImpl implements InventoryService {
 
     // ---------- helpers ----------
 
+    private String rowStatus(BigDecimal stock) {
+        if (stock == null) stock = BigDecimal.ZERO;
+        return stock.compareTo(BigDecimal.valueOf(20)) > 0 ? "green"
+                : stock.compareTo(BigDecimal.valueOf(5)) > 0 ? "amber" : "red";
+    }
+
     private InventoryResponseDTO changeVariantStock(String variantStrId, InventoryStockUpdateDTO requestDTO, boolean add) {
         logger.info("{} variant stock | variantStrId={} | warehouse={} | qty={}", add ? "Adding" : "Reducing",
                 variantStrId, requestDTO.getWarehouseStrId(), requestDTO.getChangeQty());
@@ -233,5 +245,96 @@ public class InventoryServiceImpl implements InventoryService {
                 .warehouseStrId(inventory.getWarehouse().getWarehouseStrId())
                 .warehouseName(inventory.getWarehouse().getWarehouseName())
                 .build();
+    }
+
+//    @Override
+//    public List<InventoryListItemDTO> getAllInventory() {
+//        return inventoryRepository.findAllWithProduct().stream().map(i -> InventoryListItemDTO.builder()
+//                .productStrId(i.getProduct().getProductStrId())
+//                .productName(i.getProduct().getProductName())
+//                .productSku(i.getProduct().getProductSku())
+//                .productCategory(i.getProduct().getProductCategory())
+//                .productUnit(i.getProduct().getProductUnit())
+//                .productSellingPrice(i.getProduct().getProductSellingPrice())
+//                .productStock(i.getProductStock())
+//                .status(i.getProduct().getProductStatus())
+//                .inventoryUpdatedAt(i.getInventoryUpdatedAt())
+//                .warehouseStrId(i.getWarehouse().getWarehouseStrId())
+//                .warehouseName(i.getWarehouse().getWarehouseName())
+//                .build()).collect(Collectors.toList());
+//    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InventoryListItemDTO> getAllInventory() {
+        return inventoryRepository.findAllWithProduct().stream().map(i -> {
+            VariantEntity v = i.getVariant();
+            boolean isVar = v != null;
+            ProductEntity p = isVar ? v.getProduct() : i.getProduct();
+            return InventoryListItemDTO.builder()
+                    .productStrId(p.getProductStrId())
+                    .productName(p.getProductName())
+                    .productSku(isVar ? v.getVariantSku() : p.getProductSku())
+                    .productCategory(isVar && v.getVariantCategory() != null ? v.getVariantCategory() : p.getProductCategory())
+                    .productUnit(isVar && v.getVariantUnit() != null ? v.getVariantUnit() : p.getProductUnit())
+                    .productSellingPrice(isVar ? v.getVariantSellingPrice() : p.getProductSellingPrice())
+                    .productStock(i.getProductStock())
+                    .status(rowStatus(i.getProductStock()))
+                    .inventoryUpdatedAt(i.getInventoryUpdatedAt())
+                    .warehouseStrId(i.getWarehouse().getWarehouseStrId())
+                    .warehouseName(i.getWarehouse().getWarehouseName())
+                    .variantStrId(isVar ? v.getVariantStrId() : null)
+                    .variantName(isVar ? v.getVariantName() : null)
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InventoryHistoryResponseDTO> getHistory(String productStrId) {
+        if (productRepository.findByProductStrId(productStrId).isEmpty()) {
+            throw new ResourceNotFoundException("No product found with ID '" + productStrId + "'.");
+        }
+        return inventoryHistoryRepository.findByProductStrIdOrderByHistoryCreatedAtDesc(productStrId).stream()
+                .map(h -> InventoryHistoryResponseDTO.builder()
+                        .historyStrId(h.getHistoryStrId())
+                        .historyChangeType(h.getHistoryChangeType())
+                        .historyPreviousStock(h.getHistoryPreviousStock())
+                        .historyNewStock(h.getHistoryNewStock())
+                        .historyChangeQty(h.getHistoryChangeQty())
+                        .historyRemarks(h.getHistoryRemarks())
+                        .historyCreatedAt(h.getHistoryCreatedAt())
+                        .warehouseStrId(h.getWarehouseStrId())
+                        .build()).collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional
+    public InventoryResponseDTO adjustStock(String productStrId, InventoryAdjustDTO requestDTO) {
+        BigDecimal qty = requestDTO.getChangeQty();
+        if (qty == null || qty.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("Adjustment quantity must be non-zero.");
+        }
+        WarehouseEntity warehouse = qty.signum() > 0
+                ? warehouseService.resolveActiveWarehouse(requestDTO.getWarehouseStrId())
+                : warehouseService.resolveWarehouse(requestDTO.getWarehouseStrId());
+        InventoryEntity inventory = qty.signum() > 0
+                ? stockSupport.lockOrCreateProductRow(productStrId, warehouse)
+                : inventoryRepository.findProductRowForUpdate(productStrId, warehouse.getWarehouseStrId())
+                .orElseThrow(() -> new ResourceNotFoundException("No inventory record found for product ID '" + productStrId
+                        + "' in warehouse '" + warehouse.getWarehouseStrId() + "'."));
+        BigDecimal previousStock = current(inventory);
+        BigDecimal newStock = previousStock.add(qty);
+        if (newStock.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Insufficient stock. Available: " + previousStock + ", adjustment: " + qty
+                    + " (warehouse " + warehouse.getWarehouseStrId() + ")");
+        }
+        inventory.setProductStock(newStock);
+        InventoryEntity saved = inventoryRepository.save(inventory);
+        updateProductStatus(inventory.getProduct());
+        String remarks = "[" + (requestDTO.getReason() != null ? requestDTO.getReason() : "Other") + "]"
+                + (requestDTO.getRemarks() != null && !requestDTO.getRemarks().isBlank() ? " " + requestDTO.getRemarks() : "");
+        stockSupport.recordProductHistory(inventory.getProduct(), warehouse, "ADJUSTMENT", previousStock, newStock, qty, remarks);
+        return mapToResponse(saved);
     }
 }

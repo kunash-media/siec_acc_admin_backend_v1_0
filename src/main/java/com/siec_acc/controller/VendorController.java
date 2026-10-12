@@ -1,7 +1,9 @@
 package com.siec_acc.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siec_acc.dto.request.VendorQuickCreateRequestDto;
 import com.siec_acc.dto.request.VendorRequestDto;
+import com.siec_acc.dto.response.VendorQuickCreateResponseDto;
 import com.siec_acc.dto.response.VendorResponseDto;
 import com.siec_acc.service.VendorService;
 import java.util.List;
@@ -219,5 +221,11 @@ public class VendorController {
     @FunctionalInterface
     private interface SupplierWithException {
         Object get();
+    }
+
+    @PostMapping("/quick-create")
+    public ResponseEntity<VendorQuickCreateResponseDto> quickCreateVendor(
+            @RequestBody VendorQuickCreateRequestDto requestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.quickCreateVendor(requestDto));
     }
 }

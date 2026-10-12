@@ -252,6 +252,4 @@ public class VariantServiceImpl implements VariantService {
         variant.setVariantStock(stockSupport.variantTotal(variant.getVariantPrimeId()));
         stockSupport.recordVariantHistory(variant, warehouse, "MANUAL_UPDATE", previous, newStock, newStock.subtract(previous), remarks);
     }
-
-
 }

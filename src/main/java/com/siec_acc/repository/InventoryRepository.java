@@ -1,6 +1,7 @@
 package com.siec_acc.repository;
 
 import com.siec_acc.entity.InventoryEntity;
+import com.siec_acc.entity.InventoryHistoryEntity;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -35,4 +36,8 @@ public interface InventoryRepository extends JpaRepository<InventoryEntity, Long
 
     @Query("select sum(i.productStock) from InventoryEntity i where i.variant.variantPrimeId = :variantPrimeId")
     BigDecimal sumStockByVariantPrimeId(@Param("variantPrimeId") Long variantPrimeId);
+
+    // @Query("select i from InventoryEntity i join fetch i.product join fetch i.warehouse where i.product is not null")
+    @Query("select i from InventoryEntity i join fetch i.warehouse left join fetch i.product left join fetch i.variant v left join fetch v.product")
+    List<InventoryEntity> findAllWithProduct();
 }
