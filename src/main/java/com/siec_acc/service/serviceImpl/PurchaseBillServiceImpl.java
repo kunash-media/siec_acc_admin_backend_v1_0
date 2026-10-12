@@ -1,4 +1,3 @@
-
 package com.siec_acc.service.serviceImpl;
 
 import com.siec_acc.dto.request.PurchaseBillItemRequestDto;
@@ -8,6 +7,7 @@ import com.siec_acc.dto.request.PurchaseBillRequestDto;
 import com.siec_acc.dto.response.PurchaseBillItemResponseDto;
 import com.siec_acc.dto.response.PurchaseBillPaymentResponseDto;
 import com.siec_acc.dto.response.PurchaseBillResponseDto;
+import com.siec_acc.dto.response.VendorBillSummaryResponseDto;
 import com.siec_acc.entity.GoodsReceiptEntity;
 import com.siec_acc.entity.PurchaseBillEntity;
 import com.siec_acc.entity.PurchaseBillItemEntity;
@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -108,7 +109,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     @Transactional
     public PurchaseBillResponseDto updatePurchaseBill(String pbStrId, PurchaseBillRequestDto dto) {
         logger.info("Updating purchase bill: {}", pbStrId);
-        PurchaseBillEntity bill = getEntityOrThrow(pbStrId);
+        PurchaseBillEntity bill = getEntityForUpdateOrThrow(pbStrId);
 
         String vendor = dto.getVendorName().trim();
         String newPo = trimToNull(dto.getPoNumber());
@@ -152,7 +153,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     @Transactional
     public PurchaseBillResponseDto patchPurchaseBill(String pbStrId, PurchaseBillPatchDto dto) {
         logger.info("Patching purchase bill: {}", pbStrId);
-        PurchaseBillEntity bill = getEntityOrThrow(pbStrId);
+        PurchaseBillEntity bill = getEntityForUpdateOrThrow(pbStrId);
 
         LocalDate newBillDate = dto.getBillDate() != null ? dto.getBillDate() : bill.getBillDate();
         LocalDate newDueDate = dto.getDueDate() != null ? dto.getDueDate() : bill.getDueDate();
@@ -195,7 +196,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     @Transactional
     public void deletePurchaseBill(String pbStrId) {
         logger.info("Deleting purchase bill: {}", pbStrId);
-        PurchaseBillEntity bill = getEntityOrThrow(pbStrId);
+        PurchaseBillEntity bill = getEntityForUpdateOrThrow(pbStrId);
         if (!bill.getPayments().isEmpty()) {
             throw new InvalidOperationException("Cannot delete " + bill.getPbNumber()
                     + ": payments have been recorded against it. Delete the payments first.");
@@ -239,13 +240,81 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     }
 
     // ------------------------------------------------------------------
+    // VENDOR-WISE (used by the vendor module)
+    // ------------------------------------------------------------------
+
+    // Exact (case-insensitive) match, so "ABC" does not return the bills of "ABC Traders".
+    @Override
+    @Transactional(readOnly = true)
+    public List<PurchaseBillResponseDto> getPurchaseBillsByVendor(String vendorName) {
+        String vendor = trimToNull(vendorName);
+        if (vendor == null) throw new InvalidOperationException("Vendor name is required.");
+        logger.info("Fetching purchase bills for vendor: {}", vendor);
+        return purchaseBillRepository.findByVendorNameIgnoreCaseOrderByCreatedAtDesc(vendor).stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    // billed / paid / due / overdue per vendor. Names that differ only by case or spaces count as one vendor.
+    @Override
+    @Transactional(readOnly = true)
+    public List<VendorBillSummaryResponseDto> getVendorBillSummaries(String vendorName) {
+        String vendor = trimToNull(vendorName);
+        if (vendor != null) {
+            logger.info("Fetching bill summary for vendor: {}", vendor);
+            return List.of(summarize(vendor, purchaseBillRepository.findByVendorNameIgnoreCaseOrderByCreatedAtDesc(vendor)));
+        }
+
+        logger.info("Fetching bill summary for all vendors");
+        Map<String, List<PurchaseBillEntity>> byVendor = new LinkedHashMap<>();
+        for (PurchaseBillEntity b : purchaseBillRepository.findAllByOrderByCreatedAtDesc()) {
+            String name = b.getVendorName() == null ? "" : b.getVendorName().trim();
+            byVendor.computeIfAbsent(name.toLowerCase(Locale.ROOT), k -> new ArrayList<>()).add(b);
+        }
+        return byVendor.values().stream()
+                .map(bills -> summarize(bills.get(0).getVendorName().trim(), bills))
+                .sorted(Comparator.comparing(VendorBillSummaryResponseDto::getVendorName, String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
+    }
+
+    private VendorBillSummaryResponseDto summarize(String vendorName, List<PurchaseBillEntity> bills) {
+        double billed = 0, paid = 0, due = 0, overdue = 0;
+        int overdueCount = 0;
+        LocalDate lastBill = null, lastPayment = null;
+        for (PurchaseBillEntity b : bills) {
+            double bal = balance(b);
+            billed += b.getAmount() == null ? 0.0 : b.getAmount();
+            paid += paidAmount(b);
+            due += bal;
+            if ("overdue".equals(deriveStatus(b))) {
+                overdue += bal;
+                overdueCount++;
+            }
+            if (b.getBillDate() != null && (lastBill == null || b.getBillDate().isAfter(lastBill))) lastBill = b.getBillDate();
+            for (PurchaseBillPaymentEntity p : b.getPayments()) {
+                if (p.getDate() != null && (lastPayment == null || p.getDate().isAfter(lastPayment))) lastPayment = p.getDate();
+            }
+        }
+        VendorBillSummaryResponseDto s = new VendorBillSummaryResponseDto(vendorName);
+        s.setBillCount(bills.size());
+        s.setTotalBilled(round2(billed));
+        s.setTotalPaid(round2(paid));
+        s.setTotalDue(round2(due));
+        s.setOverdueDue(round2(overdue));
+        s.setOverdueBillCount(overdueCount);
+        s.setLastBillDate(lastBill);
+        s.setLastPaymentDate(lastPayment);
+        return s;
+    }
+
+    // ------------------------------------------------------------------
     // PAYMENTS
     // ------------------------------------------------------------------
     @Override
     @Transactional
     public PurchaseBillResponseDto recordPayment(String pbStrId, PurchaseBillPaymentRequestDto dto) {
         logger.info("Recording payment for purchase bill: {}", pbStrId);
-        PurchaseBillEntity bill = getEntityOrThrow(pbStrId);
+        PurchaseBillEntity bill = getEntityForUpdateOrThrow(pbStrId);
 
         double balance = balance(bill);
         if (balance <= EPSILON) {
@@ -260,7 +329,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
 
         PurchaseBillPaymentEntity payment = new PurchaseBillPaymentEntity();
         payment.setDate(dto.getDate());
-        payment.setAmount(dto.getAmount());
+        payment.setAmount(round2(dto.getAmount())); // store whole paise - no 100.0000001 style drift
         payment.setMode(trimToNull(dto.getMode()));
         payment.setRef(trimToNull(dto.getRef()));
         bill.addPayment(payment);
@@ -275,7 +344,7 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
     @Transactional
     public PurchaseBillResponseDto deletePayment(String pbStrId, Long paymentId) {
         logger.info("Deleting payment {} of purchase bill {}", paymentId, pbStrId);
-        PurchaseBillEntity bill = getEntityOrThrow(pbStrId);
+        PurchaseBillEntity bill = getEntityForUpdateOrThrow(pbStrId);
 
         boolean removed = bill.getPayments().removeIf(p -> p.getPaymentId() != null && p.getPaymentId().equals(paymentId));
         if (!removed) {
@@ -436,6 +505,16 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
                 });
     }
 
+    // Same as getEntityOrThrow but takes a row lock (see PurchaseBillRepository.findByPbStrIdForUpdate).
+    // Only call it from @Transactional methods that modify the bill or its payments.
+    private PurchaseBillEntity getEntityForUpdateOrThrow(String pbStrId) {
+        return purchaseBillRepository.findByPbStrIdForUpdate(pbStrId)
+                .orElseThrow(() -> {
+                    logger.warn("PurchaseBillEntity not found: {}", pbStrId);
+                    return new ResourceNotFoundException("No purchase bill found with ID '" + pbStrId + "'.");
+                });
+    }
+
     private List<PurchaseBillItemEntity> toEntities(List<Line> lines) {
         List<PurchaseBillItemEntity> out = new ArrayList<>();
         for (Line l : lines) out.add(new PurchaseBillItemEntity(l.name(), l.qty(), l.unit(), l.rate(), l.gstPct()));
@@ -531,5 +610,3 @@ public class PurchaseBillServiceImpl implements PurchaseBillService {
         return dto;
     }
 }
-
-

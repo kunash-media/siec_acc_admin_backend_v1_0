@@ -42,6 +42,17 @@ public class PurchaseOrderEntity {
     @Column(name = "tax_pct")
     private Double taxPct;
 
+    // Stored copies of the calculated amounts. Never taken from the client: recalculateTotals() sets them whenever
+    // the items or the GST % change, so reports / SQL can read them. (Older rows are filled by PO_amount_migration.sql.)
+    @Column(name = "subtotal")
+    private Double subtotal;
+
+    @Column(name = "tax_amount")
+    private Double taxAmount;
+
+    @Column(name = "total_amount")
+    private Double totalAmount;
+
     @Column(name = "status", nullable = false, length = 20)
     private String status;
 
@@ -90,7 +101,7 @@ public class PurchaseOrderEntity {
     public void setDeliveryDate(LocalDate deliveryDate) { this.deliveryDate = deliveryDate; }
 
     public Double getTaxPct() { return taxPct; }
-    public void setTaxPct(Double taxPct) { this.taxPct = taxPct; }
+    public void setTaxPct(Double taxPct) { this.taxPct = taxPct; recalculateTotals(); }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
@@ -109,6 +120,31 @@ public class PurchaseOrderEntity {
                 this.items.add(it);
             }
         }
+        recalculateTotals();
+    }
+
+    public Double getSubtotal() { return subtotal; }
+    public void setSubtotal(Double subtotal) { this.subtotal = subtotal; }
+
+    public Double getTaxAmount() { return taxAmount; }
+    public void setTaxAmount(Double taxAmount) { this.taxAmount = taxAmount; }
+
+    public Double getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(Double totalAmount) { this.totalAmount = totalAmount; }
+
+    /** subtotal = sum of line amounts (each rounded to 2 dp), GST = subtotal x GST %, total = subtotal + GST. */
+    public void recalculateTotals() {
+        double sub = 0.0;
+        for (PurchaseOrderItemEntity it : items) {
+            it.recalculateAmount();
+            sub += it.getAmount() == null ? 0.0 : it.getAmount();
+        }
+        sub = Math.round(sub * 100.0) / 100.0;
+        double pct = taxPct == null ? 0.0 : taxPct;
+        double tax = Math.round(sub * pct / 100.0 * 100.0) / 100.0;
+        this.subtotal = sub;
+        this.taxAmount = tax;
+        this.totalAmount = Math.round((sub + tax) * 100.0) / 100.0;
     }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
@@ -117,3 +153,4 @@ public class PurchaseOrderEntity {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
+

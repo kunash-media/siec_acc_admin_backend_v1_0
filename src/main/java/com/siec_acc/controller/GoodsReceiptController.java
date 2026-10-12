@@ -62,4 +62,13 @@ public class GoodsReceiptController {
         logger.info("API HIT: GET /get-by-po/{}", poStrId);
         return ResponseEntity.ok(ApiResponse.success("Goods receipts fetched successfully.", goodsReceiptService.getGoodsReceiptsByPo(poStrId)));
     }
+
+    // Exact (case-insensitive) vendor match. Query param, so names containing '/' or '.' work too.
+    @GetMapping("/get-by-vendor")
+    public ResponseEntity<ApiResponse<List<GoodsReceiptResponseDto>>> getByVendor(
+            @RequestParam(required = false) String vendorName) {
+        logger.info("API HIT: GET /get-by-vendor?vendorName={}", vendorName);
+        return ResponseEntity.ok(ApiResponse.success("Goods receipts fetched successfully.", goodsReceiptService.getGoodsReceiptsByVendor(vendorName)));
+    }
 }
+

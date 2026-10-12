@@ -1,3 +1,4 @@
+
 package com.siec_acc.service;
 
 import com.siec_acc.dto.request.GoodsReceiptRequestDto;
@@ -13,5 +14,6 @@ public interface GoodsReceiptService {
     GoodsReceiptResponseDto getGoodsReceiptByStrId(String grnStrId);
     List<GoodsReceiptResponseDto> getAllGoodsReceipts();
     List<GoodsReceiptResponseDto> getGoodsReceiptsByPo(String poStrId);
+    List<GoodsReceiptResponseDto> getGoodsReceiptsByVendor(String vendorName);
     void resyncPo(PurchaseOrderEntity po);
 }

@@ -5,6 +5,7 @@ import com.siec_acc.dto.request.PurchaseBillPaymentRequestDto;
 import com.siec_acc.dto.request.PurchaseBillRequestDto;
 import com.siec_acc.dto.response.PurchaseBillItemResponseDto;
 import com.siec_acc.dto.response.PurchaseBillResponseDto;
+import com.siec_acc.dto.response.VendorBillSummaryResponseDto;
 
 import java.util.List;
 
@@ -23,6 +24,12 @@ public interface PurchaseBillService {
     List<PurchaseBillResponseDto> getAllPurchaseBills();
 
     List<PurchaseBillResponseDto> getPurchaseBillsByStatus(String status);
+
+    // Exact (case-insensitive) vendor match.
+    List<PurchaseBillResponseDto> getPurchaseBillsByVendor(String vendorName);
+
+    // vendorName given -> one row for that vendor (zeros if it has no bills); blank -> one row per vendor.
+    List<VendorBillSummaryResponseDto> getVendorBillSummaries(String vendorName);
 
     PurchaseBillResponseDto recordPayment(String pbStrId, PurchaseBillPaymentRequestDto paymentDto);
 

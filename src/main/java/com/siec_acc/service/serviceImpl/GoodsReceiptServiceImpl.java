@@ -155,6 +155,18 @@ public class GoodsReceiptServiceImpl implements GoodsReceiptService {
                 .map(this::mapToResponse).collect(Collectors.toList());
     }
 
+    // Exact (case-insensitive) vendor match - the receipt carries the vendor of its PO.
+    @Override
+    @Transactional(readOnly = true)
+    public List<GoodsReceiptResponseDto> getGoodsReceiptsByVendor(String vendorName) {
+        if (vendorName == null || vendorName.isBlank()) {
+            throw new InvalidOperationException("Vendor name is required.");
+        }
+        logger.info("Fetching goods receipts for vendor: {}", vendorName.trim());
+        return goodsReceiptRepository.findByVendorNameIgnoreCaseOrderByCreatedAtDesc(vendorName.trim()).stream()
+                .map(this::mapToResponse).collect(Collectors.toList());
+    }
+
     // ------------------------------------------------------------------
     // PO sync — the single place that decides GRN status and PO partial / fully_received.
     // Also called by PurchaseOrderServiceImpl after a PO's items change.
@@ -263,4 +275,3 @@ public class GoodsReceiptServiceImpl implements GoodsReceiptService {
                 g.getRemarks(), g.getCreatedAt(), g.getUpdatedAt());
     }
 }
-

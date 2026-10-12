@@ -27,6 +27,11 @@ public class PurchaseOrderItemEntity {
     @Column(name = "rate", nullable = false)
     private Double rate;
 
+    // qty x rate, rounded to 2 dp. Calculated by the server (never accepted from the client).
+    // Nullable only so existing rows load; PO_amount_migration.sql fills them.
+    @Column(name = "amount")
+    private Double amount;
+
     public PurchaseOrderItemEntity() {}
 
     public PurchaseOrderItemEntity(String name, Integer qty, String unit, Double rate) {
@@ -34,6 +39,13 @@ public class PurchaseOrderItemEntity {
         this.qty = qty;
         this.unit = unit;
         this.rate = rate;
+        recalculateAmount();
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void recalculateAmount() {
+        this.amount = (qty == null || rate == null) ? null : Math.round(qty * rate * 100.0) / 100.0;
     }
 
     public Long getItemId() { return itemId; }
@@ -46,11 +58,14 @@ public class PurchaseOrderItemEntity {
     public void setName(String name) { this.name = name; }
 
     public Integer getQty() { return qty; }
-    public void setQty(Integer qty) { this.qty = qty; }
+    public void setQty(Integer qty) { this.qty = qty; recalculateAmount(); }
 
     public String getUnit() { return unit; }
     public void setUnit(String unit) { this.unit = unit; }
 
     public Double getRate() { return rate; }
-    public void setRate(Double rate) { this.rate = rate; }
+    public void setRate(Double rate) { this.rate = rate; recalculateAmount(); }
+
+    public Double getAmount() { return amount; }
+    public void setAmount(Double amount) { this.amount = amount; }
 }

@@ -5,6 +5,7 @@ import com.siec_acc.dto.request.PurchaseBillPaymentRequestDto;
 import com.siec_acc.dto.request.PurchaseBillRequestDto;
 import com.siec_acc.dto.response.PurchaseBillItemResponseDto;
 import com.siec_acc.dto.response.PurchaseBillResponseDto;
+import com.siec_acc.dto.response.VendorBillSummaryResponseDto;
 import com.siec_acc.exceptions.ApiResponse;
 import com.siec_acc.service.PurchaseBillService;
 import jakarta.validation.Valid;
@@ -80,6 +81,24 @@ public class PurchaseBillController {
         return ResponseEntity.ok(ApiResponse.success("Purchase bills fetched successfully.", response));
     }
 
+    // Exact (case-insensitive) vendor match. Query param, so names containing '/' or '.' work too.
+    @GetMapping("/get-by-vendor")
+    public ResponseEntity<ApiResponse<List<PurchaseBillResponseDto>>> getByVendor(
+            @RequestParam(required = false) String vendorName) {
+        logger.info("API HIT: GET /get-by-vendor?vendorName={}", vendorName);
+        List<PurchaseBillResponseDto> response = purchaseBillService.getPurchaseBillsByVendor(vendorName);
+        return ResponseEntity.ok(ApiResponse.success("Purchase bills fetched successfully.", response));
+    }
+
+    // billed / paid / due / overdue. With vendorName -> that vendor only; without -> one row per vendor.
+    @GetMapping("/vendor-summary")
+    public ResponseEntity<ApiResponse<List<VendorBillSummaryResponseDto>>> getVendorSummary(
+            @RequestParam(required = false) String vendorName) {
+        logger.info("API HIT: GET /vendor-summary?vendorName={}", vendorName);
+        List<VendorBillSummaryResponseDto> response = purchaseBillService.getVendorBillSummaries(vendorName);
+        return ResponseEntity.ok(ApiResponse.success("Vendor bill summary fetched successfully.", response));
+    }
+
     @PostMapping("/record-payment/{pbStrId}")
     public ResponseEntity<ApiResponse<PurchaseBillResponseDto>> recordPayment(
             @PathVariable String pbStrId, @Valid @RequestBody PurchaseBillPaymentRequestDto paymentDto) {
@@ -105,4 +124,5 @@ public class PurchaseBillController {
         return ResponseEntity.ok(ApiResponse.success("Billable items fetched successfully.", response));
     }
 }
+
 
