@@ -157,6 +157,8 @@ public class ProformaEntity {
     @Column(name = "proforma_pdf_file_name")
     private String proformaPdfFileName;
 
+
+
     // ---- Line items ----
     @OneToMany(mappedBy = "proforma", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -169,6 +171,8 @@ public class ProformaEntity {
 
     @Column(name = "proforma_updated_at")
     private LocalDateTime proformaUpdatedAt;
+
+    private String proformaProjectCode;
 
     @PrePersist
     protected void onCreate() {
@@ -183,7 +187,8 @@ public class ProformaEntity {
 
     public ProformaEntity(){}
 
-    public ProformaEntity(Long proformaPrimeId, String proformaStrId, LocalDate proformaDate, LocalDate proformaValidUntil, Long proformaCustomerId, String proformaCustomerName, String proformaCustomerGst, String proformaCustomerEmail, String proformaCustomerState, String proformaCustomerStateCode, String proformaCustomerAddress, String proformaShippingAddress, CurrencyType proformaCurrency, BigDecimal proformaExchangeRate, BigDecimal proformaSubTotal, BigDecimal proformaDiscountPercent, BigDecimal proformaTaxPercent, BigDecimal proformaShippingCharges, BigDecimal proformaOtherCharges, BigDecimal proformaRoundOff, BigDecimal proformaTotalAmount, BigDecimal proformaTotalAmountInr, ProformaStatus proformaStatus, String proformaPlaceOfSupply, String proformaTerms, String proformaNotes, String proformaReferenceNumber, String proformaPoNumber, String proformaPdfUrl, byte[] proformaPdfData, String proformaPdfContentType, String proformaAttachmentUrl, String proformaSignatureUrl, String proformaAuthorizedSignatory, Long proformaConvertedToInvoiceId, byte[] proformaPdfBlob, String proformaPdfFileName, List<ProformaItemEntity> proformaItems, LocalDateTime proformaCreatedAt, LocalDateTime proformaUpdatedAt) {
+    public ProformaEntity(Long proformaPrimeId, String proformaStrId, LocalDate proformaDate, LocalDate proformaValidUntil, Long proformaCustomerId, String proformaCustomerName, String proformaCustomerGst, String proformaCustomerEmail, String proformaCustomerState, String proformaCustomerStateCode, String proformaCustomerAddress, String proformaShippingAddress, CurrencyType proformaCurrency, BigDecimal proformaExchangeRate, BigDecimal proformaSubTotal, BigDecimal proformaDiscountPercent, BigDecimal proformaTaxPercent, BigDecimal proformaShippingCharges, BigDecimal proformaOtherCharges, BigDecimal proformaRoundOff, BigDecimal proformaTotalAmount, BigDecimal proformaTotalAmountInr, ProformaStatus proformaStatus, String proformaPlaceOfSupply, String proformaTerms, String proformaNotes, String proformaReferenceNumber, String proformaPoNumber, String proformaPdfUrl, byte[] proformaPdfData, String proformaPdfContentType,
+                          String proformaAttachmentUrl, String proformaSignatureUrl, String proformaAuthorizedSignatory, Long proformaConvertedToInvoiceId, byte[] proformaPdfBlob, String proformaPdfFileName, List<ProformaItemEntity> proformaItems, LocalDateTime proformaCreatedAt, LocalDateTime proformaUpdatedAt, String proformaProjectCode) {
         this.proformaPrimeId = proformaPrimeId;
         this.proformaStrId = proformaStrId;
         this.proformaDate = proformaDate;
@@ -224,6 +229,7 @@ public class ProformaEntity {
         this.proformaItems = proformaItems;
         this.proformaCreatedAt = proformaCreatedAt;
         this.proformaUpdatedAt = proformaUpdatedAt;
+        this.proformaProjectCode = proformaProjectCode;
     }
 
     public Long getProformaPrimeId() {
@@ -544,5 +550,13 @@ public class ProformaEntity {
 
     public void setProformaUpdatedAt(LocalDateTime proformaUpdatedAt) {
         this.proformaUpdatedAt = proformaUpdatedAt;
+    }
+
+    public String getProformaProjectCode() {
+        return proformaProjectCode;
+    }
+
+    public void setProformaProjectCode(String proformaProjectCode) {
+        this.proformaProjectCode = proformaProjectCode;
     }
 }

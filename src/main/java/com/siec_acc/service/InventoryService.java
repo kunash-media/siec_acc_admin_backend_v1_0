@@ -26,4 +26,7 @@ public interface InventoryService {
     List<InventoryListItemDTO> getAllInventory();
     List<InventoryHistoryResponseDTO> getHistory(String productStrId);
     InventoryResponseDTO adjustStock(String productStrId, InventoryAdjustDTO requestDTO);
+
+    InventoryResponseDTO adjustVariantStock(String variantStrId, InventoryAdjustDTO requestDTO);
+    List<InventoryHistoryResponseDTO> getVariantHistory(String variantStrId);
 }

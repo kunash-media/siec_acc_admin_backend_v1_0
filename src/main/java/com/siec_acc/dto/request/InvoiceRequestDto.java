@@ -71,9 +71,29 @@ public class InvoiceRequestDto {
     // Saved "Choose Template" selection to apply to this invoice's PDF.
     private String invoiceTemplateId;
 
+    private  String refNumber;
+
+    private String invoiceProjectCode;
+
     public InvoiceRequestDto(){}
 
-    public InvoiceRequestDto(LocalDate invoiceDate, LocalDate invoiceDueDate, Long invoiceCustomerId, String invoiceCustomerName, String invoiceCustomerGst, String invoiceCustomerEmail, String invoiceCustomerState, String invoiceCustomerStateCode, String invoiceCustomerAddress, String invoiceShippingAddress, CurrencyType invoiceCurrency, BigDecimal invoiceExchangeRate, List<InvoiceItemRequestDto> invoiceItems, BigDecimal invoiceDiscountPercent, BigDecimal invoiceTaxPercent, BigDecimal invoiceShippingCharges, BigDecimal invoiceOtherCharges, BigDecimal invoiceRoundOff, InvoiceStatus invoiceStatus, BigDecimal invoicePaidAmount, String invoicePlaceOfSupply, String invoiceTerms, String invoiceNotes, String invoiceReferenceNumber, String invoicePoNumber, String invoiceEwayBillNumber, PaymentMode invoicePaymentMode, String invoiceAttachmentUrl, String invoiceSignatureUrl, String invoiceAuthorizedSignatory, Boolean invoiceIsRecurring, String invoiceRecurringFrequency, Long invoiceConvertedFromProformaId, String invoiceTemplateId) {
+    public InvoiceRequestDto(LocalDate invoiceDate, LocalDate invoiceDueDate,
+                             Long invoiceCustomerId, String invoiceCustomerName,
+                             String invoiceCustomerGst, String invoiceCustomerEmail,
+                             String invoiceCustomerState, String invoiceCustomerStateCode,
+                             String invoiceCustomerAddress, String invoiceShippingAddress,
+                             CurrencyType invoiceCurrency, BigDecimal invoiceExchangeRate,
+                             List<InvoiceItemRequestDto> invoiceItems, BigDecimal invoiceDiscountPercent,
+                             BigDecimal invoiceTaxPercent, BigDecimal invoiceShippingCharges,
+                             BigDecimal invoiceOtherCharges, BigDecimal invoiceRoundOff,
+                             InvoiceStatus invoiceStatus, BigDecimal invoicePaidAmount,
+                             String invoicePlaceOfSupply, String invoiceTerms, String invoiceNotes,
+                             String invoiceReferenceNumber, String invoicePoNumber,
+                             String invoiceEwayBillNumber, PaymentMode invoicePaymentMode,
+                             String invoiceAttachmentUrl, String invoiceSignatureUrl,
+                             String invoiceAuthorizedSignatory, Boolean invoiceIsRecurring,
+                             String invoiceRecurringFrequency, Long invoiceConvertedFromProformaId,
+                             String invoiceTemplateId, String refNumber, String invoiceProjectCode) {
         this.invoiceDate = invoiceDate;
         this.invoiceDueDate = invoiceDueDate;
         this.invoiceCustomerId = invoiceCustomerId;
@@ -108,6 +128,8 @@ public class InvoiceRequestDto {
         this.invoiceRecurringFrequency = invoiceRecurringFrequency;
         this.invoiceConvertedFromProformaId = invoiceConvertedFromProformaId;
         this.invoiceTemplateId = invoiceTemplateId;
+        this.refNumber = refNumber;
+        this.invoiceProjectCode = invoiceProjectCode;
     }
 
     public LocalDate getInvoiceDate() {
@@ -380,5 +402,21 @@ public class InvoiceRequestDto {
 
     public void setInvoiceTemplateId(String invoiceTemplateId) {
         this.invoiceTemplateId = invoiceTemplateId;
+    }
+
+    public String getRefNumber() {
+        return refNumber;
+    }
+
+    public void setRefNumber(String refNumber) {
+        this.refNumber = refNumber;
+    }
+
+    public String getInvoiceProjectCode() {
+        return invoiceProjectCode;
+    }
+
+    public void setInvoiceProjectCode(String invoiceProjectCode) {
+        this.invoiceProjectCode = invoiceProjectCode;
     }
 }

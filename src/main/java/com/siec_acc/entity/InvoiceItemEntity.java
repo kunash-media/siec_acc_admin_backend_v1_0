@@ -53,7 +53,10 @@ public class InvoiceItemEntity {
     @Column(name = "invoice_item_amount", precision = 15, scale = 2)
     private BigDecimal invoiceItemAmount;
 
-    public InvoiceItemEntity(Long invoiceItemPrimeId, InvoiceEntity invoice, Long invoiceItemProductId, String invoiceItemName, String invoiceItemHsnCode, String invoiceItemUnit, BigDecimal invoiceItemQty, BigDecimal invoiceItemRate, BigDecimal invoiceItemGstPercent, BigDecimal invoiceItemAmount) {
+    private Long invoiceItemVariantId;
+    private String invoiceItemDescription;
+
+    public InvoiceItemEntity(Long invoiceItemPrimeId, InvoiceEntity invoice, Long invoiceItemProductId, String invoiceItemName, String invoiceItemHsnCode, String invoiceItemUnit, BigDecimal invoiceItemQty, BigDecimal invoiceItemRate, BigDecimal invoiceItemGstPercent, BigDecimal invoiceItemAmount, Long invoiceItemVariantId, String invoiceItemDescription) {
         this.invoiceItemPrimeId = invoiceItemPrimeId;
         this.invoice = invoice;
         this.invoiceItemProductId = invoiceItemProductId;
@@ -64,6 +67,8 @@ public class InvoiceItemEntity {
         this.invoiceItemRate = invoiceItemRate;
         this.invoiceItemGstPercent = invoiceItemGstPercent;
         this.invoiceItemAmount = invoiceItemAmount;
+        this.invoiceItemVariantId = invoiceItemVariantId;
+        this.invoiceItemDescription = invoiceItemDescription;
     }
 
     public InvoiceItemEntity(){}
@@ -146,5 +151,21 @@ public class InvoiceItemEntity {
 
     public void setInvoiceItemAmount(BigDecimal invoiceItemAmount) {
         this.invoiceItemAmount = invoiceItemAmount;
+    }
+
+    public Long getInvoiceItemVariantId() {
+        return invoiceItemVariantId;
+    }
+
+    public void setInvoiceItemVariantId(Long invoiceItemVariantId) {
+        this.invoiceItemVariantId = invoiceItemVariantId;
+    }
+
+    public String getInvoiceItemDescription() {
+        return invoiceItemDescription;
+    }
+
+    public void setInvoiceItemDescription(String invoiceItemDescription) {
+        this.invoiceItemDescription = invoiceItemDescription;
     }
 }

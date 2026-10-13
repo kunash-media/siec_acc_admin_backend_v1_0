@@ -65,9 +65,16 @@ public class ProformaRequestDto {
     private String proformaSignatureUrl;
     private String proformaAuthorizedSignatory;
 
+    private String proformaProjectCode;
+
     public ProformaRequestDto(){}
 
-    public ProformaRequestDto(LocalDate proformaDate, LocalDate proformaValidUntil, Long proformaCustomerId, String proformaCustomerName, String proformaCustomerGst, String proformaCustomerEmail, String proformaCustomerState, String proformaCustomerStateCode, String proformaCustomerAddress, String proformaShippingAddress, CurrencyType proformaCurrency, BigDecimal proformaExchangeRate, List<ProformaItemRequestDto> proformaItems, BigDecimal proformaDiscountPercent, BigDecimal proformaTaxPercent, BigDecimal proformaShippingCharges, BigDecimal proformaOtherCharges, BigDecimal proformaRoundOff, ProformaStatus proformaStatus, String proformaPlaceOfSupply, String proformaTerms, String proformaNotes, String proformaReferenceNumber, String proformaPoNumber, String proformaAttachmentUrl, String proformaSignatureUrl, String proformaAuthorizedSignatory) {
+    public ProformaRequestDto(LocalDate proformaDate, LocalDate proformaValidUntil, Long proformaCustomerId, String proformaCustomerName, String proformaCustomerGst, String proformaCustomerEmail, String proformaCustomerState, String proformaCustomerStateCode, String proformaCustomerAddress, String proformaShippingAddress, CurrencyType proformaCurrency, BigDecimal proformaExchangeRate, List<ProformaItemRequestDto> proformaItems, BigDecimal proformaDiscountPercent,
+                              BigDecimal proformaTaxPercent, BigDecimal proformaShippingCharges,
+                              BigDecimal proformaOtherCharges, BigDecimal proformaRoundOff,
+                              ProformaStatus proformaStatus, String proformaPlaceOfSupply,
+                              String proformaTerms, String proformaNotes, String proformaReferenceNumber, String proformaPoNumber,
+                              String proformaAttachmentUrl, String proformaSignatureUrl, String proformaAuthorizedSignatory, String proformaProjectCode) {
         this.proformaDate = proformaDate;
         this.proformaValidUntil = proformaValidUntil;
         this.proformaCustomerId = proformaCustomerId;
@@ -95,6 +102,7 @@ public class ProformaRequestDto {
         this.proformaAttachmentUrl = proformaAttachmentUrl;
         this.proformaSignatureUrl = proformaSignatureUrl;
         this.proformaAuthorizedSignatory = proformaAuthorizedSignatory;
+        this.proformaProjectCode = proformaProjectCode;
     }
 
     public LocalDate getProformaDate() {
@@ -311,5 +319,13 @@ public class ProformaRequestDto {
 
     public void setProformaAuthorizedSignatory(String proformaAuthorizedSignatory) {
         this.proformaAuthorizedSignatory = proformaAuthorizedSignatory;
+    }
+
+    public String getProformaProjectCode() {
+        return proformaProjectCode;
+    }
+
+    public void setProformaProjectCode(String proformaProjectCode) {
+        this.proformaProjectCode = proformaProjectCode;
     }
 }

@@ -56,9 +56,14 @@ public class ProformaItemEntity {
     @Column(name = "proforma_item_amount", precision = 15, scale = 2)
     private BigDecimal proformaItemAmount;
 
+    private Long proformaItemVariantId;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String proformaItemDescription;
+
     public ProformaItemEntity(){}
 
-    public ProformaItemEntity(Long proformaItemPrimeId, ProformaEntity proforma, Long proformaItemProductId, String proformaItemName, String proformaItemHsnCode, String proformaItemUnit, BigDecimal proformaItemQty, BigDecimal proformaItemRate, BigDecimal proformaItemGstPercent, BigDecimal proformaItemAmount) {
+    public ProformaItemEntity(Long proformaItemPrimeId, ProformaEntity proforma, Long proformaItemProductId, String proformaItemName, String proformaItemHsnCode, String proformaItemUnit, BigDecimal proformaItemQty, BigDecimal proformaItemRate, BigDecimal proformaItemGstPercent, BigDecimal proformaItemAmount, Long proformaItemVariantId, String proformaItemDescription) {
         this.proformaItemPrimeId = proformaItemPrimeId;
         this.proforma = proforma;
         this.proformaItemProductId = proformaItemProductId;
@@ -69,6 +74,8 @@ public class ProformaItemEntity {
         this.proformaItemRate = proformaItemRate;
         this.proformaItemGstPercent = proformaItemGstPercent;
         this.proformaItemAmount = proformaItemAmount;
+        this.proformaItemVariantId = proformaItemVariantId;
+        this.proformaItemDescription = proformaItemDescription;
     }
 
     public Long getProformaItemPrimeId() {
@@ -149,5 +156,21 @@ public class ProformaItemEntity {
 
     public void setProformaItemAmount(BigDecimal proformaItemAmount) {
         this.proformaItemAmount = proformaItemAmount;
+    }
+
+    public Long getProformaItemVariantId() {
+        return proformaItemVariantId;
+    }
+
+    public void setProformaItemVariantId(Long proformaItemVariantId) {
+        this.proformaItemVariantId = proformaItemVariantId;
+    }
+
+    public String getProformaItemDescription() {
+        return proformaItemDescription;
+    }
+
+    public void setProformaItemDescription(String proformaItemDescription) {
+        this.proformaItemDescription = proformaItemDescription;
     }
 }

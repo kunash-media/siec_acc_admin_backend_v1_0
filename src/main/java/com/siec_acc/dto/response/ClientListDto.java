@@ -10,13 +10,15 @@ public class ClientListDto {
     private String clientEmail;
     private String clientPhone;
     private String clientCountry;
+    private String clientGstin;
+    private String clientState;
+    private String clientPincode;
+    private String clientShippingAddress;
 
     public ClientListDto() {
     }
 
-    public ClientListDto(Long clientPrimeId, String clientStrId, String clientName,
-                         String clientCompanyName, String clientCustomerType,
-                         String clientEmail, String clientPhone, String clientCountry) {
+    public ClientListDto(Long clientPrimeId, String clientStrId, String clientName, String clientCompanyName, String clientCustomerType, String clientEmail, String clientPhone, String clientCountry, String clientGstin, String clientState, String clientPincode, String clientShippingAddress) {
         this.clientPrimeId = clientPrimeId;
         this.clientStrId = clientStrId;
         this.clientName = clientName;
@@ -25,6 +27,18 @@ public class ClientListDto {
         this.clientEmail = clientEmail;
         this.clientPhone = clientPhone;
         this.clientCountry = clientCountry;
+        this.clientGstin = clientGstin;
+        this.clientState = clientState;
+        this.clientPincode = clientPincode;
+        this.clientShippingAddress = clientShippingAddress;
+    }
+
+    public String getClientShippingAddress() {
+        return clientShippingAddress;
+    }
+
+    public void setClientShippingAddress(String clientShippingAddress) {
+        this.clientShippingAddress = clientShippingAddress;
     }
 
     public Long getClientPrimeId() { return clientPrimeId; }
@@ -55,5 +69,30 @@ public class ClientListDto {
     public void setClientCountry(String clientCountry) {
         this.clientCountry = clientCountry;
     }
+
+    public String getClientGstin() {
+        return clientGstin;
+    }
+
+    public void setClientGstin(String clientGstin) {
+        this.clientGstin = clientGstin;
+    }
+
+    public String getClientState() {
+        return clientState;
+    }
+
+    public void setClientState(String clientState) {
+        this.clientState = clientState;
+    }
+
+    public String getClientPincode() {
+        return clientPincode;
+    }
+
+    public void setClientPincode(String clientPincode) {
+        this.clientPincode = clientPincode;
+    }
+
 
 }

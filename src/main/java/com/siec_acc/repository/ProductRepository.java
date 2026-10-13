@@ -24,13 +24,15 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query("select new com.siec_acc.dto.response.ProductLiteResponseDTO("
             + "p.productPrimeId, p.productStrId, p.productName, p.productUnit, p.productSize, "
-            + "p.productSellingPrice, p.productMrpPrice, p.productVendorName) "
-            + "from ProductEntity p order by p.productName asc, p.productPrimeId asc")
+            + "p.productSellingPrice, p.productMrpPrice, p.productVendorName, "
+            + "p.productHsnCode, p.productGstRate) "
+            + "from ProductEntity p "
+            + "order by p.productName asc, p.productPrimeId asc")
     Slice<ProductLiteResponseDTO> findAllLite(Pageable pageable);
-
     @Query("select new com.siec_acc.dto.response.ProductLiteResponseDTO("
             + "p.productPrimeId, p.productStrId, p.productName, p.productUnit, p.productSize, "
-            + "p.productSellingPrice, p.productMrpPrice, p.productVendorName) "
+            + "p.productSellingPrice, p.productMrpPrice, p.productVendorName, "
+            + "p.productHsnCode, p.productGstRate) "
             + "from ProductEntity p where "
             + "lower(p.productName) like :search escape '!' "
             + "or lower(p.productSku) like :search escape '!' "

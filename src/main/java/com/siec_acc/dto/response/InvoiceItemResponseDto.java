@@ -17,8 +17,10 @@ public class InvoiceItemResponseDto {
     private BigDecimal invoiceItemRate;
     private BigDecimal invoiceItemGstPercent;
     private BigDecimal invoiceItemAmount;
+    private Long invoiceItemVariantId;
+    private String invoiceItemDescription;
 
-    public InvoiceItemResponseDto(Long invoiceItemPrimeId, Long invoiceItemProductId, String invoiceItemName, String invoiceItemHsnCode, String invoiceItemUnit, BigDecimal invoiceItemQty, BigDecimal invoiceItemRate, BigDecimal invoiceItemGstPercent, BigDecimal invoiceItemAmount) {
+    public InvoiceItemResponseDto(Long invoiceItemPrimeId, Long invoiceItemProductId, String invoiceItemName, String invoiceItemHsnCode, String invoiceItemUnit, BigDecimal invoiceItemQty, BigDecimal invoiceItemRate, BigDecimal invoiceItemGstPercent, BigDecimal invoiceItemAmount, Long invoiceItemVariantId, String invoiceItemDescription) {
         this.invoiceItemPrimeId = invoiceItemPrimeId;
         this.invoiceItemProductId = invoiceItemProductId;
         this.invoiceItemName = invoiceItemName;
@@ -28,6 +30,8 @@ public class InvoiceItemResponseDto {
         this.invoiceItemRate = invoiceItemRate;
         this.invoiceItemGstPercent = invoiceItemGstPercent;
         this.invoiceItemAmount = invoiceItemAmount;
+        this.invoiceItemVariantId = invoiceItemVariantId;
+        this.invoiceItemDescription = invoiceItemDescription;
     }
 
     public InvoiceItemResponseDto(){}
@@ -102,5 +106,21 @@ public class InvoiceItemResponseDto {
 
     public void setInvoiceItemAmount(BigDecimal invoiceItemAmount) {
         this.invoiceItemAmount = invoiceItemAmount;
+    }
+
+    public Long getInvoiceItemVariantId() {
+        return invoiceItemVariantId;
+    }
+
+    public void setInvoiceItemVariantId(Long invoiceItemVariantId) {
+        this.invoiceItemVariantId = invoiceItemVariantId;
+    }
+
+    public String getInvoiceItemDescription() {
+        return invoiceItemDescription;
+    }
+
+    public void setInvoiceItemDescription(String invoiceItemDescription) {
+        this.invoiceItemDescription = invoiceItemDescription;
     }
 }

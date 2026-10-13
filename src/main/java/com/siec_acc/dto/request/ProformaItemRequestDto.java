@@ -32,7 +32,10 @@ public class ProformaItemRequestDto {
 
     private BigDecimal proformaItemGstPercent;
 
-    public ProformaItemRequestDto(Long proformaItemProductId, String proformaItemName, String proformaItemHsnCode, String proformaItemUnit, BigDecimal proformaItemQty, BigDecimal proformaItemRate, BigDecimal proformaItemGstPercent) {
+    private Long proformaItemVariantId;
+    private String proformaItemDescription;
+
+    public ProformaItemRequestDto(Long proformaItemProductId, String proformaItemName, String proformaItemHsnCode, String proformaItemUnit, BigDecimal proformaItemQty, BigDecimal proformaItemRate, BigDecimal proformaItemGstPercent,Long proformaItemVariantId, String proformaItemDescription) {
         this.proformaItemProductId = proformaItemProductId;
         this.proformaItemName = proformaItemName;
         this.proformaItemHsnCode = proformaItemHsnCode;
@@ -40,6 +43,8 @@ public class ProformaItemRequestDto {
         this.proformaItemQty = proformaItemQty;
         this.proformaItemRate = proformaItemRate;
         this.proformaItemGstPercent = proformaItemGstPercent;
+        this.proformaItemDescription = proformaItemDescription;
+        this.proformaItemVariantId = proformaItemVariantId;
     }
 
     public ProformaItemRequestDto(){}
@@ -98,5 +103,21 @@ public class ProformaItemRequestDto {
 
     public void setProformaItemGstPercent(BigDecimal proformaItemGstPercent) {
         this.proformaItemGstPercent = proformaItemGstPercent;
+    }
+
+    public String getProformaItemDescription() {
+        return proformaItemDescription;
+    }
+
+    public void setProformaItemDescription(String proformaItemDescription) {
+        this.proformaItemDescription = proformaItemDescription;
+    }
+
+    public Long getProformaItemVariantId() {
+        return proformaItemVariantId;
+    }
+
+    public void setProformaItemVariantId(Long proformaItemVariantId) {
+        this.proformaItemVariantId = proformaItemVariantId;
     }
 }

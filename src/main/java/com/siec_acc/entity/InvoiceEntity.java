@@ -138,10 +138,6 @@ public class InvoiceEntity {
     @Column(name = "invoice_pdf_url")
     private String invoicePdfUrl;
 
-    @Lob
-    @Column(name = "invoice_pdf_data", columnDefinition = "LONGBLOB")
-    private byte[] invoicePdfData;
-
     @Column(name = "invoice_pdf_content_type")
     private String invoicePdfContentType;
 
@@ -191,6 +187,10 @@ public class InvoiceEntity {
     @Column(name = "invoice_updated_at")
     private LocalDateTime invoiceUpdatedAt;
 
+    private String refNumber;
+
+    private String invoiceProjectCode;
+
     @PrePersist
     protected void onCreate() {
         this.invoiceCreatedAt = LocalDateTime.now();
@@ -202,7 +202,20 @@ public class InvoiceEntity {
         this.invoiceUpdatedAt = LocalDateTime.now();
     }
 
-    public InvoiceEntity(Long invoicePrimeId, String invoiceStrId, LocalDate invoiceDate, LocalDate invoiceDueDate, Long invoiceCustomerId, String invoiceCustomerName, String invoiceCustomerGst, String invoiceCustomerEmail, String invoiceCustomerState, String invoiceCustomerStateCode, String invoiceCustomerAddress, String invoiceShippingAddress, CurrencyType invoiceCurrency, BigDecimal invoiceExchangeRate, BigDecimal invoiceSubTotal, BigDecimal invoiceDiscountPercent, BigDecimal invoiceTaxPercent, BigDecimal invoiceShippingCharges, BigDecimal invoiceOtherCharges, BigDecimal invoiceRoundOff, BigDecimal invoiceTotalAmount, BigDecimal invoiceTotalAmountInr, BigDecimal invoicePaidAmount, InvoiceStatus invoiceStatus, String invoicePlaceOfSupply, String invoiceTerms, String invoiceNotes, String invoiceReferenceNumber, String invoicePoNumber, String invoiceEwayBillNumber, PaymentMode invoicePaymentMode, String invoicePdfUrl, byte[] invoicePdfData, String invoicePdfContentType, String invoiceAttachmentUrl, String invoiceSignatureUrl, String invoiceAuthorizedSignatory, Boolean invoiceIsRecurring, String invoiceRecurringFrequency, Long invoiceConvertedFromProformaId, String invoiceTemplateId, byte[] invoicePdfBlob, String invoicePdfFileName, List<InvoiceItemEntity> invoiceItems, LocalDateTime invoiceCreatedAt, LocalDateTime invoiceUpdatedAt) {
+    public InvoiceEntity(Long invoicePrimeId, String invoiceStrId, LocalDate invoiceDate, LocalDate invoiceDueDate, Long invoiceCustomerId, String invoiceCustomerName, String invoiceCustomerGst, String invoiceCustomerEmail, String invoiceCustomerState, String invoiceCustomerStateCode, String invoiceCustomerAddress, String invoiceShippingAddress, CurrencyType invoiceCurrency, BigDecimal invoiceExchangeRate, BigDecimal invoiceSubTotal, BigDecimal invoiceDiscountPercent,
+                         BigDecimal invoiceTaxPercent, BigDecimal invoiceShippingCharges,
+                         BigDecimal invoiceOtherCharges, BigDecimal invoiceRoundOff,
+                         BigDecimal invoiceTotalAmount, BigDecimal invoiceTotalAmountInr,
+                         BigDecimal invoicePaidAmount, InvoiceStatus invoiceStatus,
+                         String invoicePlaceOfSupply, String invoiceTerms, String invoiceNotes,
+                         String invoiceReferenceNumber, String invoicePoNumber,
+                         String invoiceEwayBillNumber, PaymentMode invoicePaymentMode,
+                         String invoicePdfUrl, String invoicePdfContentType,
+                         String invoiceAttachmentUrl, String invoiceSignatureUrl, String invoiceAuthorizedSignatory,
+                         Boolean invoiceIsRecurring, String invoiceRecurringFrequency,
+                         Long invoiceConvertedFromProformaId, String invoiceTemplateId,
+                         byte[] invoicePdfBlob, String invoicePdfFileName, List<InvoiceItemEntity> invoiceItems,
+                         LocalDateTime invoiceCreatedAt, LocalDateTime invoiceUpdatedAt, String refNumber, String invoiceProjectCode) {
         this.invoicePrimeId = invoicePrimeId;
         this.invoiceStrId = invoiceStrId;
         this.invoiceDate = invoiceDate;
@@ -235,7 +248,7 @@ public class InvoiceEntity {
         this.invoiceEwayBillNumber = invoiceEwayBillNumber;
         this.invoicePaymentMode = invoicePaymentMode;
         this.invoicePdfUrl = invoicePdfUrl;
-        this.invoicePdfData = invoicePdfData;
+
         this.invoicePdfContentType = invoicePdfContentType;
         this.invoiceAttachmentUrl = invoiceAttachmentUrl;
         this.invoiceSignatureUrl = invoiceSignatureUrl;
@@ -249,6 +262,8 @@ public class InvoiceEntity {
         this.invoiceItems = invoiceItems;
         this.invoiceCreatedAt = invoiceCreatedAt;
         this.invoiceUpdatedAt = invoiceUpdatedAt;
+        this.refNumber = refNumber;
+        this.invoiceProjectCode = invoiceProjectCode;
     }
 
     public InvoiceEntity(){}
@@ -509,13 +524,6 @@ public class InvoiceEntity {
         this.invoicePdfUrl = invoicePdfUrl;
     }
 
-    public byte[] getInvoicePdfData() {
-        return invoicePdfData;
-    }
-
-    public void setInvoicePdfData(byte[] invoicePdfData) {
-        this.invoicePdfData = invoicePdfData;
-    }
 
     public String getInvoicePdfContentType() {
         return invoicePdfContentType;
@@ -619,5 +627,21 @@ public class InvoiceEntity {
 
     public void setInvoiceUpdatedAt(LocalDateTime invoiceUpdatedAt) {
         this.invoiceUpdatedAt = invoiceUpdatedAt;
+    }
+
+    public String getRefNumber() {
+        return refNumber;
+    }
+
+    public void setRefNumber(String refNumber) {
+        this.refNumber = refNumber;
+    }
+
+    public String getInvoiceProjectCode() {
+        return invoiceProjectCode;
+    }
+
+    public void setInvoiceProjectCode(String invoiceProjectCode) {
+        this.invoiceProjectCode = invoiceProjectCode;
     }
 }

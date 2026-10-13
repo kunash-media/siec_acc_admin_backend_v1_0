@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
 @Builder
 public class ProformaItemResponseDto {
     private Long proformaItemPrimeId;
@@ -18,9 +17,12 @@ public class ProformaItemResponseDto {
     private BigDecimal proformaItemGstPercent;
     private BigDecimal proformaItemAmount;
 
+    private Long proformaItemVariantId;
+    private String proformaItemDescription;
+
     public ProformaItemResponseDto(){}
 
-    public ProformaItemResponseDto(Long proformaItemPrimeId, Long proformaItemProductId, String proformaItemName, String proformaItemHsnCode, String proformaItemUnit, BigDecimal proformaItemQty, BigDecimal proformaItemRate, BigDecimal proformaItemGstPercent, BigDecimal proformaItemAmount) {
+    public ProformaItemResponseDto(Long proformaItemPrimeId, Long proformaItemProductId, String proformaItemName, String proformaItemHsnCode, String proformaItemUnit, BigDecimal proformaItemQty, BigDecimal proformaItemRate, BigDecimal proformaItemGstPercent, BigDecimal proformaItemAmount, Long proformaItemVariantId, String proformaItemDescription) {
         this.proformaItemPrimeId = proformaItemPrimeId;
         this.proformaItemProductId = proformaItemProductId;
         this.proformaItemName = proformaItemName;
@@ -30,6 +32,9 @@ public class ProformaItemResponseDto {
         this.proformaItemRate = proformaItemRate;
         this.proformaItemGstPercent = proformaItemGstPercent;
         this.proformaItemAmount = proformaItemAmount;
+        this.proformaItemVariantId = proformaItemVariantId;
+        this.proformaItemDescription = proformaItemDescription;
+
     }
 
     public Long getProformaItemPrimeId() {
@@ -102,5 +107,21 @@ public class ProformaItemResponseDto {
 
     public void setProformaItemAmount(BigDecimal proformaItemAmount) {
         this.proformaItemAmount = proformaItemAmount;
+    }
+
+    public String getProformaItemDescription() {
+        return proformaItemDescription;
+    }
+
+    public void setProformaItemDescription(String proformaItemDescription) {
+        this.proformaItemDescription = proformaItemDescription;
+    }
+
+    public Long getProformaItemVariantId() {
+        return proformaItemVariantId;
+    }
+
+    public void setProformaItemVariantId(Long proformaItemVariantId) {
+        this.proformaItemVariantId = proformaItemVariantId;
     }
 }

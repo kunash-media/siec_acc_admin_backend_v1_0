@@ -61,9 +61,15 @@ public class ProformaResponseDto {
     private LocalDateTime proformaCreatedAt;
     private LocalDateTime proformaUpdatedAt;
 
+    private String proformaProjectCode;
+
     public ProformaResponseDto(){}
 
-    public ProformaResponseDto(Long proformaPrimeId, String proformaStrId, LocalDate proformaDate, LocalDate proformaValidUntil, Long proformaCustomerId, String proformaCustomerName, String proformaCustomerGst, String proformaCustomerEmail, String proformaCustomerState, String proformaCustomerStateCode, String proformaCustomerAddress, String proformaShippingAddress, CurrencyType proformaCurrency, BigDecimal proformaExchangeRate, BigDecimal proformaSubTotal, BigDecimal proformaDiscountPercent, BigDecimal proformaTaxPercent, BigDecimal proformaShippingCharges, BigDecimal proformaOtherCharges, BigDecimal proformaRoundOff, BigDecimal proformaTotalAmount, BigDecimal proformaTotalAmountInr, ProformaStatus proformaStatus, String proformaPlaceOfSupply, String proformaTerms, String proformaNotes, String proformaReferenceNumber, String proformaPoNumber, String proformaPdfUrl, String proformaAttachmentUrl, String proformaSignatureUrl, String proformaAuthorizedSignatory, Long proformaConvertedToInvoiceId, List<ProformaItemResponseDto> proformaItems, LocalDateTime proformaCreatedAt, LocalDateTime proformaUpdatedAt) {
+    public ProformaResponseDto(Long proformaPrimeId, String proformaStrId, LocalDate proformaDate, LocalDate proformaValidUntil, Long proformaCustomerId, String proformaCustomerName, String proformaCustomerGst, String proformaCustomerEmail, String proformaCustomerState, String proformaCustomerStateCode, String proformaCustomerAddress,
+                               String proformaShippingAddress, CurrencyType proformaCurrency, BigDecimal proformaExchangeRate, BigDecimal proformaSubTotal, BigDecimal proformaDiscountPercent, BigDecimal proformaTaxPercent, BigDecimal proformaShippingCharges, BigDecimal proformaOtherCharges, BigDecimal proformaRoundOff, BigDecimal proformaTotalAmount, BigDecimal proformaTotalAmountInr, ProformaStatus proformaStatus, String proformaPlaceOfSupply, String proformaTerms, String proformaNotes,
+                               String proformaReferenceNumber, String proformaPoNumber, String proformaPdfUrl, String proformaAttachmentUrl, String proformaSignatureUrl, String proformaAuthorizedSignatory, Long proformaConvertedToInvoiceId,
+                               List<ProformaItemResponseDto> proformaItems, LocalDateTime proformaCreatedAt,
+                               LocalDateTime proformaUpdatedAt, String proformaProjectCode) {
         this.proformaPrimeId = proformaPrimeId;
         this.proformaStrId = proformaStrId;
         this.proformaDate = proformaDate;
@@ -100,6 +106,7 @@ public class ProformaResponseDto {
         this.proformaItems = proformaItems;
         this.proformaCreatedAt = proformaCreatedAt;
         this.proformaUpdatedAt = proformaUpdatedAt;
+        this.proformaProjectCode = proformaProjectCode;
     }
 
     public Long getProformaPrimeId() {
@@ -388,5 +395,13 @@ public class ProformaResponseDto {
 
     public void setProformaUpdatedAt(LocalDateTime proformaUpdatedAt) {
         this.proformaUpdatedAt = proformaUpdatedAt;
+    }
+
+    public String getProformaProjectCode() {
+        return proformaProjectCode;
+    }
+
+    public void setProformaProjectCode(String proformaProjectCode) {
+        this.proformaProjectCode = proformaProjectCode;
     }
 }

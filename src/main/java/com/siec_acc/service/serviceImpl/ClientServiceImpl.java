@@ -443,7 +443,11 @@ public class ClientServiceImpl implements ClientService {
                         c.getClientCustomerType(),
                         c.getClientEmail(),
                         c.getClientPhone(),
-                        c.getClientCountry()
+                        c.getClientCountry(),
+                        c.getClientGstin(),
+                        c.getClientState(),
+                        c.getClientPincode(),
+                        c.getClientShippingAddress()
                         )
                 )
 

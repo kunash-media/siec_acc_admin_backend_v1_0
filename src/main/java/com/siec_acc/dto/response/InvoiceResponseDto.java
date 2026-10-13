@@ -70,9 +70,26 @@ public class InvoiceResponseDto {
     private LocalDateTime invoiceCreatedAt;
     private LocalDateTime invoiceUpdatedAt;
 
+    private  String refNumber;
+    private String invoiceProjectCode;
+
     public InvoiceResponseDto(){}
 
-    public InvoiceResponseDto(Long invoicePrimeId, String invoiceStrId, LocalDate invoiceDate, LocalDate invoiceDueDate, Long invoiceCustomerId, String invoiceCustomerName, String invoiceCustomerGst, String invoiceCustomerEmail, String invoiceCustomerState, String invoiceCustomerStateCode, String invoiceCustomerAddress, String invoiceShippingAddress, CurrencyType invoiceCurrency, BigDecimal invoiceExchangeRate, BigDecimal invoiceSubTotal, BigDecimal invoiceDiscountPercent, BigDecimal invoiceTaxPercent, BigDecimal invoiceShippingCharges, BigDecimal invoiceOtherCharges, BigDecimal invoiceRoundOff, BigDecimal invoiceTotalAmount, BigDecimal invoiceTotalAmountInr, BigDecimal invoicePaidAmount, BigDecimal invoiceBalanceDue, InvoiceStatus invoiceStatus, String invoicePlaceOfSupply, String invoiceTerms, String invoiceNotes, String invoiceReferenceNumber, String invoicePoNumber, String invoiceEwayBillNumber, PaymentMode invoicePaymentMode, String invoicePdfUrl, String invoiceAttachmentUrl, String invoiceSignatureUrl, String invoiceAuthorizedSignatory, Boolean invoiceIsRecurring, String invoiceRecurringFrequency, Long invoiceConvertedFromProformaId, String invoiceTemplateId, List<InvoiceItemResponseDto> invoiceItems, LocalDateTime invoiceCreatedAt, LocalDateTime invoiceUpdatedAt) {
+    public InvoiceResponseDto(Long invoicePrimeId, String invoiceStrId, LocalDate invoiceDate, LocalDate invoiceDueDate,
+                              Long invoiceCustomerId, String invoiceCustomerName,
+                              String invoiceCustomerGst, String invoiceCustomerEmail,
+                              String invoiceCustomerState, String invoiceCustomerStateCode,
+                              String invoiceCustomerAddress, String invoiceShippingAddress,
+                              CurrencyType invoiceCurrency, BigDecimal invoiceExchangeRate,
+                              BigDecimal invoiceSubTotal, BigDecimal invoiceDiscountPercent,
+                              BigDecimal invoiceTaxPercent, BigDecimal invoiceShippingCharges,
+                              BigDecimal invoiceOtherCharges, BigDecimal invoiceRoundOff,
+                              BigDecimal invoiceTotalAmount, BigDecimal invoiceTotalAmountInr,
+                              BigDecimal invoicePaidAmount, BigDecimal invoiceBalanceDue,
+                              InvoiceStatus invoiceStatus, String invoicePlaceOfSupply,
+                              String invoiceTerms, String invoiceNotes, String invoiceReferenceNumber,
+                              String invoicePoNumber, String invoiceEwayBillNumber, PaymentMode invoicePaymentMode, String invoicePdfUrl, String invoiceAttachmentUrl, String invoiceSignatureUrl, String invoiceAuthorizedSignatory, Boolean invoiceIsRecurring, String invoiceRecurringFrequency, Long invoiceConvertedFromProformaId, String invoiceTemplateId, List<InvoiceItemResponseDto> invoiceItems,
+                              LocalDateTime invoiceCreatedAt, LocalDateTime invoiceUpdatedAt, String refNumber, String invoiceProjectCode) {
         this.invoicePrimeId = invoicePrimeId;
         this.invoiceStrId = invoiceStrId;
         this.invoiceDate = invoiceDate;
@@ -116,6 +133,8 @@ public class InvoiceResponseDto {
         this.invoiceItems = invoiceItems;
         this.invoiceCreatedAt = invoiceCreatedAt;
         this.invoiceUpdatedAt = invoiceUpdatedAt;
+        this.refNumber = refNumber;
+        this.invoiceProjectCode = invoiceProjectCode;
     }
 
     public Long getInvoicePrimeId() {
@@ -460,5 +479,21 @@ public class InvoiceResponseDto {
 
     public void setInvoiceUpdatedAt(LocalDateTime invoiceUpdatedAt) {
         this.invoiceUpdatedAt = invoiceUpdatedAt;
+    }
+
+    public String getRefNumber() {
+        return refNumber;
+    }
+
+    public void setRefNumber(String refNumber) {
+        this.refNumber = refNumber;
+    }
+
+    public String getInvoiceProjectCode() {
+        return invoiceProjectCode;
+    }
+
+    public void setInvoiceProjectCode(String invoiceProjectCode) {
+        this.invoiceProjectCode = invoiceProjectCode;
     }
 }

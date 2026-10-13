@@ -90,6 +90,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .invoiceRecurringFrequency(requestDto.getInvoiceRecurringFrequency())
                 .invoiceConvertedFromProformaId(requestDto.getInvoiceConvertedFromProformaId())
                 .invoiceTemplateId(requestDto.getInvoiceTemplateId())
+                .refNumber(requestDto.getRefNumber())
+                .invoiceProjectCode(requestDto.getInvoiceProjectCode())
                 .build();
 
         attachItems(entity, requestDto.getInvoiceItems());
@@ -165,7 +167,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         entity.setInvoiceIsRecurring(defaultIfNull(requestDto.getInvoiceIsRecurring(), entity.getInvoiceIsRecurring()));
         entity.setInvoiceRecurringFrequency(requestDto.getInvoiceRecurringFrequency());
         entity.setInvoiceTemplateId(requestDto.getInvoiceTemplateId());
-
+        entity.setRefNumber(requestDto.getRefNumber());
+        entity.setInvoiceProjectCode(requestDto.getInvoiceProjectCode());
         entity.getInvoiceItems().clear();
         attachItems(entity, requestDto.getInvoiceItems());
         applyTotals(entity);
@@ -358,6 +361,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                     .invoiceItemRate(dto.getInvoiceItemRate())
                     .invoiceItemGstPercent(defaultIfNull(dto.getInvoiceItemGstPercent(), BigDecimal.ZERO))
                     .invoiceItemAmount(amount)
+                    .invoiceItemVariantId(dto.getInvoiceItemVariantId())
+                    .invoiceItemDescription(dto.getInvoiceItemDescription())
                     .build();
             items.add(item);
         }
@@ -416,6 +421,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                         .invoiceItemRate(i.getInvoiceItemRate())
                         .invoiceItemGstPercent(i.getInvoiceItemGstPercent())
                         .invoiceItemAmount(i.getInvoiceItemAmount())
+                        .invoiceItemVariantId(i.getInvoiceItemVariantId())
+                        .invoiceItemDescription(i.getInvoiceItemDescription())
                         .build())
                 .collect(Collectors.toList());
 
@@ -466,6 +473,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .invoiceItems(items)
                 .invoiceCreatedAt(entity.getInvoiceCreatedAt())
                 .invoiceUpdatedAt(entity.getInvoiceUpdatedAt())
+                .refNumber(entity.getRefNumber())
+                .invoiceProjectCode(entity.getInvoiceProjectCode())
                 .build();
     }
 

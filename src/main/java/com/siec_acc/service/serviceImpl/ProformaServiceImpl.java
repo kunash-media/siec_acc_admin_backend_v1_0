@@ -97,6 +97,8 @@ public class ProformaServiceImpl implements ProformaService {
                 .proformaAttachmentUrl(requestDto.getProformaAttachmentUrl())
                 .proformaSignatureUrl(requestDto.getProformaSignatureUrl())
                 .proformaAuthorizedSignatory(requestDto.getProformaAuthorizedSignatory())
+                .proformaProjectCode(requestDto.getProformaProjectCode())
+
                 .build();
 
         attachItems(entity, requestDto.getProformaItems());
@@ -447,6 +449,8 @@ public class ProformaServiceImpl implements ProformaService {
                         .proformaItemRate(i.getProformaItemRate())
                         .proformaItemGstPercent(i.getProformaItemGstPercent())
                         .proformaItemAmount(i.getProformaItemAmount())
+                        .proformaItemVariantId(i.getProformaItemVariantId())
+                        .proformaItemDescription(i.getProformaItemDescription())
                         .build())
                 .collect(Collectors.toList());
 
@@ -487,6 +491,7 @@ public class ProformaServiceImpl implements ProformaService {
                 .proformaItems(items)
                 .proformaCreatedAt(entity.getProformaCreatedAt())
                 .proformaUpdatedAt(entity.getProformaUpdatedAt())
+                .proformaProjectCode(entity.getProformaProjectCode())
                 .build();
     }
 

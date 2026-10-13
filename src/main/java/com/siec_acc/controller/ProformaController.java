@@ -42,7 +42,7 @@ public class ProformaController {
     //   - "file"     -> the generated proforma PDF (optional; can be uploaded
     //                   later via /{proformaPrimeId}/upload-pdf instead)
     // Both are saved together in one call instead of create-then-upload.
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProformaResponseDto> createProforma(
             @RequestPart("proforma") @Valid ProformaRequestDto requestDto,
             @RequestPart(value = "file", required = false) MultipartFile file) {

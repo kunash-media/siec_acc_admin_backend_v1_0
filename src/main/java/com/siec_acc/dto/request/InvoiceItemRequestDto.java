@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Builder
 public class InvoiceItemRequestDto {
 
-    // TODO: wire to real Product/Item module once mapping is confirmed.
     private Long invoiceItemProductId;
 
     @NotBlank(message = "Item name is required")
@@ -33,9 +32,13 @@ public class InvoiceItemRequestDto {
 
     private BigDecimal invoiceItemGstPercent;
 
+    private Long invoiceItemVariantId;
+
+    private String invoiceItemDescription;
+
     public InvoiceItemRequestDto(){}
 
-    public InvoiceItemRequestDto(Long invoiceItemProductId, String invoiceItemName, String invoiceItemHsnCode, String invoiceItemUnit, BigDecimal invoiceItemQty, BigDecimal invoiceItemRate, BigDecimal invoiceItemGstPercent) {
+    public InvoiceItemRequestDto(Long invoiceItemProductId, String invoiceItemName, String invoiceItemHsnCode, String invoiceItemUnit, BigDecimal invoiceItemQty, BigDecimal invoiceItemRate, BigDecimal invoiceItemGstPercent, Long invoiceItemVariantId, String invoiceItemDescription) {
         this.invoiceItemProductId = invoiceItemProductId;
         this.invoiceItemName = invoiceItemName;
         this.invoiceItemHsnCode = invoiceItemHsnCode;
@@ -43,6 +46,8 @@ public class InvoiceItemRequestDto {
         this.invoiceItemQty = invoiceItemQty;
         this.invoiceItemRate = invoiceItemRate;
         this.invoiceItemGstPercent = invoiceItemGstPercent;
+        this.invoiceItemVariantId = invoiceItemVariantId;
+        this.invoiceItemDescription = invoiceItemDescription;
     }
 
     public Long getInvoiceItemProductId() {
@@ -99,5 +104,21 @@ public class InvoiceItemRequestDto {
 
     public void setInvoiceItemGstPercent(BigDecimal invoiceItemGstPercent) {
         this.invoiceItemGstPercent = invoiceItemGstPercent;
+    }
+
+    public Long getInvoiceItemVariantId() {
+        return invoiceItemVariantId;
+    }
+
+    public void setInvoiceItemVariantId(Long invoiceItemVariantId) {
+        this.invoiceItemVariantId = invoiceItemVariantId;
+    }
+
+    public String getInvoiceItemDescription() {
+        return invoiceItemDescription;
+    }
+
+    public void setInvoiceItemDescription(String invoiceItemDescription) {
+        this.invoiceItemDescription = invoiceItemDescription;
     }
 }

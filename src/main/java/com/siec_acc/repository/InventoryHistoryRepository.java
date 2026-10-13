@@ -10,4 +10,6 @@ import java.util.List;
 public interface InventoryHistoryRepository extends JpaRepository<InventoryHistoryEntity, Long> {
     List<InventoryHistoryEntity> findByProductStrIdOrderByHistoryCreatedAtDesc(String productStrId);
     List<InventoryHistoryEntity> findByVariantStrIdOrderByHistoryCreatedAtDesc(String variantStrId);
+
+    List<InventoryHistoryEntity> findByProductStrIdAndVariantStrIdIsNullOrderByHistoryCreatedAtDesc(String productStrId);
 }

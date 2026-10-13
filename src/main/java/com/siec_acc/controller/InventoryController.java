@@ -101,4 +101,17 @@ public class InventoryController {
         logger.info("API HIT: PATCH /adjust-stock/{}", productStrId);
         return ResponseEntity.ok(ApiResponse.success("Stock adjusted successfully.", inventoryService.adjustStock(productStrId, requestDTO)));
     }
+
+    @PatchMapping("/adjust-variant-stock/{variantStrId}")
+    public ResponseEntity<ApiResponse<InventoryResponseDTO>> adjustVariantStock(
+            @PathVariable String variantStrId, @RequestBody InventoryAdjustDTO requestDTO) {
+        logger.info("API HIT: PATCH /adjust-variant-stock/{}", variantStrId);
+        return ResponseEntity.ok(ApiResponse.success("Variant stock adjusted successfully.", inventoryService.adjustVariantStock(variantStrId, requestDTO)));
+    }
+
+    @GetMapping("/get-variant-history/{variantStrId}")
+    public ResponseEntity<ApiResponse<List<InventoryHistoryResponseDTO>>> getVariantHistory(@PathVariable String variantStrId) {
+        logger.info("API HIT: GET /get-variant-history/{}", variantStrId);
+        return ResponseEntity.ok(ApiResponse.success("History fetched successfully.", inventoryService.getVariantHistory(variantStrId)));
+    }
 }

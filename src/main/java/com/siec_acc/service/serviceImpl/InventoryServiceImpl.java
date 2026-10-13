@@ -157,6 +157,56 @@ public class InventoryServiceImpl implements InventoryService {
         return changeVariantStock(variantStrId, requestDTO, false);
     }
 
+
+    @Override
+    @Transactional
+    public InventoryResponseDTO adjustVariantStock(String variantStrId, InventoryAdjustDTO requestDTO) {
+        BigDecimal qty = requestDTO.getChangeQty();
+        if (qty == null || qty.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("Adjustment quantity must be non-zero.");
+        }
+        WarehouseEntity warehouse = qty.signum() > 0
+                ? warehouseService.resolveActiveWarehouse(requestDTO.getWarehouseStrId())
+                : warehouseService.resolveWarehouse(requestDTO.getWarehouseStrId());
+        InventoryEntity inventory = qty.signum() > 0
+                ? stockSupport.lockOrCreateVariantRow(variantStrId, warehouse)
+                : inventoryRepository.findVariantRowForUpdate(variantStrId, warehouse.getWarehouseStrId())
+                .orElseThrow(() -> new ResourceNotFoundException("No inventory record found for variant ID '" + variantStrId
+                        + "' in warehouse '" + warehouse.getWarehouseStrId() + "'."));
+        BigDecimal previousStock = current(inventory);
+        BigDecimal newStock = previousStock.add(qty);
+        if (newStock.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Insufficient stock. Available: " + previousStock + ", adjustment: " + qty
+                    + " (warehouse " + warehouse.getWarehouseStrId() + ")");
+        }
+        inventory.setProductStock(newStock);
+        InventoryEntity saved = inventoryRepository.save(inventory);
+        VariantEntity variant = saved.getVariant();
+        variant.setVariantStock(stockSupport.variantTotal(variant.getVariantPrimeId()));
+        String remarks = "[" + (requestDTO.getReason() != null ? requestDTO.getReason() : "Other") + "]"
+                + (requestDTO.getRemarks() != null && !requestDTO.getRemarks().isBlank() ? " " + requestDTO.getRemarks() : "");
+        stockSupport.recordVariantHistory(variant, warehouse, "ADJUSTMENT", previousStock, newStock, qty, remarks);
+        return mapToResponse(saved);
+    }
+
+    @Override
+    public List<InventoryHistoryResponseDTO> getVariantHistory(String variantStrId) {
+        if (variantRepository.findByVariantStrId(variantStrId).isEmpty()) {
+            throw new ResourceNotFoundException("No variant found with ID '" + variantStrId + "'.");
+        }
+        return inventoryHistoryRepository.findByVariantStrIdOrderByHistoryCreatedAtDesc(variantStrId).stream()
+                .map(h -> InventoryHistoryResponseDTO.builder()
+                        .historyStrId(h.getHistoryStrId())
+                        .historyChangeType(h.getHistoryChangeType())
+                        .historyPreviousStock(h.getHistoryPreviousStock())
+                        .historyNewStock(h.getHistoryNewStock())
+                        .historyChangeQty(h.getHistoryChangeQty())
+                        .historyRemarks(h.getHistoryRemarks())
+                        .historyCreatedAt(h.getHistoryCreatedAt())
+                        .warehouseStrId(h.getWarehouseStrId())
+                        .build()).collect(Collectors.toList());
+    }
+
     // ---------- helpers ----------
 
     private String rowStatus(BigDecimal stock) {
@@ -294,7 +344,7 @@ public class InventoryServiceImpl implements InventoryService {
         if (productRepository.findByProductStrId(productStrId).isEmpty()) {
             throw new ResourceNotFoundException("No product found with ID '" + productStrId + "'.");
         }
-        return inventoryHistoryRepository.findByProductStrIdOrderByHistoryCreatedAtDesc(productStrId).stream()
+        return inventoryHistoryRepository.findByProductStrIdAndVariantStrIdIsNullOrderByHistoryCreatedAtDesc(productStrId).stream()
                 .map(h -> InventoryHistoryResponseDTO.builder()
                         .historyStrId(h.getHistoryStrId())
                         .historyChangeType(h.getHistoryChangeType())
