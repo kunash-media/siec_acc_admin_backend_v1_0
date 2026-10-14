@@ -1,5 +1,6 @@
 package com.siec_acc.dto.response;
 
+
 public class VendorListDto {
     private Long vendorPrimeId;
     private String vendorStrId;

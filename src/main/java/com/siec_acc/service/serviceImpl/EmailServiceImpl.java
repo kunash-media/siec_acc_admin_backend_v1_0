@@ -51,6 +51,10 @@ public class EmailServiceImpl implements EmailService {
     @Value("${app.mail.company-name:SIEC}")
     private String companyName;
 
+    // Public base URL used to build the clickable PDF link in emails.
+    @Value("${app.public.base-url:http://localhost:9093}")
+    private String publicBaseUrl;
+
     // ---------------------------------------------------------------
     // GENERIC SEND
     // ---------------------------------------------------------------
@@ -80,20 +84,27 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new InvoiceNotFoundException(
                         "Invoice not found with id: " + requestDto.getInvoicePrimeId()));
 
+        String pdfLink = buildPublicUrl(invoice.getInvoicePdfUrl());
+
         String subject = "Invoice " + invoice.getInvoiceStrId() + " from " + companyName;
-        String body = "Dear " + safe(invoice.getInvoiceCustomerName()) + ",\n\n"
-                + "Please find attached your invoice " + invoice.getInvoiceStrId()
-                + " dated " + invoice.getInvoiceDate()
-                + " for an amount of " + invoice.getInvoiceCurrency() + " " + invoice.getInvoiceTotalAmount() + ".\n"
-                + "Due date: " + invoice.getInvoiceDueDate() + "\n\n"
-                + "Regards,\n" + companyName;
+        StringBuilder body = new StringBuilder();
+        body.append("Dear ").append(safe(invoice.getInvoiceCustomerName())).append(",\n\n")
+                .append("Please find your invoice ").append(invoice.getInvoiceStrId())
+                .append(" dated ").append(invoice.getInvoiceDate())
+                .append(" for an amount of ").append(invoice.getInvoiceCurrency())
+                .append(" ").append(invoice.getInvoiceTotalAmount()).append(".\n")
+                .append("Due date: ").append(invoice.getInvoiceDueDate()).append("\n\n");
+        if (pdfLink != null) {
+            body.append("View / download your invoice (PDF):\n").append(pdfLink).append("\n\n");
+        }
+        body.append("Regards,\n").append(companyName);
 
         EmailRequestDto emailRequest = EmailRequestDto.builder()
                 .toEmail(requestDto.getToEmail())
                 .subject(subject)
-                .body(body)
+                .body(body.toString())
                 .html(false)
-                .attachmentUrl(invoice.getInvoicePdfUrl())
+                .attachmentUrl(pdfLink)
                 .attachmentFileName(invoice.getInvoiceStrId().replace("/", "-") + ".pdf")
                 .build();
 
@@ -109,20 +120,27 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new ProformaNotFoundException(
                         "Proforma invoice not found with id: " + requestDto.getProformaPrimeId()));
 
+        String pdfLink = buildPublicUrl(proforma.getProformaPdfUrl());
+
         String subject = "Proforma Invoice " + proforma.getProformaStrId() + " from " + companyName;
-        String body = "Dear " + safe(proforma.getProformaCustomerName()) + ",\n\n"
-                + "Please find attached your proforma invoice " + proforma.getProformaStrId()
-                + " dated " + proforma.getProformaDate()
-                + " for an amount of " + proforma.getProformaCurrency() + " " + proforma.getProformaTotalAmount() + ".\n"
-                + "Valid until: " + proforma.getProformaValidUntil() + "\n\n"
-                + "Regards,\n" + companyName;
+        StringBuilder body = new StringBuilder();
+        body.append("Dear ").append(safe(proforma.getProformaCustomerName())).append(",\n\n")
+                .append("Please find your proforma invoice ").append(proforma.getProformaStrId())
+                .append(" dated ").append(proforma.getProformaDate())
+                .append(" for an amount of ").append(proforma.getProformaCurrency())
+                .append(" ").append(proforma.getProformaTotalAmount()).append(".\n")
+                .append("Valid until: ").append(proforma.getProformaValidUntil()).append("\n\n");
+        if (pdfLink != null) {
+            body.append("View / download your proforma invoice (PDF):\n").append(pdfLink).append("\n\n");
+        }
+        body.append("Regards,\n").append(companyName);
 
         EmailRequestDto emailRequest = EmailRequestDto.builder()
                 .toEmail(requestDto.getToEmail())
                 .subject(subject)
-                .body(body)
+                .body(body.toString())
                 .html(false)
-                .attachmentUrl(proforma.getProformaPdfUrl())
+                .attachmentUrl(pdfLink)
                 .attachmentFileName(proforma.getProformaStrId().replace("/", "-") + ".pdf")
                 .build();
 
@@ -133,8 +151,7 @@ public class EmailServiceImpl implements EmailService {
     // DISPATCH
     // ---------------------------------------------------------------
     private void dispatch(EmailRequestDto requestDto) {
-        // Placeholder simple-text send. Swap for MimeMessageHelper +
-        // attachment-by-URL once the real PDF storage / provider API is ready.
+        // Plain-text send; the PDF is delivered as a link inside the body.
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromAddress);
         message.setTo(requestDto.getToEmail());
@@ -144,6 +161,25 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(requestDto.getSubject());
         message.setText(requestDto.getBody());
         mailSender.send(message);
+    }
+
+    // ---------------------------------------------------------------
+    // HELPERS
+    // ---------------------------------------------------------------
+    // baseUrl + stored pdfUrl. Returns null when no PDF url is stored yet,
+    // and leaves already-absolute URLs untouched.
+    private String buildPublicUrl(String pdfUrl) {
+        if (pdfUrl == null || pdfUrl.isBlank()) {
+            return null;
+        }
+        if (pdfUrl.startsWith("http://") || pdfUrl.startsWith("https://")) {
+            return pdfUrl;
+        }
+        String base = publicBaseUrl.endsWith("/")
+                ? publicBaseUrl.substring(0, publicBaseUrl.length() - 1)
+                : publicBaseUrl;
+        String path = pdfUrl.startsWith("/") ? pdfUrl : "/" + pdfUrl;
+        return base + path;
     }
 
     private String safe(String value) {

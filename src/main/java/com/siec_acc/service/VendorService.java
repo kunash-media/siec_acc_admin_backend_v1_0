@@ -6,31 +6,21 @@ import com.siec_acc.dto.response.VendorListDto;
 import com.siec_acc.dto.response.VendorQuickCreateResponseDto;
 import com.siec_acc.dto.response.VendorResponseDto;
 import com.siec_acc.dto.response.VendorResponseDto.PagedResponseDto;
-
-import java.util.List;
+import org.jspecify.annotations.Nullable;
 
 public interface VendorService {
 
     VendorResponseDto createVendorWithDocuments(VendorRequestDto dto, java.util.List<org.springframework.web.multipart.MultipartFile> documents);
-
     VendorResponseDto getVendorByVendorId(String vendorId);
-
     PagedResponseDto<VendorResponseDto> getAllVendors(int page, int size, String sortBy, String sortDir);
-
     VendorResponseDto updateVendorWithDocuments(String vendorId, VendorRequestDto dto, java.util.List<org.springframework.web.multipart.MultipartFile> documents);
-
     VendorResponseDto patchVendor(String vendorId, VendorRequestDto dto, java.util.List<org.springframework.web.multipart.MultipartFile> documents);
-
     void deleteVendor(String vendorId);
-
     DocumentContent getVendorDocument(String vendorId, Long documentId);
-
     void deleteVendorDocument(String vendorId, Long documentId);
-
-    List<VendorListDto> getAllVendorList();
+    java.util.List<VendorListDto> getAllVendorList();
 
     VendorQuickCreateResponseDto quickCreateVendor(VendorQuickCreateRequestDto requestDto);
-
 
     class DocumentContent {
         private final byte[] data;
@@ -42,17 +32,8 @@ public interface VendorService {
             this.contentType = contentType;
             this.fileName = fileName;
         }
-
-        public byte[] getData() {
-            return data;
-        }
-
-        public String getContentType() {
-            return contentType;
-        }
-
-        public String getFileName() {
-            return fileName;
-        }
+        public byte[] getData() { return data; }
+        public String getContentType() { return contentType; }
+        public String getFileName() { return fileName; }
     }
 }

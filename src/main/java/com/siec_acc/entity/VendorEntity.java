@@ -199,6 +199,7 @@ public class VendorEntity {
     public void setDocuments(List<VendorDocument> v) {
         documents = v;
     }
+
     @Embeddable
     public static class SecondaryContact {
         @Column(name = "contact_name")
