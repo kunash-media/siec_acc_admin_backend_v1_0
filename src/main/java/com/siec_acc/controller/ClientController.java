@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -83,6 +85,12 @@ public class ClientController {
         return ResponseEntity.ok(ApiResponse.success("Meta fetched successfully.", response));
     }
 
+
+    @GetMapping("/get-client-types")
+    public ResponseEntity<ApiResponse<List<String>>> getClientTypes() {
+        return ResponseEntity.ok(ApiResponse.success("Client types fetched.", clientService.getClientTypes()));
+    }
+
     //========= client list =======//
     @GetMapping("/client-list")
     public ResponseEntity<ClientListPageDto> getClientList(
@@ -91,4 +99,6 @@ public class ClientController {
             @RequestParam(required = false) String search) {
         return ResponseEntity.ok(clientService.getClientList(page, size, search));
     }
+
+
 }

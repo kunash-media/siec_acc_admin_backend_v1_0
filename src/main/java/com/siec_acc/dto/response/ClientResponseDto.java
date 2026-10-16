@@ -18,14 +18,13 @@ public class ClientResponseDto {
     private String shippingAddress;
     private String city;
     private String state;
-    private String stateCode;
     private String pincode;
     private String paymentTerms;
     private BigDecimal creditLimit;
     private Boolean gstRegistered;
     private String status;
     private BigDecimal receivable;
-    private String createdAt;   // yyyy-MM-dd
+    private String createdAt;
     private String color;
     private String clientCountry;
 
@@ -34,7 +33,7 @@ public class ClientResponseDto {
 
     public ClientResponseDto(String id, String name, String companyName, String customerType, String gstin,
                              String pan, String email, String phone, String billingAddress, String shippingAddress,
-                             String city, String state, String stateCode,String clientCountry, String pincode, String paymentTerms,
+                             String city, String state, String clientCountry, String pincode, String paymentTerms,
                              BigDecimal creditLimit, Boolean gstRegistered, String status, BigDecimal receivable,
                              String createdAt, String color) {
         this.id = id;
@@ -49,7 +48,7 @@ public class ClientResponseDto {
         this.shippingAddress = shippingAddress;
         this.city = city;
         this.state = state;
-        this.stateCode = stateCode;
+//        this.stateCode = stateCode;
         this.pincode = pincode;
         this.paymentTerms = paymentTerms;
         this.creditLimit = creditLimit;
@@ -157,13 +156,13 @@ public class ClientResponseDto {
         this.state = state;
     }
 
-    public String getStateCode() {
-        return stateCode;
-    }
-
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
-    }
+//    public String getStateCode() {
+//        return stateCode;
+//    }
+//
+//    public void setStateCode(String stateCode) {
+//        this.stateCode = stateCode;
+//    }
 
     public String getPincode() {
         return pincode;

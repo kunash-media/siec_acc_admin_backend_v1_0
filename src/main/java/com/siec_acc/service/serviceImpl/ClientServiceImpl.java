@@ -22,11 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +33,12 @@ public class ClientServiceImpl implements ClientService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private static final int DEFAULT_PAGE_SIZE = 10;
+
+    // clients.client_customer_type is VARCHAR(30)
+    private static final int MAX_TYPE_LENGTH = 30;
+
+    // Built-in client types (always available in the dropdowns, stored lowercase)
+    private static final List<String> STANDARD_TYPES = Arrays.asList("business", "individual", "government");
 
     private static final List<String> COLOR_PALETTE = Arrays.asList(
             "#6da84c", "#1985bf", "#d97706", "#7c3aed", "#dc2626",
@@ -77,7 +79,7 @@ public class ClientServiceImpl implements ClientService {
         client.setClientShippingAddress(requestDto.getShippingAddress());
         client.setClientCity(requestDto.getCity());
         client.setClientState(requestDto.getState());
-        client.setClientStateCode(resolveStateCode(requestDto.getState(), requestDto.getStateCode()));
+//        client.setClientStateCode(resolveStateCode(requestDto.getState(), requestDto.getStateCode()));
         client.setClientPincode(requestDto.getPincode());
         client.setClientCountry(requestDto.getClientCountry());
         client.setClientPaymentTerms(requestDto.getPaymentTerms());
@@ -114,12 +116,8 @@ public class ClientServiceImpl implements ClientService {
         if (requestDto.getBillingAddress() != null) client.setClientBillingAddress(requestDto.getBillingAddress());
         if (requestDto.getShippingAddress() != null) client.setClientShippingAddress(requestDto.getShippingAddress());
         if (requestDto.getCity() != null) client.setClientCity(requestDto.getCity());
-        if (requestDto.getState() != null) {
-            client.setClientState(requestDto.getState());
-            client.setClientStateCode(resolveStateCode(requestDto.getState(), requestDto.getStateCode()));
-        } else if (requestDto.getStateCode() != null) {
-            client.setClientStateCode(requestDto.getStateCode());
-        }
+        if (requestDto.getClientCountry() != null) client.setClientCountry(requestDto.getClientCountry());
+
         if (requestDto.getPincode() != null) client.setClientPincode(requestDto.getPincode());
         if (requestDto.getPaymentTerms() != null) client.setClientPaymentTerms(requestDto.getPaymentTerms());
         if (requestDto.getCreditLimit() != null) client.setClientCreditLimit(requestDto.getCreditLimit());
@@ -151,15 +149,10 @@ public class ClientServiceImpl implements ClientService {
         if (requestDto.getShippingAddress() != null) client.setClientShippingAddress(requestDto.getShippingAddress());
         if (requestDto.getCity() != null) client.setClientCity(requestDto.getCity());
 
+        if (requestDto.getState() != null) client.setClientState(requestDto.getState());
         if (requestDto.getClientCountry() != null) client.setClientCountry(requestDto.getClientCountry());
-        if (requestDto.getState() != null) {
-            client.setClientState(requestDto.getState());
-            client.setClientStateCode(resolveStateCode(requestDto.getState(), requestDto.getStateCode()));
 
 
-        } else if (requestDto.getStateCode() != null) {
-            client.setClientStateCode(requestDto.getStateCode());
-        }
         if (requestDto.getPincode() != null) client.setClientPincode(requestDto.getPincode());
         if (requestDto.getPaymentTerms() != null) client.setClientPaymentTerms(requestDto.getPaymentTerms());
         if (requestDto.getCreditLimit() != null) client.setClientCreditLimit(requestDto.getCreditLimit());
@@ -404,7 +397,7 @@ public class ClientServiceImpl implements ClientService {
         response.setShippingAddress(client.getClientShippingAddress());
         response.setCity(client.getClientCity());
         response.setState(client.getClientState());
-        response.setStateCode(client.getClientStateCode());
+       // response.setStateCode(client.getClientStateCode());
         response.setClientCountry(client.getClientCountry());
         response.setPincode(client.getClientPincode());
         response.setPaymentTerms(client.getClientPaymentTerms());
@@ -445,7 +438,6 @@ public class ClientServiceImpl implements ClientService {
                         c.getClientPhone(),
                         c.getClientCountry(),
                         c.getClientGstin(),
-                        c.getClientState(),
                         c.getClientPincode(),
                         c.getClientShippingAddress()
                         )
@@ -460,5 +452,58 @@ public class ClientServiceImpl implements ClientService {
                 result.getTotalElements(),
                 result.getTotalPages(),
                 result.hasNext());
+    }
+
+    @Override
+    public List<String> getClientTypes() {
+        logger.info("Fetching client types");
+
+        // key = lowercase (to avoid Trust / trust duplicates), value = display text
+        Map<String, String> types = new LinkedHashMap<>();
+        for (String std : STANDARD_TYPES) {
+            types.put(std, std);
+        }
+        // custom types = every other customer_type already saved on a client (added via "Other")
+        List<String> used = new ArrayList<>(usedCustomerTypes());
+        Collections.sort(used, String.CASE_INSENSITIVE_ORDER);
+        for (String value : used) {
+            if (value == null) continue;
+            String trimmed = value.trim();
+            if (!trimmed.isEmpty()) types.putIfAbsent(trimmed.toLowerCase(), trimmed);
+        }
+        return new ArrayList<>(types.values());
+    }
+
+    // distinct customer_type values already saved on clients (no custom query needed)
+    private List<String> usedCustomerTypes() {
+        return clientRepository.findAll().stream()
+                .map(ClientEntity::getClientCustomerType)
+                .filter(t -> t != null && !t.trim().isEmpty())
+                .map(String::trim)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Normalises the client type before saving on a client.
+     * - built-in types come back lowercase (business / individual / government)
+     * - a custom type that already exists on another client (any casing) reuses that casing
+     * - a brand new custom type is saved as typed
+     */
+    private String resolveClientType(String raw) {
+        if (raw == null || raw.isBlank()) {
+            throw new IllegalArgumentException("Client type cannot be empty.");
+        }
+        String type = raw.trim().replaceAll("\\s+", " ");
+        if (type.length() > MAX_TYPE_LENGTH) {
+            throw new IllegalArgumentException("Client type cannot be longer than " + MAX_TYPE_LENGTH + " characters.");
+        }
+        for (String std : STANDARD_TYPES) {
+            if (std.equalsIgnoreCase(type)) return std;
+        }
+        for (String existing : usedCustomerTypes()) {
+            if (existing != null && existing.trim().equalsIgnoreCase(type)) return existing.trim();
+        }
+        return type;
     }
 }

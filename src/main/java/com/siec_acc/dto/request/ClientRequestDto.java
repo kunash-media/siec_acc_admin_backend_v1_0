@@ -19,7 +19,7 @@ public class ClientRequestDto {
     private String shippingAddress;
     private String city;
     private String state;
-    private String stateCode;
+//    private String stateCode;
     private String clientCountry;
     private String pincode;
     private String paymentTerms;
@@ -34,7 +34,7 @@ public class ClientRequestDto {
 
     public ClientRequestDto(String name, String companyName, String customerType, String gstin, String pan,
                             String email, String phone, String billingAddress, String shippingAddress,
-                            String city, String state, String clientCountry, String stateCode, String pincode, String paymentTerms,
+                            String city, String state, String clientCountry, String pincode, String paymentTerms,
                             BigDecimal creditLimit, Boolean gstRegistered, String status,
                             BigDecimal receivable, String color) {
         this.name = name;
@@ -49,7 +49,7 @@ public class ClientRequestDto {
         this.city = city;
         this.state = state;
         this.clientCountry = clientCountry;
-        this.stateCode = stateCode;
+//        this.stateCode = stateCode;
         this.pincode = pincode;
         this.paymentTerms = paymentTerms;
         this.creditLimit = creditLimit;
@@ -155,13 +155,13 @@ public class ClientRequestDto {
         this.state = state;
     }
 
-    public String getStateCode() {
-        return stateCode;
-    }
-
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
-    }
+//    public String getStateCode() {
+//        return stateCode;
+//    }
+//
+//    public void setStateCode(String stateCode) {
+//        this.stateCode = stateCode;
+//    }
 
     public String getPincode() {
         return pincode;

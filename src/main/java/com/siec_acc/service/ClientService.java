@@ -4,6 +4,7 @@ import com.siec_acc.dto.request.ClientRequestDto;
 import com.siec_acc.dto.response.ClientListPageDto;
 import com.siec_acc.dto.response.ClientResponseDto;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ClientService {
@@ -29,4 +30,10 @@ public interface ClientService {
     Map<String, Object> getMeta();
 
     ClientListPageDto getClientList(int page, int size, String search);
+
+    /**
+     * All client types for the dropdowns: built-in ones first (business, individual,
+     * government), then every custom type saved via "Other" (or already used by a client).
+     */
+    List<String> getClientTypes();
 }

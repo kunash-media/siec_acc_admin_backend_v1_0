@@ -18,7 +18,8 @@ public class ClientListDto {
     public ClientListDto() {
     }
 
-    public ClientListDto(Long clientPrimeId, String clientStrId, String clientName, String clientCompanyName, String clientCustomerType, String clientEmail, String clientPhone, String clientCountry, String clientGstin, String clientState, String clientPincode, String clientShippingAddress) {
+
+    public ClientListDto(Long clientPrimeId, String clientStrId, String clientName, String clientCompanyName, String clientCustomerType, String clientEmail, String clientPhone, String clientCountry, String clientGstin, String clientState, String clientPincode) {
         this.clientPrimeId = clientPrimeId;
         this.clientStrId = clientStrId;
         this.clientName = clientName;
