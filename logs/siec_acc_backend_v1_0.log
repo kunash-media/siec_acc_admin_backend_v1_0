@@ -1283,3 +1283,300 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 2026-10-16T12:07:42.462+05:30  INFO 14388 --- [siec-accounting] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-10-16T12:07:42.467+05:30  INFO 14388 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-10-16T12:07:42.470+05:30  INFO 14388 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-10-16T12:07:49.936+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.siec_acc.SiecAccountingApplication   : Starting SiecAccountingApplication using Java 24.0.2 with PID 25640 (C:\SIEC_Accounting_Project\siec-accounting_backend_v1_0\target\classes started by admim in C:\SIEC_Accounting_Project\siec-accounting_backend_v1_0)
+2026-10-16T12:07:49.940+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.siec_acc.SiecAccountingApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-10-16T12:07:50.007+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\admim\.m2\repository\io\github\cdimascio\java-dotenv\5.2.2\java-dotenv-5.2.2.jar referenced one or more files that do not exist: file:/C:/Users/admim/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/kotlin-stdlib-1.4.0.jar,file:/C:/Users/admim/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/kotlin-stdlib-common-1.4.0.jar,file:/C:/Users/admim/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/annotations-13.0.jar
+2026-10-16T12:07:50.007+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-10-16T12:07:50.008+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-10-16T12:07:51.732+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-16T12:07:51.734+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-10-16T12:07:51.796+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.AdminRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.799+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ClientRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.801+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.CustomerPaymentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.805+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ExpenseRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.808+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.GoodsReceiptRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.810+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.InventoryHistoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.815+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.InventoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.817+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.InvoiceRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.818+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ItemRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.820+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.OrganizationDocumentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.823+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.OrganizationRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.826+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.832+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProformaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.839+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.PurchaseBillRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.844+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.PurchaseOrderRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.847+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.PurchaseRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.851+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.VariantRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.856+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.VendorPaymentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.861+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.VendorRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.865+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.WarehouseRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2026-10-16T12:07:51.866+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 121 ms. Found 0 JDBC repository interfaces.
+2026-10-16T12:07:51.886+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-16T12:07:51.888+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-16T12:07:52.026+05:30  INFO 25640 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 129 ms. Found 20 JPA repository interfaces.
+2026-10-16T12:07:53.057+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 9093 (http)
+2026-10-16T12:07:53.081+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-16T12:07:53.082+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-16T12:07:53.145+05:30  INFO 25640 --- [siec-accounting] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3137 ms
+2026-10-16T12:07:53.389+05:30  INFO 25640 --- [siec-accounting] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-10-16T12:07:53.461+05:30  INFO 25640 --- [siec-accounting] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+2026-10-16T12:07:54.104+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-16T12:07:54.149+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-16T12:07:54.333+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5020d3be
+2026-10-16T12:07:54.336+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-16T12:07:54.476+05:30  INFO 25640 --- [siec-accounting] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/siec_acc_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&allowPublicKeyRetrieval=true]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.41
+	Default catalog/schema: siec_acc_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-16T12:07:56.602+05:30  INFO 25640 --- [siec-accounting] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-16T12:07:56.756+05:30  INFO 25640 --- [siec-accounting] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-16T12:07:56.848+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-16T12:07:59.497+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.siec_acc.security.SecurityConfig     : SecurityConfig bean initialized
+2026-10-16T12:07:59.512+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.siec_acc.security.AuthController     : AuthController initialized
+2026-10-16T12:07:59.592+05:30  WARN 25640 --- [siec-accounting] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-10-16T12:07:59.726+05:30  INFO 25640 --- [siec-accounting] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-10-16T12:07:59.727+05:30  WARN 25640 --- [siec-accounting] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-10-16T12:07:59.847+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.siec_acc.security.SecurityConfig     : SecurityFilterChain configured successfully (OAuth2 removed)
+2026-10-16T12:08:00.114+05:30 DEBUG 25640 --- [siec-accounting] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 162 mappings in 'requestMappingHandlerMapping'
+2026-10-16T12:08:00.151+05:30 DEBUG 25640 --- [siec-accounting] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-10-16T12:08:00.192+05:30 DEBUG 25640 --- [siec-accounting] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 2 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-10-16T12:08:00.256+05:30 DEBUG 25640 --- [siec-accounting] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-10-16T12:08:00.600+05:30  INFO 25640 --- [siec-accounting] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9093 (http) with context path '/'
+2026-10-16T12:08:00.607+05:30  INFO 25640 --- [siec-accounting] [restartedMain] com.siec_acc.SiecAccountingApplication   : Started SiecAccountingApplication in 11.359 seconds (process running for 12.351)
+2026-10-16T12:08:47.033+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-16T12:08:47.033+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-16T12:08:47.034+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-10-16T12:08:47.034+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-10-16T12:08:47.035+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5b79b785
+2026-10-16T12:08:47.035+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@18433ec7
+2026-10-16T12:08:47.036+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-10-16T12:08:47.036+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-10-16T12:08:47.084+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/clients/v1/create-client", parameters={}
+2026-10-16T12:08:47.091+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#createClient(ClientRequestDto)
+2026-10-16T12:08:47.183+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.siec_acc.dto.request.ClientRequestDto@6fc311c9]
+2026-10-16T12:08:47.190+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.ClientController   : API HIT: POST /create-client | name=Sunder Pichai
+2026-10-16T12:08:47.192+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.ClientServiceImpl      : Creating new client with name: Sunder Pichai
+2026-10-16T12:08:47.242+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.ClientServiceImpl      : Customer created successfully: CUS-002
+2026-10-16T12:08:47.280+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:08:47.281+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@fd136f3]
+2026-10-16T12:08:47.315+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-10-16T12:08:47.328+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/get-all-clients?status=all&gst=all&type=all&page=1&size=10", parameters={masked}
+2026-10-16T12:08:47.329+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getAllClients(String, String, String, String, Integer, Integer)
+2026-10-16T12:08:47.346+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-4] c.siec_acc.controller.ClientController   : API HIT: GET /get-all-clients | status=all gst=all type=all search= page=1 size=10
+2026-10-16T12:08:47.348+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-4] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customers | status=all gst=all type=all search= page=1 size=10
+2026-10-16T12:08:47.440+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:08:47.441+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@5aab8a22]
+2026-10-16T12:08:47.458+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:08:52.748+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/get-client/CUS-002", parameters={}
+2026-10-16T12:08:52.750+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getClient(String)
+2026-10-16T12:08:52.751+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-3] c.siec_acc.controller.ClientController   : API HIT: GET /get-client/CUS-002
+2026-10-16T12:08:52.752+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-3] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customer: CUS-002
+2026-10-16T12:08:52.804+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:08:52.804+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@3b4f639d]
+2026-10-16T12:08:52.804+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:09:02.746+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/organization/ORG-F79A7092", parameters={}
+2026-10-16T12:09:02.747+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/client-list", parameters={}
+2026-10-16T12:09:02.747+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.OrganizationController#getOrganization(String)
+2026-10-16T12:09:02.747+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getClientList(int, int, String)
+2026-10-16T12:09:02.748+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-10-16T12:09:02.771+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:09:02.772+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.dto.response.OrganizationResponseDTO@2dcda417]
+2026-10-16T12:09:02.792+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:09:02.795+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:09:02.796+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.dto.response.ClientListPageDto@2fda4f9c]
+2026-10-16T12:09:02.797+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/organization/ORG-F79A7092/logo", parameters={}
+2026-10-16T12:09:02.798+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.OrganizationController#getOrganizationLogo(String)
+2026-10-16T12:09:02.799+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-10-16T12:09:02.802+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:09:02.811+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:image/png' in response
+2026-10-16T12:09:02.821+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{89504e470d0a1a0a0000000d4948445200000a510000078f0806000000a5b3516300001000494441547801ecdd7d901cf79 (truncated)...]
+2026-10-16T12:09:02.825+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:09:02.949+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/invoices/get-all-invoices?pageNumber=1&pageSize=25", parameters={masked}
+2026-10-16T12:09:02.950+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.InvoiceController#getAllInvoices(InvoiceStatus, Long, String, int, int)
+2026-10-16T12:09:03.029+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:09:03.040+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [PagedResponseDto(content=[InvoiceResponseDto(invoicePrimeId=4, invoiceStrId=INV-26-27-004, invoiceDa (truncated)...]
+2026-10-16T12:09:03.063+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:09:03.071+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/invoices/stats", parameters={}
+2026-10-16T12:09:03.071+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.InvoiceController#getInvoiceStats()
+2026-10-16T12:09:03.102+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:09:03.104+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [InvoiceStatsResponseDto(totalCount=4, dueCount=4, overdueCount=0, totalValueInr=340910.00)]
+2026-10-16T12:09:03.108+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:09:19.396+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/projects/v1/get-project-list", parameters={}
+2026-10-16T12:09:19.406+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-10-16T12:09:19.406+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] o.s.web.cors.DefaultCorsProcessor        : Skip: no CORS configuration has been provided
+2026-10-16T12:09:19.406+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.siec_acc.exceptions.GlobalExceptionHandler#handleGeneric(Exception)
+2026-10-16T12:09:19.411+05:30 ERROR 25640 --- [siec-accounting] [http-nio-9093-exec-8] c.s.exceptions.GlobalExceptionHandler    : Unexpected error occurred
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/projects/v1/get-project-list for request '/api/projects/v1/get-project-list'.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:527) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:50) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.24.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.9.jar:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.24.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:132) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:59) ~[tomcat-embed-websocket-11.0.24.jar:11.0.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$2(FilterChainProxy.java:235) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:376) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:132) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:86) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:181) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at com.siec_acc.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:86) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:110) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:96) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:385) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:237) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:195) ~[spring-security-web-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:317) ~[spring-security-config-7.1.1.jar:7.1.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:355) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:272) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:535) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:86) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:71) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:347) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:406) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:71) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1307) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:2036) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:74) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:949) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:483) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:74) ~[tomcat-embed-core-11.0.24.jar:11.0.24]
+	at java.base/java.lang.Thread.run(Thread.java:1447) ~[na:na]
+
+2026-10-16T12:09:19.422+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:09:19.422+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@281c5fd0]
+2026-10-16T12:09:19.424+05:30  WARN 25640 --- [siec-accounting] [http-nio-9093-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/projects/v1/get-project-list for request '/api/projects/v1/get-project-list'.]
+2026-10-16T12:09:19.425+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 500 INTERNAL_SERVER_ERROR
+2026-10-16T12:17:03.382+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/get-all-clients?status=all&gst=all&type=all&page=1&size=10", parameters={masked}
+2026-10-16T12:17:03.383+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getAllClients(String, String, String, String, Integer, Integer)
+2026-10-16T12:17:03.385+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.ClientController   : API HIT: GET /get-all-clients | status=all gst=all type=all search= page=1 size=10
+2026-10-16T12:17:03.387+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customers | status=all gst=all type=all search= page=1 size=10
+2026-10-16T12:17:03.407+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:03.408+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@688a1bc2]
+2026-10-16T12:17:03.413+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:05.341+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/get-client/CUS-002", parameters={}
+2026-10-16T12:17:05.342+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getClient(String)
+2026-10-16T12:17:05.342+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-4] c.siec_acc.controller.ClientController   : API HIT: GET /get-client/CUS-002
+2026-10-16T12:17:05.342+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-4] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customer: CUS-002
+2026-10-16T12:17:05.346+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:05.346+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@72b0e583]
+2026-10-16T12:17:05.348+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:19.860+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.web.servlet.DispatcherServlet        : PUT "/api/clients/v1/update-client/CUS-002", parameters={}
+2026-10-16T12:17:19.862+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#updateClient(String, ClientRequestDto)
+2026-10-16T12:17:19.865+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.siec_acc.dto.request.ClientRequestDto@691066f]
+2026-10-16T12:17:19.866+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-5] c.siec_acc.controller.ClientController   : API HIT: PUT /update-client/CUS-002
+2026-10-16T12:17:19.867+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-5] c.s.s.serviceImpl.ClientServiceImpl      : Updating customer: CUS-002
+2026-10-16T12:17:19.870+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-5] c.s.s.serviceImpl.ClientServiceImpl      : Customer updated successfully: CUS-002
+2026-10-16T12:17:19.878+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:19.879+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@55064030]
+2026-10-16T12:17:19.880+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:19.886+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/get-all-clients?status=all&gst=all&type=all&page=1&size=10", parameters={masked}
+2026-10-16T12:17:19.886+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getAllClients(String, String, String, String, Integer, Integer)
+2026-10-16T12:17:19.887+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-6] c.siec_acc.controller.ClientController   : API HIT: GET /get-all-clients | status=all gst=all type=all search= page=1 size=10
+2026-10-16T12:17:19.887+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-6] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customers | status=all gst=all type=all search= page=1 size=10
+2026-10-16T12:17:19.900+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:19.900+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@1f82fe4f]
+2026-10-16T12:17:19.901+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:21.544+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/clients/v1/get-client/CUS-002", parameters={}
+2026-10-16T12:17:21.545+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ClientController#getClient(String)
+2026-10-16T12:17:21.546+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-7] c.siec_acc.controller.ClientController   : API HIT: GET /get-client/CUS-002
+2026-10-16T12:17:21.546+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-7] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customer: CUS-002
+2026-10-16T12:17:21.551+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:21.552+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@383e03db]
+2026-10-16T12:17:21.553+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:33.814+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/warehouses/v1/get-all-warehouses", parameters={}
+2026-10-16T12:17:33.814+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/products/v1/get-all-products", parameters={}
+2026-10-16T12:17:33.815+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ProductController#getAllProducts()
+2026-10-16T12:17:33.815+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.WarehouseController#getAll()
+2026-10-16T12:17:33.815+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.ProductController  : API HIT: GET /get-all-products
+2026-10-16T12:17:33.815+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-10-16T12:17:33.816+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.ProductServiceImpl     : Fetching all products
+2026-10-16T12:17:33.816+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/inventory/v1/get-all-inventory", parameters={}
+2026-10-16T12:17:33.817+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.InventoryController#getAllInventory()
+2026-10-16T12:17:33.818+05:30  INFO 25640 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-10-16T12:17:33.829+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:33.830+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@36edae6]
+2026-10-16T12:17:33.835+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:33.845+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:33.846+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@de6b511]
+2026-10-16T12:17:33.850+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:33.894+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:33.895+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.siec_acc.exceptions.ApiResponse@7418c59d]
+2026-10-16T12:17:33.899+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:17:35.939+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/expenses/get-all-expenses?status=all&category=all&project=all&page=1&size=25&sort=date&dir=desc", parameters={masked}
+2026-10-16T12:17:35.939+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ExpenseController#getAllExpenses(String, String, String, LocalDate, LocalDate, String, int, int, String, String)
+2026-10-16T12:17:35.975+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:17:35.976+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{success=true, message=Expenses fetched, data={expenses=[], pagination={page=1, size=25, totalItems= (truncated)...]
+2026-10-16T12:17:35.981+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T12:21:54.617+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/expenses/get-all-expenses?status=all&category=all&project=all&page=1&size=10&sort=date&dir=desc", parameters={masked}
+2026-10-16T12:21:54.618+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.siec_acc.controller.ExpenseController#getAllExpenses(String, String, String, LocalDate, LocalDate, String, int, int, String, String)
+2026-10-16T12:21:54.630+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-10-16T12:21:54.631+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{success=true, message=Expenses fetched, data={expenses=[], pagination={page=1, size=10, totalItems= (truncated)...]
+2026-10-16T12:21:54.632+05:30 DEBUG 25640 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-10-16T13:07:45.858+05:30  INFO 25640 --- [siec-accounting] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-16T13:07:45.867+05:30  INFO 25640 --- [siec-accounting] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-16T13:07:45.892+05:30  INFO 25640 --- [siec-accounting] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-16T13:07:45.908+05:30  INFO 25640 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-16T13:07:45.915+05:30  INFO 25640 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

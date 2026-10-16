@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -69,4 +70,10 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
             @Param("dateTo")    LocalDate dateTo,
             @Param("q")         String q
     );
+
+    // Used by the Projects module (expenseProjectId holds the project's projectStrId).
+    List<ExpenseEntity> findByExpenseProjectIdOrderByExpenseDateDesc(String expenseProjectId);
+
+    boolean existsByExpenseProjectId(String expenseProjectId);
+
 }
