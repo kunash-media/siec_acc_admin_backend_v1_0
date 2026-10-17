@@ -1,0 +1,296 @@
+package com.siec_acc.dto.request;
+
+import com.siec_acc.enum_status.CurrencyType;
+import com.siec_acc.enum_status.QuoteStatus;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+@Builder
+public class QuoteRequestDto {
+    private LocalDate quoteDate;
+    private LocalDate quoteValidTill;
+
+    private Long quoteClientPrimeId;
+    private String quoteClientName;
+    private String quoteClientCompanyName;
+    private String quoteClientGstin;
+    private String quoteClientEmail;
+    private String quoteClientState;
+    private String quoteClientStateCode;
+    private String quoteClientCountry;
+    private String quoteClientBillingAddress;
+    private String quoteShippingAddress;
+
+    private String quoteCompanyStateCode;
+    private String quotePlaceOfSupply;
+    private String quotePlaceOfSupplyStateCode;
+
+    private CurrencyType quoteCurrency;
+    private BigDecimal quoteExchangeRate;
+
+    private BigDecimal quoteDiscountPercent;
+    private BigDecimal quoteShippingCharges;
+    private BigDecimal quoteOtherCharges;
+    private BigDecimal quoteRoundOff;
+
+    private QuoteStatus quoteStatus;
+    private String quoteReferenceNumber;
+    private String quoteCustomerNotes;
+    private String quoteTerms;
+    private String quoteTemplateId;
+
+    private List<QuoteItemRequestDto> quoteItems;
+
+
+    public QuoteRequestDto(){}
+
+    public QuoteRequestDto(LocalDate quoteDate, LocalDate quoteValidTill, Long quoteClientPrimeId, String quoteClientName, String quoteClientCompanyName, String quoteClientGstin, String quoteClientEmail, String quoteClientState, String quoteClientStateCode, String quoteClientCountry, String quoteClientBillingAddress, String quoteShippingAddress, String quoteCompanyStateCode, String quotePlaceOfSupply, String quotePlaceOfSupplyStateCode, CurrencyType quoteCurrency, BigDecimal quoteExchangeRate, BigDecimal quoteDiscountPercent, BigDecimal quoteShippingCharges, BigDecimal quoteOtherCharges, BigDecimal quoteRoundOff, QuoteStatus quoteStatus, String quoteReferenceNumber, String quoteCustomerNotes, String quoteTerms, String quoteTemplateId, List<QuoteItemRequestDto> quoteItems) {
+        this.quoteDate = quoteDate;
+        this.quoteValidTill = quoteValidTill;
+        this.quoteClientPrimeId = quoteClientPrimeId;
+        this.quoteClientName = quoteClientName;
+        this.quoteClientCompanyName = quoteClientCompanyName;
+        this.quoteClientGstin = quoteClientGstin;
+        this.quoteClientEmail = quoteClientEmail;
+        this.quoteClientState = quoteClientState;
+        this.quoteClientStateCode = quoteClientStateCode;
+        this.quoteClientCountry = quoteClientCountry;
+        this.quoteClientBillingAddress = quoteClientBillingAddress;
+        this.quoteShippingAddress = quoteShippingAddress;
+        this.quoteCompanyStateCode = quoteCompanyStateCode;
+        this.quotePlaceOfSupply = quotePlaceOfSupply;
+        this.quotePlaceOfSupplyStateCode = quotePlaceOfSupplyStateCode;
+        this.quoteCurrency = quoteCurrency;
+        this.quoteExchangeRate = quoteExchangeRate;
+        this.quoteDiscountPercent = quoteDiscountPercent;
+        this.quoteShippingCharges = quoteShippingCharges;
+        this.quoteOtherCharges = quoteOtherCharges;
+        this.quoteRoundOff = quoteRoundOff;
+        this.quoteStatus = quoteStatus;
+        this.quoteReferenceNumber = quoteReferenceNumber;
+        this.quoteCustomerNotes = quoteCustomerNotes;
+        this.quoteTerms = quoteTerms;
+        this.quoteTemplateId = quoteTemplateId;
+        this.quoteItems = quoteItems;
+    }
+
+    public LocalDate getQuoteDate() {
+        return quoteDate;
+    }
+
+    public void setQuoteDate(LocalDate quoteDate) {
+        this.quoteDate = quoteDate;
+    }
+
+    public LocalDate getQuoteValidTill() {
+        return quoteValidTill;
+    }
+
+    public void setQuoteValidTill(LocalDate quoteValidTill) {
+        this.quoteValidTill = quoteValidTill;
+    }
+
+    public Long getQuoteClientPrimeId() {
+        return quoteClientPrimeId;
+    }
+
+    public void setQuoteClientPrimeId(Long quoteClientPrimeId) {
+        this.quoteClientPrimeId = quoteClientPrimeId;
+    }
+
+    public String getQuoteClientName() {
+        return quoteClientName;
+    }
+
+    public void setQuoteClientName(String quoteClientName) {
+        this.quoteClientName = quoteClientName;
+    }
+
+    public String getQuoteClientCompanyName() {
+        return quoteClientCompanyName;
+    }
+
+    public void setQuoteClientCompanyName(String quoteClientCompanyName) {
+        this.quoteClientCompanyName = quoteClientCompanyName;
+    }
+
+    public String getQuoteClientGstin() {
+        return quoteClientGstin;
+    }
+
+    public void setQuoteClientGstin(String quoteClientGstin) {
+        this.quoteClientGstin = quoteClientGstin;
+    }
+
+    public String getQuoteClientEmail() {
+        return quoteClientEmail;
+    }
+
+    public void setQuoteClientEmail(String quoteClientEmail) {
+        this.quoteClientEmail = quoteClientEmail;
+    }
+
+    public String getQuoteClientState() {
+        return quoteClientState;
+    }
+
+    public void setQuoteClientState(String quoteClientState) {
+        this.quoteClientState = quoteClientState;
+    }
+
+    public String getQuoteClientStateCode() {
+        return quoteClientStateCode;
+    }
+
+    public void setQuoteClientStateCode(String quoteClientStateCode) {
+        this.quoteClientStateCode = quoteClientStateCode;
+    }
+
+    public String getQuoteClientCountry() {
+        return quoteClientCountry;
+    }
+
+    public void setQuoteClientCountry(String quoteClientCountry) {
+        this.quoteClientCountry = quoteClientCountry;
+    }
+
+    public String getQuoteClientBillingAddress() {
+        return quoteClientBillingAddress;
+    }
+
+    public void setQuoteClientBillingAddress(String quoteClientBillingAddress) {
+        this.quoteClientBillingAddress = quoteClientBillingAddress;
+    }
+
+    public String getQuoteShippingAddress() {
+        return quoteShippingAddress;
+    }
+
+    public void setQuoteShippingAddress(String quoteShippingAddress) {
+        this.quoteShippingAddress = quoteShippingAddress;
+    }
+
+    public String getQuoteCompanyStateCode() {
+        return quoteCompanyStateCode;
+    }
+
+    public void setQuoteCompanyStateCode(String quoteCompanyStateCode) {
+        this.quoteCompanyStateCode = quoteCompanyStateCode;
+    }
+
+    public String getQuotePlaceOfSupply() {
+        return quotePlaceOfSupply;
+    }
+
+    public void setQuotePlaceOfSupply(String quotePlaceOfSupply) {
+        this.quotePlaceOfSupply = quotePlaceOfSupply;
+    }
+
+    public String getQuotePlaceOfSupplyStateCode() {
+        return quotePlaceOfSupplyStateCode;
+    }
+
+    public void setQuotePlaceOfSupplyStateCode(String quotePlaceOfSupplyStateCode) {
+        this.quotePlaceOfSupplyStateCode = quotePlaceOfSupplyStateCode;
+    }
+
+    public CurrencyType getQuoteCurrency() {
+        return quoteCurrency;
+    }
+
+    public void setQuoteCurrency(CurrencyType quoteCurrency) {
+        this.quoteCurrency = quoteCurrency;
+    }
+
+    public BigDecimal getQuoteExchangeRate() {
+        return quoteExchangeRate;
+    }
+
+    public void setQuoteExchangeRate(BigDecimal quoteExchangeRate) {
+        this.quoteExchangeRate = quoteExchangeRate;
+    }
+
+    public BigDecimal getQuoteDiscountPercent() {
+        return quoteDiscountPercent;
+    }
+
+    public void setQuoteDiscountPercent(BigDecimal quoteDiscountPercent) {
+        this.quoteDiscountPercent = quoteDiscountPercent;
+    }
+
+    public BigDecimal getQuoteShippingCharges() {
+        return quoteShippingCharges;
+    }
+
+    public void setQuoteShippingCharges(BigDecimal quoteShippingCharges) {
+        this.quoteShippingCharges = quoteShippingCharges;
+    }
+
+    public BigDecimal getQuoteOtherCharges() {
+        return quoteOtherCharges;
+    }
+
+    public void setQuoteOtherCharges(BigDecimal quoteOtherCharges) {
+        this.quoteOtherCharges = quoteOtherCharges;
+    }
+
+    public BigDecimal getQuoteRoundOff() {
+        return quoteRoundOff;
+    }
+
+    public void setQuoteRoundOff(BigDecimal quoteRoundOff) {
+        this.quoteRoundOff = quoteRoundOff;
+    }
+
+    public QuoteStatus getQuoteStatus() {
+        return quoteStatus;
+    }
+
+    public void setQuoteStatus(QuoteStatus quoteStatus) {
+        this.quoteStatus = quoteStatus;
+    }
+
+    public String getQuoteReferenceNumber() {
+        return quoteReferenceNumber;
+    }
+
+    public void setQuoteReferenceNumber(String quoteReferenceNumber) {
+        this.quoteReferenceNumber = quoteReferenceNumber;
+    }
+
+    public String getQuoteCustomerNotes() {
+        return quoteCustomerNotes;
+    }
+
+    public void setQuoteCustomerNotes(String quoteCustomerNotes) {
+        this.quoteCustomerNotes = quoteCustomerNotes;
+    }
+
+    public String getQuoteTerms() {
+        return quoteTerms;
+    }
+
+    public void setQuoteTerms(String quoteTerms) {
+        this.quoteTerms = quoteTerms;
+    }
+
+    public String getQuoteTemplateId() {
+        return quoteTemplateId;
+    }
+
+    public void setQuoteTemplateId(String quoteTemplateId) {
+        this.quoteTemplateId = quoteTemplateId;
+    }
+
+    public List<QuoteItemRequestDto> getQuoteItems() {
+        return quoteItems;
+    }
+
+    public void setQuoteItems(List<QuoteItemRequestDto> quoteItems) {
+        this.quoteItems = quoteItems;
+    }
+}

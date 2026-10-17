@@ -18,6 +18,7 @@ public class ClientResponseDto {
     private String shippingAddress;
     private String city;
     private String state;
+    private String stateCode;
     private String pincode;
     private String paymentTerms;
     private BigDecimal creditLimit;
@@ -27,15 +28,13 @@ public class ClientResponseDto {
     private String createdAt;
     private String color;
     private String clientCountry;
+    private String clientStateCode;
 
     public ClientResponseDto() {
     }
 
-    public ClientResponseDto(String id, String name, String companyName, String customerType, String gstin,
-                             String pan, String email, String phone, String billingAddress, String shippingAddress,
-                             String city, String state, String clientCountry, String pincode, String paymentTerms,
-                             BigDecimal creditLimit, Boolean gstRegistered, String status, BigDecimal receivable,
-                             String createdAt, String color) {
+
+    public ClientResponseDto(String id, String name, String companyName, String customerType, String gstin, String pan, String email, String phone, String billingAddress, String shippingAddress, String city, String state, String stateCode, String pincode, String paymentTerms, BigDecimal creditLimit, Boolean gstRegistered, String status, BigDecimal receivable, String createdAt, String color, String clientCountry, String clientStateCode) {
         this.id = id;
         this.name = name;
         this.companyName = companyName;
@@ -48,7 +47,7 @@ public class ClientResponseDto {
         this.shippingAddress = shippingAddress;
         this.city = city;
         this.state = state;
-//        this.stateCode = stateCode;
+        this.stateCode = stateCode;
         this.pincode = pincode;
         this.paymentTerms = paymentTerms;
         this.creditLimit = creditLimit;
@@ -58,6 +57,7 @@ public class ClientResponseDto {
         this.createdAt = createdAt;
         this.color = color;
         this.clientCountry = clientCountry;
+        this.clientStateCode = clientStateCode;
     }
 
     public String getId() {
@@ -156,13 +156,13 @@ public class ClientResponseDto {
         this.state = state;
     }
 
-//    public String getStateCode() {
-//        return stateCode;
-//    }
-//
-//    public void setStateCode(String stateCode) {
-//        this.stateCode = stateCode;
-//    }
+    public String getStateCode() {
+        return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
 
     public String getPincode() {
         return pincode;
@@ -234,5 +234,13 @@ public class ClientResponseDto {
 
     public void setClientCountry(String clientCountry) {
         this.clientCountry = clientCountry;
+    }
+
+    public String getClientStateCode() {
+        return clientStateCode;
+    }
+
+    public void setClientStateCode(String clientStateCode) {
+        this.clientStateCode = clientStateCode;
     }
 }

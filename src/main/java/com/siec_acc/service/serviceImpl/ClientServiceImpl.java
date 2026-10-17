@@ -397,7 +397,7 @@ public class ClientServiceImpl implements ClientService {
         response.setShippingAddress(client.getClientShippingAddress());
         response.setCity(client.getClientCity());
         response.setState(client.getClientState());
-       // response.setStateCode(client.getClientStateCode());
+        response.setStateCode(client.getClientStateCode());
         response.setClientCountry(client.getClientCountry());
         response.setPincode(client.getClientPincode());
         response.setPaymentTerms(client.getClientPaymentTerms());
@@ -410,7 +410,6 @@ public class ClientServiceImpl implements ClientService {
         response.setColor(client.getClientColor());
         return response;
     }
-
 
     //====== client list =====//
     @Override
@@ -438,8 +437,10 @@ public class ClientServiceImpl implements ClientService {
                         c.getClientPhone(),
                         c.getClientCountry(),
                         c.getClientGstin(),
+                        c.getClientState(),
                         c.getClientPincode(),
-                        c.getClientShippingAddress()
+                        c.getClientShippingAddress(),
+                        c.getClientStateCode()
                         )
                 )
 

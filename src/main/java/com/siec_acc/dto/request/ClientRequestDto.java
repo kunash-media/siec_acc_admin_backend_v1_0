@@ -19,7 +19,7 @@ public class ClientRequestDto {
     private String shippingAddress;
     private String city;
     private String state;
-//    private String stateCode;
+    private String clientStateCode;
     private String clientCountry;
     private String pincode;
     private String paymentTerms;
@@ -32,11 +32,7 @@ public class ClientRequestDto {
     public ClientRequestDto() {
     }
 
-    public ClientRequestDto(String name, String companyName, String customerType, String gstin, String pan,
-                            String email, String phone, String billingAddress, String shippingAddress,
-                            String city, String state, String clientCountry, String pincode, String paymentTerms,
-                            BigDecimal creditLimit, Boolean gstRegistered, String status,
-                            BigDecimal receivable, String color) {
+    public ClientRequestDto(String name, String companyName, String customerType, String gstin, String pan, String email, String phone, String billingAddress, String shippingAddress, String city, String state, String clientStateCode, String clientCountry, String pincode, String paymentTerms, BigDecimal creditLimit, Boolean gstRegistered, String status, BigDecimal receivable, String color) {
         this.name = name;
         this.companyName = companyName;
         this.customerType = customerType;
@@ -48,8 +44,8 @@ public class ClientRequestDto {
         this.shippingAddress = shippingAddress;
         this.city = city;
         this.state = state;
+        this.clientStateCode = clientStateCode;
         this.clientCountry = clientCountry;
-//        this.stateCode = stateCode;
         this.pincode = pincode;
         this.paymentTerms = paymentTerms;
         this.creditLimit = creditLimit;
@@ -57,6 +53,14 @@ public class ClientRequestDto {
         this.status = status;
         this.receivable = receivable;
         this.color = color;
+    }
+
+    public String getClientStateCode() {
+        return clientStateCode;
+    }
+
+    public void setClientStateCode(String clientStateCode) {
+        this.clientStateCode = clientStateCode;
     }
 
     public String getName() {
@@ -155,13 +159,13 @@ public class ClientRequestDto {
         this.state = state;
     }
 
-//    public String getStateCode() {
-//        return stateCode;
-//    }
-//
-//    public void setStateCode(String stateCode) {
-//        this.stateCode = stateCode;
-//    }
+    public String getStateCode() {
+        return clientStateCode;
+    }
+
+    public void setStateCode(String clientStateCode) {
+        this.clientStateCode = clientStateCode;
+    }
 
     public String getPincode() {
         return pincode;

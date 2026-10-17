@@ -14,12 +14,14 @@ public class ClientListDto {
     private String clientState;
     private String clientPincode;
     private String clientShippingAddress;
+    private String clientStateCode;
 
     public ClientListDto() {
     }
 
-
-    public ClientListDto(Long clientPrimeId, String clientStrId, String clientName, String clientCompanyName, String clientCustomerType, String clientEmail, String clientPhone, String clientCountry, String clientGstin, String clientState, String clientPincode) {
+    public ClientListDto(Long clientPrimeId, String clientStrId, String clientName,
+                         String clientCompanyName, String clientCustomerType, String clientEmail, String clientPhone, String clientCountry, String clientGstin, String clientState, String clientPincode,
+                         String clientShippingAddress, String clientStateCode) {
         this.clientPrimeId = clientPrimeId;
         this.clientStrId = clientStrId;
         this.clientName = clientName;
@@ -32,6 +34,7 @@ public class ClientListDto {
         this.clientState = clientState;
         this.clientPincode = clientPincode;
         this.clientShippingAddress = clientShippingAddress;
+        this.clientStateCode = clientStateCode;
     }
 
     public String getClientShippingAddress() {
@@ -96,4 +99,11 @@ public class ClientListDto {
     }
 
 
+    public String getClientStateCode() {
+        return clientStateCode;
+    }
+
+    public void setClientStateCode(String clientStateCode) {
+        this.clientStateCode = clientStateCode;
+    }
 }
