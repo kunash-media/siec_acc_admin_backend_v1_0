@@ -3,6 +3,7 @@ package com.siec_acc.controller;
 import com.siec_acc.dto.request.EmailRequestDto;
 import com.siec_acc.dto.request.InvoiceEmailRequestDto;
 import com.siec_acc.dto.request.ProformaEmailRequestDto;
+import com.siec_acc.dto.request.QuoteEmailRequestDto;
 import com.siec_acc.dto.response.EmailResponseDto;
 import com.siec_acc.service.EmailService;
 import jakarta.validation.Valid;
@@ -47,4 +48,11 @@ public class EmailController {
     public ResponseEntity<EmailResponseDto> sendProformaEmail(@Valid @RequestBody ProformaEmailRequestDto requestDto) {
         return ResponseEntity.ok(emailService.sendProformaEmail(requestDto));
     }
+
+    // Mirrors the frontend's Send > Email option on the Quotations page.
+    @PostMapping("/send-quote")
+    public ResponseEntity<EmailResponseDto> sendQuoteEmail(@Valid @RequestBody QuoteEmailRequestDto requestDto) {
+        return ResponseEntity.ok(emailService.sendQuoteEmail(requestDto));
+    }
+
 }

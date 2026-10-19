@@ -3,15 +3,19 @@ package com.siec_acc.service.serviceImpl;
 import com.siec_acc.dto.request.EmailRequestDto;
 import com.siec_acc.dto.request.InvoiceEmailRequestDto;
 import com.siec_acc.dto.request.ProformaEmailRequestDto;
+import com.siec_acc.dto.request.QuoteEmailRequestDto;
 import com.siec_acc.dto.response.EmailResponseDto;
 import com.siec_acc.entity.InvoiceEntity;
 import com.siec_acc.entity.ProformaEntity;
+import com.siec_acc.entity.QuoteEntity;
 import com.siec_acc.enum_status.EmailSendStatus;
 import com.siec_acc.exceptions.EmailSendException;
 import com.siec_acc.exceptions.InvoiceNotFoundException;
 import com.siec_acc.exceptions.ProformaNotFoundException;
+import com.siec_acc.exceptions.QuoteNotFoundException;
 import com.siec_acc.repository.InvoiceRepository;
 import com.siec_acc.repository.ProformaRepository;
+import com.siec_acc.repository.QuoteRepository;
 import com.siec_acc.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,11 +42,13 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     private final InvoiceRepository invoiceRepository;
     private final ProformaRepository proformaRepository;
+    private final QuoteRepository quoteRepository;
 
-    public EmailServiceImpl(JavaMailSender mailSender, InvoiceRepository invoiceRepository, ProformaRepository proformaRepository) {
+    public EmailServiceImpl(JavaMailSender mailSender, InvoiceRepository invoiceRepository, ProformaRepository proformaRepository, QuoteRepository quoteRepository) {
         this.mailSender = mailSender;
         this.invoiceRepository = invoiceRepository;
         this.proformaRepository = proformaRepository;
+        this.quoteRepository = quoteRepository;
     }
 
     @Value("${app.mail.from:no-reply@siec}")
@@ -162,6 +168,49 @@ public class EmailServiceImpl implements EmailService {
         message.setText(requestDto.getBody());
         mailSender.send(message);
     }
+
+    // ---------------------------------------------------------------
+    // QUOTATION-SPECIFIC
+    // ---------------------------------------------------------------
+    @Override
+    public EmailResponseDto sendQuoteEmail(QuoteEmailRequestDto requestDto) {
+        QuoteEntity quote = quoteRepository.findById(requestDto.getQuotePrimeId())
+                .orElseThrow(() -> new QuoteNotFoundException(
+                        "Quotation not found with id: " + requestDto.getQuotePrimeId()));
+
+        String pdfLink = buildPublicUrl(quote.getQuotePdfUrl());
+
+        String clientName = quote.getQuoteClientCompanyName() != null
+                ? quote.getQuoteClientCompanyName() : quote.getQuoteClientName();
+
+        String subject = "Quotation " + quote.getQuoteStrId() + " from " + companyName;
+        StringBuilder body = new StringBuilder();
+        body.append("Dear ").append(safe(clientName)).append(",\n\n")
+                .append("Please find our quotation ").append(quote.getQuoteStrId())
+                .append(" dated ").append(quote.getQuoteDate())
+                .append(" for an amount of ").append(quote.getQuoteCurrency())
+                .append(" ").append(quote.getQuoteTotalAmount()).append(".\n")
+                .append("Valid till: ").append(quote.getQuoteValidTill()).append("\n\n");
+        if (pdfLink != null) {
+            body.append("View / download your quotation (PDF):\n").append(pdfLink).append("\n\n");
+        }
+        body.append("Regards,\n").append(companyName);
+
+        EmailRequestDto emailRequest = EmailRequestDto.builder()
+                .toEmail(requestDto.getToEmail())
+                .subject(subject)
+                .body(body.toString())
+                .html(false)
+                .attachmentUrl(pdfLink)
+                .attachmentFileName(quote.getQuoteStrId().replace("/", "-") + ".pdf")
+                .build();
+
+        return sendEmail(emailRequest);
+    }
+
+    // ---------------------------------------------------------------
+    // DISPATCH
+    // ---------------------------------------------------------------
 
     // ---------------------------------------------------------------
     // HELPERS
