@@ -4,12 +4,7 @@ import com.siec_acc.dto.request.InvoiceRequestDto;
 import com.siec_acc.dto.request.InvoiceItemRequestDto;
 import com.siec_acc.dto.request.ProformaItemRequestDto;
 import com.siec_acc.dto.request.ProformaRequestDto;
-import com.siec_acc.dto.response.FileDownloadDto;
-import com.siec_acc.dto.response.InvoiceResponseDto;
-import com.siec_acc.dto.response.PagedResponseDto;
-import com.siec_acc.dto.response.ProformaItemResponseDto;
-import com.siec_acc.dto.response.ProformaResponseDto;
-import com.siec_acc.dto.response.ProformaStatsResponseDto;
+import com.siec_acc.dto.response.*;
 import com.siec_acc.entity.ProformaEntity;
 import com.siec_acc.entity.ProformaItemEntity;
 import com.siec_acc.enum_status.InvoiceStatus;
@@ -501,5 +496,23 @@ public class ProformaServiceImpl implements ProformaService {
 
     private String blankToNull(String value) {
         return (value == null || value.trim().isEmpty()) ? null : value.trim();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PagedResponseDto<ProformaSummaryResponseDto> getProformaSummaries(int pageNumber, int pageSize) {
+        int safePage = Math.max(pageNumber, 1) - 1; // 1-based like invoice
+        int safeSize = pageSize <= 0 ? 25 : pageSize;
+
+        Page<ProformaSummaryResponseDto> page = proformaRepository.findProformaSummaries(
+                PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "proformaPrimeId")));
+
+        return PagedResponseDto.<ProformaSummaryResponseDto>builder()
+                .content(page.getContent())
+                .pageNumber(pageNumber)
+                .pageSize(safeSize)
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
     }
 }

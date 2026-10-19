@@ -1,10 +1,7 @@
 package com.siec_acc.controller;
 
 import com.siec_acc.dto.request.ProformaRequestDto;
-import com.siec_acc.dto.response.InvoiceResponseDto;
-import com.siec_acc.dto.response.PagedResponseDto;
-import com.siec_acc.dto.response.ProformaResponseDto;
-import com.siec_acc.dto.response.ProformaStatsResponseDto;
+import com.siec_acc.dto.response.*;
 import com.siec_acc.enum_status.ProformaStatus;
 import com.siec_acc.exceptions.FileProcessingException;
 import com.siec_acc.service.ProformaService;
@@ -158,5 +155,13 @@ public class ProformaController {
                 .contentType(MediaType.parseMediaType(file.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFileName() + "\"")
                 .body(file.getData());
+    }
+
+    // GET /api/v1/proformas/proforma-list?pageNumber=1&pageSize=25  (newest first)
+    @GetMapping("/proforma-list")
+    public ResponseEntity<PagedResponseDto<ProformaSummaryResponseDto>> getProformaSummaries(
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "25") int pageSize) {
+        return ResponseEntity.ok(proformaService.getProformaSummaries(pageNumber, pageSize));
     }
 }

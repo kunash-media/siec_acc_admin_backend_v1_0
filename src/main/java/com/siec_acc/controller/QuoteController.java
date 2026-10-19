@@ -118,4 +118,12 @@ public class QuoteController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFileName() + "\"")
                 .body(file.getData());
     }
+
+    // GET /api/v1/quotes/quote-list?pageNumber=1&pageSize=25  (newest first)
+    @GetMapping("/quote-list")
+    public ResponseEntity<PagedResponseDto<QuoteSummaryResponseDto>> getQuoteSummaries(
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "25") int pageSize) {
+        return ResponseEntity.ok(quoteService.getQuoteSummaries(pageNumber, pageSize));
+    }
 }

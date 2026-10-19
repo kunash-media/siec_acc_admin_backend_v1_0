@@ -1,11 +1,7 @@
 package com.siec_acc.service;
 
 import com.siec_acc.dto.request.ProformaRequestDto;
-import com.siec_acc.dto.response.FileDownloadDto;
-import com.siec_acc.dto.response.InvoiceResponseDto;
-import com.siec_acc.dto.response.PagedResponseDto;
-import com.siec_acc.dto.response.ProformaResponseDto;
-import com.siec_acc.dto.response.ProformaStatsResponseDto;
+import com.siec_acc.dto.response.*;
 import com.siec_acc.enum_status.ProformaStatus;
 
 public interface ProformaService {
@@ -59,4 +55,7 @@ public interface ProformaService {
      * what GET /api/v1/proformas/{proformaStrId} streams back.
      */
     FileDownloadDto downloadProformaPdf(String proformaStrId);
+
+
+    PagedResponseDto<ProformaSummaryResponseDto> getProformaSummaries(int pageNumber, int pageSize);
 }

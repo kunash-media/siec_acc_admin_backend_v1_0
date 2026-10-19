@@ -1,5 +1,6 @@
 package com.siec_acc.repository;
 
+import com.siec_acc.dto.response.ProformaSummaryResponseDto;
 import com.siec_acc.entity.ProformaEntity;
 import com.siec_acc.enum_status.ProformaStatus;
 import org.springframework.data.domain.Page;
@@ -35,4 +36,10 @@ public interface ProformaRepository extends JpaRepository<ProformaEntity, Long> 
     BigDecimal sumTotalValueInr();
 
     long countByProformaCustomerId(Long customerId);
+
+    // Constructor projection: skips line items and both PDF blobs
+    @Query("SELECT new com.siec_acc.dto.response.ProformaSummaryResponseDto(" +
+            "p.proformaPrimeId, p.proformaStrId, p.proformaValidUntil, p.proformaCustomerId, p.proformaStatus) " +
+            "FROM ProformaEntity p")
+    Page<ProformaSummaryResponseDto> findProformaSummaries(Pageable pageable);
 }

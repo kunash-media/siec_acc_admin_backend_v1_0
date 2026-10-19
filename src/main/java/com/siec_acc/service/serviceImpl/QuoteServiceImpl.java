@@ -424,4 +424,25 @@ public class QuoteServiceImpl implements QuoteService {
     private BigDecimal orDefault(BigDecimal v, BigDecimal fallback) { return v != null ? v : fallback; }
     private boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
     private String blankToNull(String s) { return isBlank(s) ? null : s.trim(); }
+
+
+    @Override
+    @Transactional
+    public PagedResponseDto<QuoteSummaryResponseDto> getQuoteSummaries(int pageNumber, int pageSize) {
+        expireOverdueQuotes(); // keeps quoteStatus accurate (SENT -> EXPIRED by valid-till)
+
+        int safePage = Math.max(pageNumber, 1) - 1; // 1-based like invoice
+        int safeSize = pageSize <= 0 ? 25 : pageSize;
+
+        Page<QuoteSummaryResponseDto> page = quoteRepository.findQuoteSummaries(
+                PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "quotePrimeId")));
+
+        return PagedResponseDto.<QuoteSummaryResponseDto>builder()
+                .content(page.getContent())
+                .pageNumber(pageNumber)
+                .pageSize(safeSize)
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
+    }
 }

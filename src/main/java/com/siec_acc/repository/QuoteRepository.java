@@ -1,5 +1,6 @@
 package com.siec_acc.repository;
 
+import com.siec_acc.dto.response.QuoteSummaryResponseDto;
 import com.siec_acc.entity.QuoteEntity;
 import com.siec_acc.enum_status.QuoteStatus;
 import org.springframework.data.domain.Page;
@@ -47,4 +48,10 @@ public interface QuoteRepository extends JpaRepository<QuoteEntity, Long> {
                       @Param("expired") QuoteStatus expired,
                       @Param("today") LocalDate today,
                       @Param("now") LocalDateTime now);
+
+    // Constructor projection: skips items and the PDF blob entirely
+    @Query("SELECT new com.siec_acc.dto.response.QuoteSummaryResponseDto(" +
+            "q.quotePrimeId, q.quoteStrId, q.quoteValidTill, q.quoteClientPrimeId, q.quoteStatus) " +
+            "FROM QuoteEntity q")
+    Page<QuoteSummaryResponseDto> findQuoteSummaries(Pageable pageable);
 }

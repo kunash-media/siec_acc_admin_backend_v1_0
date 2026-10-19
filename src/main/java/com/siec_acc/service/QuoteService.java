@@ -2,10 +2,7 @@ package com.siec_acc.service;
 
 import com.siec_acc.dto.request.QuoteRequestDto;
 
-import com.siec_acc.dto.response.FileDownloadDto;
-import com.siec_acc.dto.response.PagedResponseDto;
-import com.siec_acc.dto.response.QuoteResponseDto;
-import com.siec_acc.dto.response.QuoteStatsResponseDto;
+import com.siec_acc.dto.response.*;
 import com.siec_acc.enum_status.QuoteStatus;
 
 public interface QuoteService {
@@ -19,4 +16,6 @@ public interface QuoteService {
     QuoteResponseDto convertToSalesOrder(Long quotePrimeId);
     QuoteResponseDto uploadQuotePdf(Long quotePrimeId, byte[] fileBytes, String contentType, String fileName);
     FileDownloadDto downloadQuotePdf(String quoteStrId);
+
+    PagedResponseDto<QuoteSummaryResponseDto> getQuoteSummaries(int pageNumber, int pageSize);
 }

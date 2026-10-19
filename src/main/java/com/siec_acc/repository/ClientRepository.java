@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,6 +18,8 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long>,
         JpaSpecificationExecutor<ClientEntity> {
 
     Optional<ClientEntity> findByClientStrId(String clientStrId);
+
+    List<ClientEntity> findAllByClientStrIdIn(Collection<String> clientStrIds);
 
     boolean existsByClientEmailIgnoreCase(String clientEmail);
 
