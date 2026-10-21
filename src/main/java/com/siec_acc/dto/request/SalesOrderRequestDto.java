@@ -1,4 +1,5 @@
 package com.siec_acc.dto.request;
+
 import java.util.List;
 
 public class SalesOrderRequestDto {
@@ -14,6 +15,7 @@ public class SalesOrderRequestDto {
     private String notes;
     private String quotationReference;
     private String piReference;
+    private String projectReference;
     private List<SalesOrderItemRequestDto> items;
 
     public SalesOrderRequestDto() {}
@@ -50,6 +52,9 @@ public class SalesOrderRequestDto {
 
     public String getPiReference() { return piReference; }
     public void setPiReference(String piReference) { this.piReference = piReference; }
+
+    public String getProjectReference() { return projectReference; }
+    public void setProjectReference(String projectReference) { this.projectReference = projectReference; }
 
     public List<SalesOrderItemRequestDto> getItems() { return items; }
     public void setItems(List<SalesOrderItemRequestDto> items) { this.items = items; }

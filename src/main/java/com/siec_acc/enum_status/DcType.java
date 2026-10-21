@@ -1,0 +1,3 @@
+package com.siec_acc.enum_status;
+
+public enum DcType { JOB_WORK, SUPPLY_ON_APPROVAL, STOCK_TRANSFER, EXHIBITION_OR_FAIRS, SUPPLY_OF_LIQUID_GAS, LINE_SALES, OTHERS }

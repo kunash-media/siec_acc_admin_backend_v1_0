@@ -1,18 +1,14 @@
 package com.siec_acc.service.serviceImpl;
 
-import com.siec_acc.dto.request.EmailRequestDto;
-import com.siec_acc.dto.request.InvoiceEmailRequestDto;
-import com.siec_acc.dto.request.ProformaEmailRequestDto;
-import com.siec_acc.dto.request.QuoteEmailRequestDto;
+import com.siec_acc.dto.request.*;
 import com.siec_acc.dto.response.EmailResponseDto;
+import com.siec_acc.entity.DeliveryChallanEntity;
 import com.siec_acc.entity.InvoiceEntity;
 import com.siec_acc.entity.ProformaEntity;
 import com.siec_acc.entity.QuoteEntity;
 import com.siec_acc.enum_status.EmailSendStatus;
-import com.siec_acc.exceptions.EmailSendException;
-import com.siec_acc.exceptions.InvoiceNotFoundException;
-import com.siec_acc.exceptions.ProformaNotFoundException;
-import com.siec_acc.exceptions.QuoteNotFoundException;
+import com.siec_acc.exceptions.*;
+import com.siec_acc.repository.DeliveryChallanRepository;
 import com.siec_acc.repository.InvoiceRepository;
 import com.siec_acc.repository.ProformaRepository;
 import com.siec_acc.repository.QuoteRepository;
@@ -43,12 +39,14 @@ public class EmailServiceImpl implements EmailService {
     private final InvoiceRepository invoiceRepository;
     private final ProformaRepository proformaRepository;
     private final QuoteRepository quoteRepository;
+    private final DeliveryChallanRepository dcRepository;
 
-    public EmailServiceImpl(JavaMailSender mailSender, InvoiceRepository invoiceRepository, ProformaRepository proformaRepository, QuoteRepository quoteRepository) {
+    public EmailServiceImpl(JavaMailSender mailSender, InvoiceRepository invoiceRepository, ProformaRepository proformaRepository, QuoteRepository quoteRepository, DeliveryChallanRepository dcRepository) {
         this.mailSender = mailSender;
         this.invoiceRepository = invoiceRepository;
         this.proformaRepository = proformaRepository;
         this.quoteRepository = quoteRepository;
+        this.dcRepository = dcRepository;
     }
 
     @Value("${app.mail.from:no-reply@siec}")
@@ -233,5 +231,41 @@ public class EmailServiceImpl implements EmailService {
 
     private String safe(String value) {
         return value == null ? "Customer" : value;
+    }
+
+
+    // ---------------------------------------------------------------
+    // DELIVERY CHALLAN-SPECIFIC
+    // ---------------------------------------------------------------
+    @Override
+    public EmailResponseDto sendDcEmail(DcEmailRequestDto requestDto) {
+        DeliveryChallanEntity dc = dcRepository.findById(requestDto.getDcPrimeId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Delivery challan not found with id: " + requestDto.getDcPrimeId()));
+
+        String pdfLink = buildPublicUrl(dc.getDcPdfUrl());
+        String clientName = dc.getDcClientCompanyName() != null ? dc.getDcClientCompanyName() : dc.getDcClientName();
+
+        String subject = "Delivery Challan " + dc.getDcStrId() + " from " + companyName;
+        StringBuilder body = new StringBuilder();
+        body.append("Dear ").append(safe(clientName)).append(",\n\n")
+                .append("Please find our delivery challan ").append(dc.getDcStrId())
+                .append(" dated ").append(dc.getDcDate())
+                .append(" for an amount of INR ").append(dc.getDcTotalAmount()).append(".\n\n");
+        if (pdfLink != null) {
+            body.append("View / download your delivery challan (PDF):\n").append(pdfLink).append("\n\n");
+        }
+        body.append("Regards,\n").append(companyName);
+
+        EmailRequestDto emailRequest = EmailRequestDto.builder()
+                .toEmail(requestDto.getToEmail())
+                .subject(subject)
+                .body(body.toString())
+                .html(false)
+                .attachmentUrl(pdfLink)
+                .attachmentFileName(dc.getDcStrId().replace("/", "-") + ".pdf")
+                .build();
+
+        return sendEmail(emailRequest);
     }
 }

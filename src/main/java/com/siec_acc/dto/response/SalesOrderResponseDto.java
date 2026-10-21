@@ -22,6 +22,7 @@ public class SalesOrderResponseDto {
     private String notes;
     private String quotationReference;
     private String piReference;
+    private String projectReference;
 
     public SalesOrderResponseDto() {}
 
@@ -78,4 +79,7 @@ public class SalesOrderResponseDto {
 
     public String getPiReference() { return piReference; }
     public void setPiReference(String piReference) { this.piReference = piReference; }
+
+    public String getProjectReference() { return projectReference; }
+    public void setProjectReference(String projectReference) { this.projectReference = projectReference; }
 }

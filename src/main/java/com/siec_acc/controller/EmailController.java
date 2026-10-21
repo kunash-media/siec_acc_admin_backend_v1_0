@@ -1,13 +1,9 @@
 package com.siec_acc.controller;
 
-import com.siec_acc.dto.request.EmailRequestDto;
-import com.siec_acc.dto.request.InvoiceEmailRequestDto;
-import com.siec_acc.dto.request.ProformaEmailRequestDto;
-import com.siec_acc.dto.request.QuoteEmailRequestDto;
+import com.siec_acc.dto.request.*;
 import com.siec_acc.dto.response.EmailResponseDto;
 import com.siec_acc.service.EmailService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +49,12 @@ public class EmailController {
     @PostMapping("/send-quote")
     public ResponseEntity<EmailResponseDto> sendQuoteEmail(@Valid @RequestBody QuoteEmailRequestDto requestDto) {
         return ResponseEntity.ok(emailService.sendQuoteEmail(requestDto));
+    }
+
+    // Mirrors the frontend's Send > Email option on the Delivery Challan page.
+    @PostMapping("/send-dc")
+    public ResponseEntity<EmailResponseDto> sendDcEmail(@Valid @RequestBody DcEmailRequestDto requestDto) {
+        return ResponseEntity.ok(emailService.sendDcEmail(requestDto));
     }
 
 }

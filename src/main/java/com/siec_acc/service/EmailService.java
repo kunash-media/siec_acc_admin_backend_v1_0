@@ -1,9 +1,6 @@
 package com.siec_acc.service;
 
-import com.siec_acc.dto.request.EmailRequestDto;
-import com.siec_acc.dto.request.InvoiceEmailRequestDto;
-import com.siec_acc.dto.request.ProformaEmailRequestDto;
-import com.siec_acc.dto.request.QuoteEmailRequestDto;
+import com.siec_acc.dto.request.*;
 import com.siec_acc.dto.response.EmailResponseDto;
 
 /**
@@ -33,4 +30,6 @@ public interface EmailService {
     EmailResponseDto sendProformaEmail(ProformaEmailRequestDto requestDto);
 
     EmailResponseDto sendQuoteEmail(QuoteEmailRequestDto requestDto);
+
+    EmailResponseDto sendDcEmail(DcEmailRequestDto requestDto);
 }

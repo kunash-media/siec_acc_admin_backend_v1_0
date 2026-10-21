@@ -3,6 +3,7 @@ package com.siec_acc.service.serviceImpl;
 import com.siec_acc.dto.request.SalesOrderItemRequestDto;
 import com.siec_acc.dto.request.SalesOrderRequestDto;
 import com.siec_acc.dto.response.SalesOrderItemResponseDto;
+import com.siec_acc.dto.response.SalesOrderListResponseDto;
 import com.siec_acc.dto.response.SalesOrderResponseDto;
 import com.siec_acc.entity.ClientEntity;
 import com.siec_acc.entity.ItemEntity;
@@ -83,7 +84,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 
     private record Header(String clientId, LocalDate date, LocalDate expectedDelivery, String deliveryLocation,
                           String paymentTerms, double discount, double tax, String notes,
-                          String quotationReference, String piReference) {}
+                          String quotationReference, String piReference, String projectReference) {}
 
     // ------------------------------------------------------------------
     // CREATE - always starts as pending / pending; the server owns id, number, status and totals.
@@ -99,7 +100,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                 parseDate(dto.getExpectedDelivery(), "Expected delivery date"),
                 dto.getDeliveryLocation(), dto.getPaymentTerms(),
                 dto.getDiscount(), dto.getTax(), dto.getNotes(),
-                dto.getQuotationReference(), dto.getPiReference());
+                dto.getQuotationReference(), dto.getPiReference(), dto.getProjectReference());
         List<ItemLine> lines = validateItems(dto.getItems());
 
         synchronized (numberLock) {
@@ -133,6 +134,28 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         return toResponses(salesOrderRepository.findAll());
     }
 
+    /**
+     * Lightweight list for other modules (Delivery Challan etc.): id, clientId, expectedDelivery, status, number.
+     * Optional status filter (case-insensitive), e.g. status=approved.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<SalesOrderListResponseDto> getSalesOrderList(String status) {
+        String wanted = lc(status);
+        List<SalesOrderListResponseDto> out = new ArrayList<>();
+        for (SalesOrderEntity e : salesOrderRepository.findAll()) {
+            if (!wanted.isEmpty() && !wanted.equals(lc(e.getStatus()))) continue;
+            SalesOrderListResponseDto row = new SalesOrderListResponseDto();
+            row.setId(e.getId());
+            row.setClientId(e.getClientId());
+            row.setExpectedDelivery(e.getExpectedDelivery() == null ? null : e.getExpectedDelivery().toString());
+            row.setStatus(e.getStatus() == null ? null : e.getStatus().trim().toUpperCase(Locale.ROOT));
+            row.setNumber(e.getNumber());
+            out.add(row);
+        }
+        return out;
+    }
+
     // ------------------------------------------------------------------
     // UPDATE (PUT) - full replace of the editable content. Status / fulfilment / number are untouched:
     // status changes go through PATCH (approve / reject), fulfilment is system-driven.
@@ -150,7 +173,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                 parseDate(dto.getExpectedDelivery(), "Expected delivery date"),
                 dto.getDeliveryLocation(), dto.getPaymentTerms(),
                 dto.getDiscount(), dto.getTax(), dto.getNotes(),
-                dto.getQuotationReference(), dto.getPiReference());
+                dto.getQuotationReference(), dto.getPiReference(), dto.getProjectReference());
         List<ItemLine> lines = validateItems(dto.getItems());
 
         applyHeader(entity, header);
@@ -174,7 +197,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                 || dto.getExpectedDelivery() != null || dto.getDeliveryLocation() != null
                 || dto.getPaymentTerms() != null || dto.getDiscount() != null || dto.getTax() != null
                 || dto.getNotes() != null || dto.getQuotationReference() != null
-                || dto.getPiReference() != null || dto.getItems() != null;
+                || dto.getPiReference() != null || dto.getProjectReference() != null
+                || dto.getItems() != null;
 
         if (contentChange) {
             assertEditable(entity);
@@ -190,7 +214,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                     dto.getTax() != null ? dto.getTax() : entity.getTax(),
                     dto.getNotes() != null ? dto.getNotes() : entity.getNotes(),
                     dto.getQuotationReference() != null ? dto.getQuotationReference() : entity.getQuotationReference(),
-                    dto.getPiReference() != null ? dto.getPiReference() : entity.getPiReference());
+                    dto.getPiReference() != null ? dto.getPiReference() : entity.getPiReference(),
+                    dto.getProjectReference() != null ? dto.getProjectReference() : entity.getProjectReference());
             applyHeader(entity, header);
 
             if (dto.getItems() != null) {
@@ -266,7 +291,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
     // ==================================================================
     private Header buildHeader(String clientId, LocalDate date, LocalDate expectedDelivery, String deliveryLocation,
                                String paymentTerms, Double discount, Double tax, String notes,
-                               String quotationReference, String piReference) {
+                               String quotationReference, String piReference, String projectReference) {
         if (isBlank(clientId)) throw new InvalidOperationException("Client is required.");
         if (date == null) throw new InvalidOperationException("Order date is required.");
         if (expectedDelivery == null) throw new InvalidOperationException("Expected delivery date is required.");
@@ -283,7 +308,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
             throw new InvalidOperationException("Client '" + cid + "' does not exist.");
         }
         return new Header(cid, date, expectedDelivery, trimToNull(deliveryLocation), trimToNull(paymentTerms),
-                disc, taxPct, trimToNull(notes), trimToNull(quotationReference), trimToNull(piReference));
+                disc, taxPct, trimToNull(notes), trimToNull(quotationReference), trimToNull(piReference),
+                trimToNull(projectReference));
     }
 
     private List<ItemLine> validateItems(List<SalesOrderItemRequestDto> items) {
@@ -337,6 +363,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         e.setNotes(h.notes());
         e.setQuotationReference(h.quotationReference());
         e.setPiReference(h.piReference());
+        e.setProjectReference(h.projectReference());
     }
 
     private void replaceItemsAndTotals(SalesOrderEntity entity, List<ItemLine> lines) {
@@ -367,7 +394,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 
     /**
      * id     -> SO-001, SO-002 ... (global, one more than the highest in use)
-     * number -> SO/26-27/001 ... (restarts every Indian financial year, Apr-Mar, taken from the order date)
+     * number -> SO-26-27-001 ... (restarts every Indian financial year, Apr-Mar, taken from the order date)
      * Never uses count(): after a delete count()+1 would hand out a number that already exists, and because
      * the id is assigned by hand save() would then silently overwrite that existing order.
      */
@@ -379,7 +406,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         int nextId = maxId + 1;
         while (salesOrderRepository.existsById(ID_PREFIX + pad(nextId))) nextId++;
 
-        String prefix = "SO/" + financialYear(orderDate) + "/";
+        String prefix = "SO-" + financialYear(orderDate) + "-";
         int maxNo = 0;
         for (String number : salesOrderRepository.findNumbersByPrefix(prefix)) {
             maxNo = Math.max(maxNo, trailingNumber(number, prefix));
@@ -456,6 +483,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         dto.setNotes(e.getNotes());
         dto.setQuotationReference(e.getQuotationReference());
         dto.setPiReference(e.getPiReference());
+        dto.setProjectReference(e.getProjectReference());
 
         List<SalesOrderItemResponseDto> itemDtos = new ArrayList<>();
         for (SalesOrderItemEntity row : e.getItems()) {

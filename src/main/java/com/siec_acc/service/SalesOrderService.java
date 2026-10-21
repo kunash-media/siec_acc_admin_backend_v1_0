@@ -1,6 +1,7 @@
 package com.siec_acc.service;
 
 import com.siec_acc.dto.request.SalesOrderRequestDto;
+import com.siec_acc.dto.response.SalesOrderListResponseDto;
 import com.siec_acc.dto.response.SalesOrderResponseDto;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface SalesOrderService {
     SalesOrderResponseDto getSalesOrderById(String id);
 
     List<SalesOrderResponseDto> getAllSalesOrders();
+
+    List<SalesOrderListResponseDto> getSalesOrderList(String status);
 
     SalesOrderResponseDto updateSalesOrder(String id, SalesOrderRequestDto requestDto);
 

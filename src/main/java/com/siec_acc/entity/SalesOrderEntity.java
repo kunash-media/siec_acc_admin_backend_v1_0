@@ -30,6 +30,7 @@ public class SalesOrderEntity {
     private String notes;
     private String quotationReference;
     private String piReference;
+    private String projectReference;
     private Double subtotal;
     private Double total;
 
@@ -79,6 +80,9 @@ public class SalesOrderEntity {
 
     public String getPiReference() { return piReference; }
     public void setPiReference(String piReference) { this.piReference = piReference; }
+
+    public String getProjectReference() { return projectReference; }
+    public void setProjectReference(String projectReference) { this.projectReference = projectReference; }
 
     public Double getSubtotal() { return subtotal; }
     public void setSubtotal(Double subtotal) { this.subtotal = subtotal; }
