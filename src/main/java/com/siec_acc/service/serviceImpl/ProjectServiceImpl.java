@@ -53,6 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
     private static final String COST_EXPENSE_STATUS = "approved";
     private static final long MAX_FILE_BYTES = 10L * 1024 * 1024;
     private static final int DEFAULT_PAGE_SIZE = 10;
+    private static final int MAX_SUMMARY_PAGE_SIZE = 200;
 
     private final ProjectRepository projectRepository;
     private final ProjectLinkRepository linkRepository;
@@ -546,4 +547,31 @@ public class ProjectServiceImpl implements ProjectService {
         String s = String.valueOf(v).replace("\"", "\"\"");
         return "\"" + s + "\"";
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PagedResponseDto<ProjectSummaryResponseDto> getProjectSummaries(String status, String search, int pageNumber, int pageSize) {
+
+        String statusFilter = (status == null || status.isBlank() || "all".equalsIgnoreCase(status.trim()))
+                ? null : status.trim().toLowerCase(Locale.ROOT);
+
+        if (statusFilter != null && !STATUSES.contains(statusFilter)) {
+            throw new InvalidOperationException("Invalid status '" + status + "'. Allowed: " + STATUS_OPTIONS + ".");
+        }
+
+        String searchFilter = blank(search) ? null : search.trim();
+        int safePage = Math.max(pageNumber, 1) - 1;
+        int safeSize = pageSize <= 0 ? 25 : Math.min(pageSize, MAX_SUMMARY_PAGE_SIZE);
+
+        Page<ProjectSummaryResponseDto> page = projectRepository.findProjectSummaries(
+                statusFilter, searchFilter, PageRequest.of(safePage, safeSize));
+        return PagedResponseDto.<ProjectSummaryResponseDto>builder()
+                .content(page.getContent())
+                .pageNumber(safePage + 1)
+                .pageSize(safeSize)
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
+    }
+
 }

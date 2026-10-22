@@ -161,4 +161,14 @@ public class ProjectController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"projects.csv\"")
                 .body(projectService.exportCsv());
     }
+
+    // GET /api/projects/v1/project-list?pageNumber=1&pageSize=25&status=active&search=odor
+    @GetMapping("/project-list")
+    public ResponseEntity<PagedResponseDto<ProjectSummaryResponseDto>> getProjectSummaries(
+            @RequestParam(required = false, defaultValue = "all") String status,
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "25") int pageSize) {
+        return ResponseEntity.ok(projectService.getProjectSummaries(status, search, pageNumber, pageSize));
+    }
 }

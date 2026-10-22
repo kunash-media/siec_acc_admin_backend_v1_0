@@ -48,4 +48,6 @@ public interface ProjectService {
     void deleteDocument(String pdocStrId);
 
     byte[] exportCsv();
+
+    PagedResponseDto<ProjectSummaryResponseDto> getProjectSummaries(String status, String search, int pageNumber, int pageSize);
 }
