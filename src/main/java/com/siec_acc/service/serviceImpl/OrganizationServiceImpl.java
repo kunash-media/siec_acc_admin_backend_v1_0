@@ -8,6 +8,7 @@ import com.siec_acc.exceptions.ResourceNotFoundException;
 import com.siec_acc.repository.OrganizationDocumentRepository;
 import com.siec_acc.repository.OrganizationRepository;
 import com.siec_acc.service.OrganizationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -274,5 +275,22 @@ public class OrganizationServiceImpl implements OrganizationService {
         r.setFinancialYearStart(o.getFinancialYearStart()); r.setTimezone(o.getTimezone()); r.setOrganizationStatus(o.getOrganizationStatus());
         r.setCreatedAt(o.getCreatedAt()); r.setUpdatedAt(o.getUpdatedAt());
         return r;
+    }
+
+    private OrganizationResponseDTO OrgtoResponse(OrganizationEntity o) {
+        OrganizationResponseDTO r = new OrganizationResponseDTO();
+        r.setOrganizationId(o.getOrganizationId());
+        r.setCompanyName(o.getCompanyName());
+        r.setLegalName(o.getLegalName());
+        return r;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrganizationResponseDTO getOrganization() {
+        return organizationRepository.findAll().stream()
+                .findFirst()
+                .map(this::OrgtoResponse)
+                .orElseThrow(() -> new EntityNotFoundException("Organization not found"));
     }
 }

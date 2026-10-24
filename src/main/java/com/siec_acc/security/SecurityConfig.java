@@ -89,12 +89,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/api/admin/bootstrap").permitAll()
+                            .requestMatchers("/api/admin/auth/me").authenticated()
                             .requestMatchers("/api/admin/auth/**").permitAll()
                             .requestMatchers("/api/users/auth/**").permitAll()
                             .requestMatchers("/api/admin/**").authenticated()
                             .anyRequest().permitAll();
                 })
-                // ❌ OAuth2 Login REMOVED
+                // OAuth2 Login REMOVED
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })

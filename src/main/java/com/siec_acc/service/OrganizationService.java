@@ -21,4 +21,8 @@ public interface OrganizationService {
     List<Map<String, Object>> getDocuments(String organizationId);
     ResponseEntity<byte[]> getDocumentContent(String organizationId, String documentId);
     void deleteDocument(String organizationId, String documentId);
+
+    OrganizationResponseDTO getOrganization();
+
+
 }

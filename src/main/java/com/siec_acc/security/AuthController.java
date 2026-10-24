@@ -1,5 +1,7 @@
 package com.siec_acc.security;
 
+import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.repository.AdminRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -7,13 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
 import java.util.Map;
@@ -27,6 +32,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final AdminUserDetailsService adminUserDetailsService;
+    private final AdminRepository adminRepository;
 
     @Value("${jwt.expiration}")
     private Long accessTokenExpiration;
@@ -39,10 +45,11 @@ public class AuthController {
 
     public AuthController(@Qualifier("adminAuthenticationManager") AuthenticationManager authenticationManager,
                           JwtUtil jwtUtil,
-                          AdminUserDetailsService adminUserDetailsService) {
+                          AdminUserDetailsService adminUserDetailsService, AdminRepository adminRepository) {
         this.authenticationManager   = authenticationManager;
         this.jwtUtil                 = jwtUtil;
         this.adminUserDetailsService = adminUserDetailsService;
+        this.adminRepository = adminRepository;
         logger.info("AuthController initialized");
     }
 
@@ -112,6 +119,20 @@ public class AuthController {
             logger.error("Unexpected error during login for mobile: {}", mobile, e);
             return ResponseEntity.status(500).body("Authentication error - please try again later");
         }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+        if (authentication == null
+                || !(authentication.getPrincipal() instanceof AdminDetails adminDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Unauthorized - Login required"));
+        }
+        return ResponseEntity.ok(Map.of(
+                "adminId", adminDetails.getAdminId() != null ? adminDetails.getAdminId() : "",
+                "mobile",  adminDetails.getMobileNumber(),
+                "role",    adminDetails.getRole() != null ? adminDetails.getRole() : ""
+        ));
     }
 
     @PostMapping("/refresh")

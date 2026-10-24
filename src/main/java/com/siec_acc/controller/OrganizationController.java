@@ -30,6 +30,8 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.createOrganization(request));
     }
 
+
+
     @GetMapping
     public ResponseEntity<List<OrganizationResponseDTO>> getAllOrganizations() {
         logger.info("GET /api/organization");
@@ -109,5 +111,11 @@ public class OrganizationController {
         logger.info("GET /api/organization/{}/bank-name", organizationId);
         OrganizationResponseDTO organization = organizationService.getOrganization(organizationId);
         return ResponseEntity.ok(Map.of("bankName", organization.getBankName() == null ? "" : organization.getBankName()));
+    }
+
+    @GetMapping("/get-org")
+    public ResponseEntity<OrganizationResponseDTO> getOrganization() {
+        logger.info("GET /api/organization");
+        return ResponseEntity.ok(organizationService.getOrganization());
     }
 }

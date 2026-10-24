@@ -27,7 +27,6 @@ import java.util.Map;
 public class ProjectController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
-
     private final ProjectService projectService;
 
     public ProjectController(ProjectService projectService) {
