@@ -14,12 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TAX INVOICE entity. Mirrors the "Invoices" tab on the frontend.
- * Customer/Company relations are kept as plain FK columns for now
- * (no @ManyToOne) since those modules aren't wired up yet — swap in
- * real relations once CustomerEntity / CompanyEntity are confirmed.
- */
 @Entity
 @Table(name = "invoices")
 @Data

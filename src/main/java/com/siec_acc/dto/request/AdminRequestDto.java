@@ -13,12 +13,11 @@ public class AdminRequestDto {
     private String adminRole;
     private String adminPassword;
     private String adminDepartment;
+    private Boolean adminIsActive;
 
     public AdminRequestDto() {}
 
-    public AdminRequestDto(String adminFirstName, String adminLastName, String adminMobileNumber,
-                           String adminAddress, String adminEmail, String adminRole,
-                           String adminPassword, String adminDepartment) {
+    public AdminRequestDto(String adminFirstName, String adminLastName, String adminMobileNumber, String adminAddress, String adminEmail, String adminRole, String adminPassword, String adminDepartment, Boolean adminIsActive) {
         this.adminFirstName = adminFirstName;
         this.adminLastName = adminLastName;
         this.adminMobileNumber = adminMobileNumber;
@@ -27,6 +26,7 @@ public class AdminRequestDto {
         this.adminRole = adminRole;
         this.adminPassword = adminPassword;
         this.adminDepartment = adminDepartment;
+        this.adminIsActive = adminIsActive;
     }
 
     // Getters and Setters
@@ -53,4 +53,12 @@ public class AdminRequestDto {
 
     public String getAdminDepartment() { return adminDepartment; }
     public void setAdminDepartment(String adminDepartment) { this.adminDepartment = adminDepartment; }
+
+    public Boolean getAdminIsActive() {
+        return adminIsActive;
+    }
+
+    public void setAdminIsActive(Boolean adminIsActive) {
+        this.adminIsActive = adminIsActive;
+    }
 }

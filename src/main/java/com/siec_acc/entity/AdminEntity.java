@@ -3,6 +3,8 @@ package com.siec_acc.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "admin_table")
 @Builder
@@ -48,10 +50,21 @@ public class AdminEntity {
     @Column(name = "admin_is_locked", nullable = false)
     private Boolean adminIsLocked = false;
 
+    @Column(name = "admin_created_at", updatable = false)
+    private LocalDateTime adminCreatedAt;
+
+    @Column(name = "admin_last_login_at")
+    private LocalDateTime adminLastLoginAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.adminCreatedAt = LocalDateTime.now();
+    }
+
     public AdminEntity(){}
 
 
-    public AdminEntity(Long id, String adminId, String adminFirstName, String adminLastName, String adminMobileNumber, String adminAddress, String adminEmail, String adminRole, String adminPassword, String adminDepartment, Boolean adminIsActive, Boolean adminIsLocked) {
+    public AdminEntity(Long id, String adminId, String adminFirstName, String adminLastName, String adminMobileNumber, String adminAddress, String adminEmail, String adminRole, String adminPassword, String adminDepartment, Boolean adminIsActive, Boolean adminIsLocked, LocalDateTime adminCreatedAt, LocalDateTime adminLastLoginAt) {
         Id = id;
         this.adminId = adminId;
         this.adminFirstName = adminFirstName;
@@ -64,6 +77,8 @@ public class AdminEntity {
         this.adminDepartment = adminDepartment;
         this.adminIsActive = adminIsActive;
         this.adminIsLocked = adminIsLocked;
+        this.adminCreatedAt = adminCreatedAt;
+        this.adminLastLoginAt = adminLastLoginAt;
     }
 
     public Long getId() {
@@ -160,6 +175,22 @@ public class AdminEntity {
 
     public void setAdminIsLocked(Boolean adminIsLocked) {
         this.adminIsLocked = adminIsLocked;
+    }
+
+    public LocalDateTime getAdminCreatedAt() {
+        return adminCreatedAt;
+    }
+
+    public void setAdminCreatedAt(LocalDateTime adminCreatedAt) {
+        this.adminCreatedAt = adminCreatedAt;
+    }
+
+    public LocalDateTime getAdminLastLoginAt() {
+        return adminLastLoginAt;
+    }
+
+    public void setAdminLastLoginAt(LocalDateTime adminLastLoginAt) {
+        this.adminLastLoginAt = adminLastLoginAt;
     }
 }
 

@@ -2,6 +2,8 @@ package com.siec_acc.dto.response;
 
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Builder
 public class AdminResponseDto {
 
@@ -13,12 +15,15 @@ public class AdminResponseDto {
     private String adminEmail;
     private String adminRole;
     private String adminDepartment;
+    private Boolean adminIsActive;
+    private Boolean adminIsLocked;
+    private java.time.LocalDateTime adminLastLoginAt;
+    private java.time.LocalDateTime adminCreatedAt;
+
 
     public AdminResponseDto() {}
 
-    public AdminResponseDto(String adminId, String adminFirstName, String adminLastName,
-                            String adminMobileNumber, String adminAddress, String adminEmail,
-                            String adminRole, String adminDepartment) {
+    public AdminResponseDto(String adminId, String adminFirstName, String adminLastName, String adminMobileNumber, String adminAddress, String adminEmail, String adminRole, String adminDepartment, Boolean adminIsActive, Boolean adminIsLocked, LocalDateTime adminLastLoginAt, LocalDateTime adminCreatedAt) {
         this.adminId = adminId;
         this.adminFirstName = adminFirstName;
         this.adminLastName = adminLastName;
@@ -27,6 +32,10 @@ public class AdminResponseDto {
         this.adminEmail = adminEmail;
         this.adminRole = adminRole;
         this.adminDepartment = adminDepartment;
+        this.adminIsActive = adminIsActive;
+        this.adminIsLocked = adminIsLocked;
+        this.adminLastLoginAt = adminLastLoginAt;
+        this.adminCreatedAt = adminCreatedAt;
     }
 
     // Getters and Setters
@@ -53,4 +62,36 @@ public class AdminResponseDto {
 
     public String getAdminDepartment() { return adminDepartment; }
     public void setAdminDepartment(String adminDepartment) { this.adminDepartment = adminDepartment; }
+
+    public Boolean getAdminIsActive() {
+        return adminIsActive;
+    }
+
+    public void setAdminIsActive(Boolean adminIsActive) {
+        this.adminIsActive = adminIsActive;
+    }
+
+    public Boolean getAdminIsLocked() {
+        return adminIsLocked;
+    }
+
+    public void setAdminIsLocked(Boolean adminIsLocked) {
+        this.adminIsLocked = adminIsLocked;
+    }
+
+    public LocalDateTime getAdminLastLoginAt() {
+        return adminLastLoginAt;
+    }
+
+    public void setAdminLastLoginAt(LocalDateTime adminLastLoginAt) {
+        this.adminLastLoginAt = adminLastLoginAt;
+    }
+
+    public LocalDateTime getAdminCreatedAt() {
+        return adminCreatedAt;
+    }
+
+    public void setAdminCreatedAt(LocalDateTime adminCreatedAt) {
+        this.adminCreatedAt = adminCreatedAt;
+    }
 }

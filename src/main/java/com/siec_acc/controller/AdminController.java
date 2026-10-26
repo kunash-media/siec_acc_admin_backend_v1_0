@@ -110,6 +110,8 @@ public class AdminController {
         ));
     }
 
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/get-admin-by-adminId/{adminId}")
     public ResponseEntity<?> getAdmin(@PathVariable String adminId) {
         logger.info("GET /api/admin/{} → Fetching admin", adminId);
@@ -128,6 +130,7 @@ public class AdminController {
         }
     }
 
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @GetMapping("/get-all-admin")
     public ResponseEntity<?> getAllAdmins() {
         logger.info("GET /api/admin → Fetching all admins");
@@ -145,6 +148,7 @@ public class AdminController {
         }
     }
 
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PutMapping("/update-admin-by-adminId/{adminId}")
     public ResponseEntity<String> updateAdmin(
             @PathVariable String adminId,
@@ -157,6 +161,8 @@ public class AdminController {
             String message = "Admin updated successfully: " + adminId;
             logger.info(message);
             return ResponseEntity.ok(message);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (RuntimeException e) {
             logger.warn("Update failed - admin not found: {}", adminId);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -168,6 +174,8 @@ public class AdminController {
         }
     }
 
+
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PatchMapping("/patch-admin-by-adminId/{adminId}")
     public ResponseEntity<String> patchAdmin(
             @PathVariable String adminId,
@@ -191,6 +199,7 @@ public class AdminController {
         }
     }
 
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("/delete-admin-by-adminId/{adminId}")
     public ResponseEntity<String> deleteAdmin(@PathVariable String adminId) {
         logger.info("DELETE /api/admin/{} → Deleting admin", adminId);

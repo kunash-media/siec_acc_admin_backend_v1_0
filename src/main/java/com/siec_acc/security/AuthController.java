@@ -2,6 +2,8 @@ package com.siec_acc.security;
 
 import com.siec_acc.entity.AdminEntity;
 import com.siec_acc.repository.AdminRepository;
+import com.siec_acc.service.rbac.ActivityLogService;
+import com.siec_acc.service.rbac.PermissionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -12,13 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
 import java.util.Map;
@@ -33,6 +32,9 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final AdminUserDetailsService adminUserDetailsService;
     private final AdminRepository adminRepository;
+    private final PermissionService permissionService;
+    private final ActivityLogService activityLogService;
+
 
     @Value("${jwt.expiration}")
     private Long accessTokenExpiration;
@@ -45,12 +47,23 @@ public class AuthController {
 
     public AuthController(@Qualifier("adminAuthenticationManager") AuthenticationManager authenticationManager,
                           JwtUtil jwtUtil,
-                          AdminUserDetailsService adminUserDetailsService, AdminRepository adminRepository) {
+                          AdminUserDetailsService adminUserDetailsService, AdminRepository adminRepository,
+                          PermissionService permissionService, ActivityLogService activityLogService) {
         this.authenticationManager   = authenticationManager;
         this.jwtUtil                 = jwtUtil;
         this.adminUserDetailsService = adminUserDetailsService;
         this.adminRepository = adminRepository;
+        this.permissionService = permissionService;
+        this.activityLogService = activityLogService;
         logger.info("AuthController initialized");
+    }
+
+    private void safeFailedLoginLog(HttpServletRequest req, String mobile, String reason) {
+        try {
+            activityLogService.recordFailedLogin(req, mobile, reason);
+        } catch (Exception e) {
+            logger.warn("Failed-login log write failed: {}", e.getMessage());
+        }
     }
 
     private ResponseCookie buildCookie(String name, String value, String path, long maxAgeMs) {
@@ -75,6 +88,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request,
+                                   HttpServletRequest httpRequest,
                                    HttpServletResponse response) {
 
         String mobile   = request.get("mobile");
@@ -105,6 +119,16 @@ public class AuthController {
 
             AdminDetails adminDetails = (AdminDetails) userDetails;
 
+            try {
+                AdminEntity loggedIn = adminDetails.getAdminEntity();
+                loggedIn.setAdminLastLoginAt(java.time.LocalDateTime.now());
+                adminRepository.save(loggedIn);
+                activityLogService.record(adminDetails, httpRequest, "auth", "LOGIN", "ADMIN",
+                        adminDetails.getAdminId(), null, "Logged in", 200);
+            } catch (Exception e) {
+                logger.warn("Post-login bookkeeping failed (login continues): {}", e.getMessage());
+            }
+
             return ResponseEntity.ok(Map.of(
                     "message", "Login successful",
                     "mobile",  mobile,
@@ -114,7 +138,13 @@ public class AuthController {
 
         } catch (BadCredentialsException e) {
             logger.warn("Login failed - invalid credentials for mobile: {}", mobile);
+            safeFailedLoginLog(httpRequest, mobile, "Invalid credentials");
             return ResponseEntity.status(401).body("Invalid mobile or password");
+        } catch (DisabledException | LockedException e) {
+            logger.warn("Login blocked - account disabled or locked for mobile: {}", mobile);
+            safeFailedLoginLog(httpRequest, mobile, "Account disabled or locked");
+            return ResponseEntity.status(403).body(Map.of(
+                    "message", "Your account is disabled or locked. Contact your administrator."));
         } catch (Exception e) {
             logger.error("Unexpected error during login for mobile: {}", mobile, e);
             return ResponseEntity.status(500).body("Authentication error - please try again later");
@@ -128,12 +158,19 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Unauthorized - Login required"));
         }
+        String role = adminDetails.getRole() != null ? adminDetails.getRole() : "";
+        AdminEntity a = adminDetails.getAdminEntity();
+        String name = ((a.getAdminFirstName() == null ? "" : a.getAdminFirstName()) + " "
+                + (a.getAdminLastName() == null ? "" : a.getAdminLastName())).trim();
         return ResponseEntity.ok(Map.of(
                 "adminId", adminDetails.getAdminId() != null ? adminDetails.getAdminId() : "",
                 "mobile",  adminDetails.getMobileNumber(),
-                "role",    adminDetails.getRole() != null ? adminDetails.getRole() : ""
+                "role",    role,
+                "name",    name,
+                "permissions", permissionService.permissionMap(role)
         ));
     }
+
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request,
