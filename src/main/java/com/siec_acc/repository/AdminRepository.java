@@ -1,6 +1,6 @@
 package com.siec_acc.repository;
 
-import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.entity.rbac.AdminEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

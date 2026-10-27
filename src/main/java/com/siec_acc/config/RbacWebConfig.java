@@ -18,6 +18,8 @@ public class RbacWebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminAccessInterceptor)
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/admin/auth/**", "/api/admin/bootstrap");
+                .excludePathPatterns("/api/admin/auth/**", "/api/admin/bootstrap", "/api/admin/approvals/**");
+
     }
+
 }

@@ -2,7 +2,7 @@ package com.siec_acc.controller.rbac;
 
 import com.siec_acc.dto.rbac.ActivityLogDto;
 import com.siec_acc.dto.response.PagedResponseDto;
-import com.siec_acc.entity.ActivityLogEntity;
+import com.siec_acc.entity.rbac.ActivityLogEntity;
 import com.siec_acc.repository.ActivityLogRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

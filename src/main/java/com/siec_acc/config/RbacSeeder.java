@@ -1,7 +1,7 @@
 package com.siec_acc.config;
 
-import com.siec_acc.entity.RoleEntity;
-import com.siec_acc.entity.RolePermissionEntity;
+import com.siec_acc.entity.rbac.RoleEntity;
+import com.siec_acc.entity.rbac.RolePermissionEntity;
 import com.siec_acc.enum_status.AppModule;
 import com.siec_acc.repository.AdminRepository;
 import com.siec_acc.repository.RoleRepository;

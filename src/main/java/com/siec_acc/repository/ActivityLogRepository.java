@@ -1,6 +1,6 @@
 package com.siec_acc.repository;
 
-import com.siec_acc.entity.ActivityLogEntity;
+import com.siec_acc.entity.rbac.ActivityLogEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface ActivityLogRepository extends JpaRepository<ActivityLogEntity, Long> {
 
@@ -35,4 +36,7 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLogEntity, 
                                    Pageable pageable);
 
     List<ActivityLogEntity> findByActionAndEntityTypeAndEntityIdIn(String action, String entityType, Collection<String> entityIds);
+
+    Optional<ActivityLogEntity> findTopByEntityTypeAndEntityIdAndEntityRefIsNotNullOrderByIdDesc(String entityType, String entityId);
+
 }

@@ -1,4 +1,4 @@
-package com.siec_acc.entity;
+package com.siec_acc.entity.rbac;
 
 import jakarta.persistence.*;
 import lombok.Builder;

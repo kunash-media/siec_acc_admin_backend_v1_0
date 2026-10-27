@@ -3,7 +3,7 @@ package com.siec_acc.controller;
 import com.siec_acc.config.BcryptEncoderConfig;
 import com.siec_acc.dto.request.AdminRequestDto;
 import com.siec_acc.dto.response.AdminResponseDto;
-import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.entity.rbac.AdminEntity;
 import com.siec_acc.repository.AdminRepository;
 import com.siec_acc.service.AdminService;
 import com.siec_acc.utils.AdminIdGenerator;

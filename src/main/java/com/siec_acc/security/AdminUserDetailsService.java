@@ -1,6 +1,6 @@
 package com.siec_acc.security;
 
-import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.entity.rbac.AdminEntity;
 import com.siec_acc.repository.AdminRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package com.siec_acc.service.rbac;
 
-import com.siec_acc.entity.ActivityLogEntity;
-import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.entity.rbac.ActivityLogEntity;
+import com.siec_acc.entity.rbac.AdminEntity;
 import com.siec_acc.repository.ActivityLogRepository;
 import com.siec_acc.security.AdminDetails;
 import jakarta.servlet.http.HttpServletRequest;

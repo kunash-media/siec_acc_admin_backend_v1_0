@@ -1,12 +1,15 @@
 package com.siec_acc.security.rbac;
 
+import com.siec_acc.entity.rbac.ApprovalRequestEntity;
 import com.siec_acc.enum_status.AppModule;
 import com.siec_acc.enum_status.PermissionAction;
 import com.siec_acc.security.AdminDetails;
 import com.siec_acc.service.rbac.ActivityLogService;
+import com.siec_acc.service.rbac.ApprovalService;
 import com.siec_acc.service.rbac.PermissionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,14 +35,18 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
     private final PermissionService permissionService;
     private final ActivityLogService activityLogService;
     private final boolean enforce;
+    private final ApprovalService approvalService;
 
     public AdminAccessInterceptor(PermissionService permissionService,
                                   ActivityLogService activityLogService,
+                                  ApprovalService approvalService,
                                   @Value("${app.rbac.enforce:false}") boolean enforce) {
         this.permissionService = permissionService;
         this.activityLogService = activityLogService;
+        this.approvalService = approvalService;
         this.enforce = enforce;
     }
+
 
     static boolean isMutating(String method) {
         return "POST".equals(method) || "PUT".equals(method) || "PATCH".equals(method) || "DELETE".equals(method);
@@ -69,7 +76,12 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
 
         boolean allowed = neededActions(path, method).stream()
                 .anyMatch(a -> permissionService.isAllowed(admin.getRole(), match.module(), a));
-        if (allowed) return true;
+        if (allowed) {
+            if ("DELETE".equals(method) && approvalService.shouldGate(admin, match)) {
+                return gateDelete(request, response, admin, match);
+            }
+            return true;
+        }
 
         if (mutating) {
             safeLog(() -> activityLogService.record(admin, request, match.module().getKey(),
@@ -106,6 +118,25 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
         String fid = id, fnum = number;
         safeLog(() -> activityLogService.record(admin, request, match.module().getKey(), action,
                 match.entityType(), fid, fnum, summary, status));
+    }
+
+    private boolean gateDelete(HttpServletRequest request, HttpServletResponse response,
+                               AdminDetails admin, AppModule.Match match) throws IOException {
+        String path = request.getRequestURI();
+        String entityId = path.substring(path.lastIndexOf('/') + 1);
+
+        ApprovalRequestEntity req = approvalService.submitDeleteRequest(admin, match, entityId);
+        request.removeAttribute(ATTR_ACTION);                 // nothing was deleted, so no DELETE row
+
+        safeLog(() -> activityLogService.record(admin, request, match.module().getKey(), "APPROVAL_REQUESTED",
+                match.entityType(), entityId, req.getEntityRef(),
+                "Delete request #" + req.getId() + " sent for approval", 202));
+
+        response.setStatus(202);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"approvalRequired\":true,\"approvalId\":" + req.getId()
+                + ",\"message\":\"Delete request sent for approval\"}");
+        return false;
     }
 
     private static Set<PermissionAction> neededActions(String path, String method) {

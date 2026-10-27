@@ -1,6 +1,6 @@
 package com.siec_acc.security;
 
-import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.entity.rbac.AdminEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;

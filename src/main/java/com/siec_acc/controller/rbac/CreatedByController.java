@@ -1,7 +1,7 @@
 package com.siec_acc.controller.rbac;
 
 import com.siec_acc.dto.rbac.CreatorDto;
-import com.siec_acc.entity.ActivityLogEntity;
+import com.siec_acc.entity.rbac.ActivityLogEntity;
 import com.siec_acc.repository.ActivityLogRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,6 +1,6 @@
 package com.siec_acc.security;
 
-import com.siec_acc.entity.AdminEntity;
+import com.siec_acc.entity.rbac.AdminEntity;
 import com.siec_acc.repository.AdminRepository;
 import com.siec_acc.service.rbac.ActivityLogService;
 import com.siec_acc.service.rbac.PermissionService;

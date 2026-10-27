@@ -52,7 +52,8 @@ public enum AppModule {
 
     USERS("users",
             route("/api/admin", "ADMIN"),
-            route("/api/admin/roles", "ROLE")),
+            route("/api/admin/roles", "ROLE"),
+            route("/api/admin/approval-rules", "APPROVAL_RULE")),
 
     SETTINGS("settings",
             lookup("/api/organization", "ORGANIZATION"));
@@ -94,6 +95,12 @@ public enum AppModule {
             }
         }
         return best;
+    }
+
+
+    public static AppModule byKey(String key) {
+        for (AppModule m : values()) if (m.key.equals(key)) return m;
+        return null;
     }
 
     // "/api/vendor" matches "/api/vendor" and "/api/vendor/..." but NOT "/api/vendor-payments/..."
