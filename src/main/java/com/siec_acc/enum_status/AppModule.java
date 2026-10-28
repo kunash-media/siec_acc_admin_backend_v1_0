@@ -19,17 +19,21 @@ public enum AppModule {
             route("/api/vendor", "VENDOR")),
 
     QUOTATIONS("quotations",
-            route("/api/v1/quotes", "QUOTE")),
+            route("/api/v1/quotes", "QUOTE"),
+            lookup("/api/v1/quotes/quote-list", "QUOTE")),
 
     SALES_ORDERS("sales-orders",
-            route("/api/sales-orders", "SALES_ORDER")),
+            route("/api/sales-orders", "SALES_ORDER"),
+            lookup("/api/sales-orders/sales-order-list", "SALES_ORDER")),
 
     DELIVERY_CHALLAN("delivery-challan",
             route("/api/v1/delivery-challans", "DELIVERY_CHALLAN")),
 
     INVOICES("invoices",
             route("/api/v1/invoices", "INVOICE"),
-            route("/api/v1/proformas", "PROFORMA")),
+            route("/api/v1/proformas", "PROFORMA"),
+            lookup("/api/v1/invoices/invoice-list", "INVOICE"),
+            lookup("/api/v1/proformas/proforma-list", "PROFORMA")),
 
     CUSTOMER_PAYMENTS("customer-payments",
             route("/api/customer-payments", "CUSTOMER_PAYMENT")),

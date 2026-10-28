@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +85,36 @@ public class ApprovalService {
                 });
     }
 
+    // Customer / vendor payments execute normally; a PENDING review is opened when the amount reaches the rule's threshold
+    @Transactional
+    public void openReviewIfRequired(AdminDetails admin, AppModule.Match match, String entityId, String entityRef, String amountText) {
+        if (!enabled || entityId == null) return;
+        if (approverBypass && permissionService.isAllowed(admin.getRole(), match.module(), PermissionAction.APPROVE)) return;
+
+        ApprovalRuleEntity rule = rules.findFirstByEntityTypeAndActionAndModeAndActiveTrue(match.entityType(), "CREATE", "REVIEW").orElse(null);
+        if (rule == null) return;
+
+        BigDecimal amount = null;
+        try { if (amountText != null) amount = new BigDecimal(amountText.trim()); } catch (NumberFormatException ignored) { }
+        // unknown amount is flagged, not skipped: better a review too many than a missed one
+        if (rule.getMinAmount() != null && amount != null && amount.compareTo(rule.getMinAmount()) < 0) return;
+
+        if (requests.findFirstByEntityTypeAndEntityIdAndStatus(match.entityType(), entityId, "PENDING").isPresent()) return;
+
+        AdminEntity a = admin.getAdminEntity();
+        requests.save(ApprovalRequestEntity.builder()
+                .moduleKey(match.module().getKey())
+                .entityType(match.entityType())
+                .entityId(entityId)
+                .entityRef(entityRef)
+                .requestType("REVIEW")
+                .amount(amount)
+                .description(label(match.entityType()) + " " + nz(entityRef) + " needs review")
+                .requestedByAdminId(a.getAdminId())
+                .requestedByName(fullName(a))
+                .build());
+    }
+
     // ---- read ----
 
     @Transactional(readOnly = true)
@@ -116,22 +147,27 @@ public class ApprovalService {
         if (r.getRequestedByAdminId().equals(admin.getAdminId()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You cannot approve your own request");
 
-        try {
-            executor.delete(r.getEntityType(), r.getEntityId());
-        } catch (RuntimeException e) {
-            // whole transaction rolls back: the request stays PENDING, the approver sees why
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Could not delete the record: " + (e.getMessage() == null ? "unknown error" : e.getMessage()));
+        boolean isDelete = "DELETE_REQUEST".equals(r.getRequestType());
+        if (isDelete) {
+            try {
+                executor.delete(r.getEntityType(), r.getEntityId());
+            } catch (RuntimeException e) {
+                // whole transaction rolls back: the request stays PENDING, the approver sees why
+                throw new ResponseStatusException(HttpStatus.CONFLICT,
+                        "Could not delete the record: " + (e.getMessage() == null ? "unknown error" : e.getMessage()));
+            }
         }
 
         stamp(r, admin, "APPROVED", note);
         ApprovalRequestEntity saved = requests.save(r);
 
-        activityLogService.record(admin, http, r.getModuleKey(), "DELETE", r.getEntityType(), r.getEntityId(), r.getEntityRef(),
-                "Deleted " + label(r.getEntityType()) + " " + nz(r.getEntityRef())
-                        + " (approved request #" + r.getId() + ", requested by " + r.getRequestedByName() + ")", 200);
+        if (isDelete) {
+            activityLogService.record(admin, http, r.getModuleKey(), "DELETE", r.getEntityType(), r.getEntityId(), r.getEntityRef(),
+                    "Deleted " + label(r.getEntityType()) + " " + nz(r.getEntityRef())
+                            + " (approved request #" + r.getId() + ", requested by " + r.getRequestedByName() + ")", 200);
+        }
         activityLogService.record(admin, http, r.getModuleKey(), "APPROVE", r.getEntityType(), r.getEntityId(), r.getEntityRef(),
-                "Approved request #" + r.getId(), 200);
+                (isDelete ? "Approved request #" : "Reviewed and approved #") + r.getId(), 200);
         return toDto(admin, saved);
     }
 

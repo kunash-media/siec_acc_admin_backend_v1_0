@@ -38,7 +38,8 @@ public class EntityRefCaptureAdvice implements ResponseBodyAdvice<Object> {
         if (!AdminAccessInterceptor.isMutating(http.getMethod())) return body;
 
         try {
-            Map<String, Object> m = objectMapper.convertValue(body, new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> m = toMap(body);
+            if (m.get("data") instanceof Map<?, ?> inner) m = toMap(inner);   // ApiResponse / {success,message,data} envelopes
             http.setAttribute(AdminAccessInterceptor.ATTR_REF, extract(m));
         } catch (Exception e) {
             logger.debug("[rbac] entity ref not extractable: {}", e.getMessage());
@@ -46,17 +47,37 @@ public class EntityRefCaptureAdvice implements ResponseBodyAdvice<Object> {
         return body;
     }
 
-    // <x>PrimeId + <x>StrId pair with the shortest prefix (avoids quoteClientPrimeId etc.); fallback id/number (Sales Orders)
+    private Map<String, Object> toMap(Object o) {
+        return objectMapper.convertValue(o, new TypeReference<Map<String, Object>>() {});
+    }
+
+    // returns { id, number, amount, status }
     private static String[] extract(Map<String, Object> m) {
-        String best = null;
-        for (String k : m.keySet()) {
-            if (k.endsWith("StrId") && k.length() > 5) {
-                String p = k.substring(0, k.length() - 5);
-                if (m.containsKey(p + "PrimeId") && (best == null || p.length() < best.length())) best = p;
+        String id, ref;
+        if (m.get("paymentId") != null) {                       // customer payment (has clientPrimeId/clientStrId too, so check first)
+            id = str(m.get("paymentId")); ref = str(m.get("receiptNumber"));
+        } else if (m.get("vpStrId") != null) {                  // vendor payment
+            id = str(m.get("vpStrId")); ref = str(m.get("vpNumber"));
+        } else {
+            String best = null;                                 // <x>PrimeId + <x>StrId pair, shortest prefix wins
+            for (String k : m.keySet()) {
+                if (k.endsWith("StrId") && k.length() > 5) {
+                    String p = k.substring(0, k.length() - 5);
+                    if (m.containsKey(p + "PrimeId") && (best == null || p.length() < best.length())) best = p;
+                }
             }
+            if (best != null) { id = str(m.get(best + "PrimeId")); ref = str(m.get(best + "StrId")); }
+            else { id = str(m.get("id")); ref = str(m.get("number")); }      // sales orders
         }
-        if (best != null) return new String[]{ str(m.get(best + "PrimeId")), str(m.get(best + "StrId")) };
-        return new String[]{ str(m.get("id")), str(m.get("number")) };
+        return new String[]{ id, ref, amount(m), str(m.get("status")) };
+    }
+
+    private static String amount(Map<String, Object> m) {
+        Object a = m.get("amount");
+        if (a == null) a = m.get("total");
+        if (a == null) for (String k : m.keySet()) if (k.endsWith("TotalAmountInr")) { a = m.get(k); break; }
+        if (a == null) for (String k : m.keySet()) if (k.endsWith("TotalAmount")) { a = m.get(k); break; }
+        return str(a);
     }
 
     private static String str(Object o) { return o == null ? null : String.valueOf(o); }

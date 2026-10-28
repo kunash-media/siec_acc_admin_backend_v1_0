@@ -106,18 +106,44 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
         int status = response.getStatus();
         if (status < 200 || status >= 300) return;
 
-        String[] ref = (String[]) request.getAttribute(ATTR_REF);
-        String id = (ref != null) ? ref[0] : null;
-        String number = (ref != null) ? ref[1] : null;
-        if (id == null && "DELETE".equals(request.getMethod())) {
-            String p = request.getRequestURI();
-            id = p.substring(p.lastIndexOf('/') + 1);
+        String path = request.getRequestURI();
+        String[] ref = (String[]) request.getAttribute(ATTR_REF);     // id, number, amount, status (from the response body)
+        String id = ref != null ? ref[0] : null;
+        String number = ref != null ? ref[1] : null;
+        String amount = ref != null ? ref[2] : null;
+        String bodyStatus = ref != null ? ref[3] : null;
+
+        // Sales order approve/reject is a PATCH whose new status comes back in the response
+        if ("UPDATE".equals(action) && path.contains("/patch-sales-order/") && bodyStatus != null) {
+            if ("approved".equalsIgnoreCase(bodyStatus)) action = "APPROVE";
+            else if ("rejected".equalsIgnoreCase(bodyStatus)) action = "REJECT";
         }
 
-        String summary = action + " " + match.entityType().toLowerCase() + (number != null ? " " + number : (id != null ? " #" + id : ""));
-        String fid = id, fnum = number;
-        safeLog(() -> activityLogService.record(admin, request, match.module().getKey(), action,
-                match.entityType(), fid, fnum, summary, status));
+        String convertedTo = null;
+        if ("CONVERT".equals(action)) {
+            String[] seg = path.split("/");
+            if (seg.length >= 2) id = seg[seg.length - 2];            // the proforma id is in the URL
+            convertedTo = number;                                     // the response carries the NEW invoice
+            number = null;
+        }
+
+        if (id == null && "DELETE".equals(action) && !path.contains("/bulk-")) {
+            id = path.substring(path.lastIndexOf('/') + 1);
+        }
+
+        String st = request.getParameter("status");
+        String summary = action + " " + match.entityType().toLowerCase()
+                + (number != null ? " " + number : (id != null ? " #" + id : ""))
+                + (st != null && !st.isBlank() ? " → " + st.trim() : "")
+                + (convertedTo != null ? " → invoice " + convertedTo : "");
+
+        final String fAction = action, fId = id, fNumber = number, fAmount = amount;
+        safeLog(() -> activityLogService.record(admin, request, match.module().getKey(), fAction,
+                match.entityType(), fId, fNumber, summary, status));
+
+        if ("CREATE".equals(fAction)) {
+            safeLog(() -> approvalService.openReviewIfRequired(admin, match, fId, fNumber, fAmount));
+        }
     }
 
     private boolean gateDelete(HttpServletRequest request, HttpServletResponse response,
@@ -141,7 +167,9 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
 
     private static Set<PermissionAction> neededActions(String path, String method) {
         if (path.endsWith("/upload-pdf")) return EnumSet.of(PermissionAction.CREATE, PermissionAction.EDIT);
-        if (path.contains("/approve") || path.contains("/reject")) return EnumSet.of(PermissionAction.APPROVE);
+        if (path.contains("/approve") || path.contains("/reject") || path.contains("/patch-sales-order/"))
+            return EnumSet.of(PermissionAction.APPROVE);
+        if (path.contains("/delete")) return EnumSet.of(PermissionAction.DELETE);
         return switch (method) {
             case "POST" -> EnumSet.of(PermissionAction.CREATE);
             case "PUT", "PATCH" -> EnumSet.of(PermissionAction.EDIT);
@@ -152,8 +180,10 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
 
     private static String logActionFor(String path, String method) {
         if (path.endsWith("/upload-pdf")) return null;        // companion call of create/update, not a separate action
+        if (path.contains("/convert-to-invoice")) return "CONVERT";
         if (path.contains("/approve")) return "APPROVE";
         if (path.contains("/reject")) return "REJECT";
+        if (path.contains("/delete")) return "DELETE";
         return switch (method) {
             case "POST" -> "CREATE";
             case "PUT", "PATCH" -> "UPDATE";

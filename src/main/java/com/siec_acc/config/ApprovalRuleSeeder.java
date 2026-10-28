@@ -28,7 +28,7 @@ public class ApprovalRuleSeeder implements ApplicationRunner {
         BigDecimal threshold = new BigDecimal("50000");
         seed("customer-payments", "CUSTOMER_PAYMENT", "CREATE", "REVIEW", threshold);
         seed("vendor-payments", "VENDOR_PAYMENT", "CREATE", "REVIEW", threshold);
-        seed("expenses", "EXPENSE", "CREATE", "REVIEW", threshold);
+
     }
 
     private void seed(String module, String entityType, String action, String mode, BigDecimal min) {
