@@ -3,7 +3,9 @@ package com.siec_acc.service.serviceImpl;
 import com.siec_acc.dto.request.ExpenseRequestDto;
 import com.siec_acc.dto.response.ExpenseResponseDto;
 import com.siec_acc.entity.ExpenseEntity;
+import com.siec_acc.enum_status.AppModule;
 import com.siec_acc.repository.ExpenseRepository;
+import com.siec_acc.security.rbac.ApproveGuard;
 import com.siec_acc.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -34,6 +36,7 @@ import java.util.Map;
 public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final ApproveGuard approveGuard;
 
     @Value("${app.upload.dir:uploads}")
     private String uploadDir;
@@ -41,8 +44,16 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Value("${app.upload.base-url:http://localhost:9093}")
     private String uploadBaseUrl;
 
-    public ExpenseServiceImpl(ExpenseRepository expenseRepository) {
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository, ApproveGuard approveGuard) {
         this.expenseRepository = expenseRepository;
+        this.approveGuard = approveGuard;
+    }
+
+    // Any approval-status change (including un-approving or creating as "approved") needs Approve
+    private void guardStatusChange(String current, String target) {
+        String c = current == null ? "pending" : current.toLowerCase(Locale.ROOT);
+        String t = target == null ? "pending" : target.toLowerCase(Locale.ROOT);
+        if (!c.equals(t)) approveGuard.require(AppModule.EXPENSES, "change an expense's approval status");
     }
 
     // ============================================================
@@ -124,6 +135,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         validateAmount(dto.getAmount());
         validateStatus(dto.getStatus());
 
+        guardStatusChange(null, dto.getStatus());
         ExpenseEntity e = new ExpenseEntity();
         e.setExpenseStrId(generateExpenseId());
         applyDto(e, dto);
@@ -139,6 +151,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         validateStatus(dto.getStatus());
 
         ExpenseEntity e = findByIdOrThrow(id);
+        guardStatusChange(e.getExpenseStatus(), dto.getStatus());
         applyDto(e, dto);
         return toResponseDto(expenseRepository.save(e));
     }
@@ -170,6 +183,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public ExpenseResponseDto updateStatus(String id, String status) {
         validateStatus(status);
+        approveGuard.require(AppModule.EXPENSES, "approve or reject expenses");
         ExpenseEntity e = findByIdOrThrow(id);
         e.setExpenseStatus(status.toLowerCase(Locale.ROOT));
         return toResponseDto(expenseRepository.save(e));
@@ -179,6 +193,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     public void bulkUpdateStatus(List<String> ids, String status) {
         if (ids == null || ids.isEmpty()) return;
         validateStatus(status);
+        approveGuard.require(AppModule.EXPENSES, "approve or reject expenses");
         String normalized = status.toLowerCase(Locale.ROOT);
 
         List<ExpenseEntity> updated = new ArrayList<>();

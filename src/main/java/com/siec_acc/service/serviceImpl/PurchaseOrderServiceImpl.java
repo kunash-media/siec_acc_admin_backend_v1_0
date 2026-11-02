@@ -8,12 +8,14 @@ import com.siec_acc.dto.response.PurchaseOrderResponseDto;
 import com.siec_acc.entity.PurchaseEntity;
 import com.siec_acc.entity.PurchaseOrderEntity;
 import com.siec_acc.entity.PurchaseOrderItemEntity;
+import com.siec_acc.enum_status.AppModule;
 import com.siec_acc.exceptions.InvalidOperationException;
 import com.siec_acc.exceptions.ResourceNotFoundException;
 import com.siec_acc.repository.GoodsReceiptRepository;
 import com.siec_acc.repository.PurchaseBillRepository;
 import com.siec_acc.repository.PurchaseOrderRepository;
 import com.siec_acc.repository.PurchaseRepository;
+import com.siec_acc.security.rbac.ApproveGuard;
 import com.siec_acc.service.GoodsReceiptService;
 import com.siec_acc.service.PurchaseOrderService;
 import com.siec_acc.utils.StrIdGenerator;
@@ -51,13 +53,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final PurchaseRepository purchaseRepository;         // to read/patch the source Purchase Requirement
     private final PurchaseBillRepository purchaseBillRepository; // to block deleting a PO that has bills
     private final GoodsReceiptRepository goodsReceiptRepository; // to block deleting a PO / shrinking items below received qty
-    private final GoodsReceiptService goodsReceiptService;       // re-syncs receipt + PO status after the items change
+    private final GoodsReceiptService goodsReceiptService;
+    private final ApproveGuard approveGuard;
 
     public PurchaseOrderServiceImpl(PurchaseOrderRepository purchaseOrderRepository,
                                     PurchaseRepository purchaseRepository,
                                     PurchaseBillRepository purchaseBillRepository,
                                     GoodsReceiptRepository goodsReceiptRepository,
-                                    GoodsReceiptService goodsReceiptService) {
+                                    GoodsReceiptService goodsReceiptService,
+                                    ApproveGuard approveGuard) {
+        this.approveGuard = approveGuard;
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.purchaseRepository = purchaseRepository;
         this.purchaseBillRepository = purchaseBillRepository;
@@ -84,7 +89,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         po.setPoDate(dto.getPoDate());
         po.setDeliveryDate(dto.getDeliveryDate());
         po.setTaxPct(dto.getTaxPct() == null ? 0.0 : dto.getTaxPct());
-        po.setStatus(initialStatus(dto.getStatus()));
+
+        String initial = initialStatus(dto.getStatus());
+        if ("approved".equals(initial)) approveGuard.require(AppModule.PURCHASE_ORDERS, "create an already-approved purchase order");
+        po.setStatus(initial);
+
         po.setItems(toItemEntities(dto.getItems()));
         po.setSourcePurchaseStrId(sourcePurchase != null ? sourcePurchase.getPurchaseStrId() : null);
 
@@ -283,6 +292,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (!MANUAL_TRANSITIONS.get(current).contains(target)) {
             throw new InvalidOperationException("A purchase order cannot go from " + current + " to " + target + " directly.");
         }
+        if ("approved".equals(target) || ("approved".equals(current) && "draft".equals(target)))
+            approveGuard.require(AppModule.PURCHASE_ORDERS, "approve or un-approve a purchase order");
         po.setStatus(target);
     }
 

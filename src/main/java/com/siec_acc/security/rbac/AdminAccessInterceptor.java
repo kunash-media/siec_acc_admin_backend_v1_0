@@ -9,7 +9,6 @@ import com.siec_acc.service.rbac.ApprovalService;
 import com.siec_acc.service.rbac.PermissionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -36,6 +37,8 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
     private final ActivityLogService activityLogService;
     private final boolean enforce;
     private final ApprovalService approvalService;
+    private static final ObjectMapper JSON = new ObjectMapper();
+    private static final Set<String> BODY_STATUS_ENTITIES = Set.of("EXPENSE", "PURCHASE", "PURCHASE_ORDER");
 
     public AdminAccessInterceptor(PermissionService permissionService,
                                   ActivityLogService activityLogService,
@@ -74,7 +77,7 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
         request.setAttribute(ATTR_MATCH, match);
         if (mutating) request.setAttribute(ATTR_ACTION, logActionFor(path, method));
 
-        boolean allowed = neededActions(path, method).stream()
+        boolean allowed = neededActions(request, match, path, method).stream()
                 .anyMatch(a -> permissionService.isAllowed(admin.getRole(), match.module(), a));
         if (allowed) {
             if ("DELETE".equals(method) && approvalService.shouldGate(admin, match)) {
@@ -114,7 +117,8 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
         String bodyStatus = ref != null ? ref[3] : null;
 
         // Sales order approve/reject is a PATCH whose new status comes back in the response
-        if ("UPDATE".equals(action) && path.contains("/patch-sales-order/") && bodyStatus != null) {
+        if ("UPDATE".equals(action) && bodyStatus != null && "PATCH".equals(request.getMethod())
+                && (path.contains("/patch-sales-order/") || path.contains("/patch-purchase-order/"))) {
             if ("approved".equalsIgnoreCase(bodyStatus)) action = "APPROVE";
             else if ("rejected".equalsIgnoreCase(bodyStatus)) action = "REJECT";
         }
@@ -135,7 +139,8 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
         String summary = action + " " + match.entityType().toLowerCase()
                 + (number != null ? " " + number : (id != null ? " #" + id : ""))
                 + (st != null && !st.isBlank() ? " → " + st.trim() : "")
-                + (convertedTo != null ? " → invoice " + convertedTo : "");
+                + (convertedTo != null ? " → invoice " + convertedTo : "")
+                + (path.contains("/bulk-") ? " (bulk)" : "");
 
         final String fAction = action, fId = id, fNumber = number, fAmount = amount;
         safeLog(() -> activityLogService.record(admin, request, match.module().getKey(), fAction,
@@ -165,11 +170,31 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private static Set<PermissionAction> neededActions(String path, String method) {
-        if (path.endsWith("/upload-pdf")) return EnumSet.of(PermissionAction.CREATE, PermissionAction.EDIT);
-        if (path.contains("/approve") || path.contains("/reject") || path.contains("/patch-sales-order/"))
+
+    // "/approve-expense/ID", "/bulk-approve", "/approve" all count; "/approvals" does not
+    private static boolean hasVerb(String path, String verb) {
+        return path.matches(".*/(bulk-)?" + verb + "(-[A-Za-z-]+)?(/.*)?");
+    }
+
+    private static boolean approvalStatusInBody(HttpServletRequest request) {
+        if (!(request instanceof CachedBodyRequest c)) return false;
+        try {
+            JsonNode n = JSON.readTree(c.getBody());
+            String s = (n != null && n.hasNonNull("status")) ? n.get("status").asText("") : "";
+            return "approved".equalsIgnoreCase(s) || "rejected".equalsIgnoreCase(s);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Set<PermissionAction> neededActions(HttpServletRequest request, AppModule.Match match, String path, String method) {
+        if (path.endsWith("/upload-pdf") || path.endsWith("/upload-receipt"))
+            return EnumSet.of(PermissionAction.CREATE, PermissionAction.EDIT);
+        if (hasVerb(path, "approve") || hasVerb(path, "reject") || path.contains("/patch-sales-order/"))
             return EnumSet.of(PermissionAction.APPROVE);
-        if (path.contains("/delete")) return EnumSet.of(PermissionAction.DELETE);
+        if (hasVerb(path, "delete")) return EnumSet.of(PermissionAction.DELETE);
+        if (isMutating(method) && BODY_STATUS_ENTITIES.contains(match.entityType()) && approvalStatusInBody(request))
+            return EnumSet.of(PermissionAction.APPROVE);
         return switch (method) {
             case "POST" -> EnumSet.of(PermissionAction.CREATE);
             case "PUT", "PATCH" -> EnumSet.of(PermissionAction.EDIT);
@@ -179,11 +204,11 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
     }
 
     private static String logActionFor(String path, String method) {
-        if (path.endsWith("/upload-pdf")) return null;        // companion call of create/update, not a separate action
+        if (path.endsWith("/upload-pdf") || path.endsWith("/upload-receipt")) return null;
         if (path.contains("/convert-to-invoice")) return "CONVERT";
-        if (path.contains("/approve")) return "APPROVE";
-        if (path.contains("/reject")) return "REJECT";
-        if (path.contains("/delete")) return "DELETE";
+        if (hasVerb(path, "approve")) return "APPROVE";
+        if (hasVerb(path, "reject")) return "REJECT";
+        if (hasVerb(path, "delete")) return "DELETE";
         return switch (method) {
             case "POST" -> "CREATE";
             case "PUT", "PATCH" -> "UPDATE";

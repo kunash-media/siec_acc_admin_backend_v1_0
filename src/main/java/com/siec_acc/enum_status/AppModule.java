@@ -13,10 +13,13 @@ public enum AppModule {
             lookup("/api/variants/v1", "VARIANT")),
 
     CLIENTS("clients",
-            lookup("/api/clients/v1", "CLIENT")),
+            route("/api/clients/v1", "CLIENT"),
+            lookup("/api/clients/v1/client-list", "CLIENT"),
+            lookup("/api/clients/v1/get-client", "CLIENT")),
 
     VENDORS("vendors",
-            route("/api/vendor", "VENDOR")),
+            route("/api/vendor", "VENDOR"),
+            lookup("/api/vendor/vendor-list", "VENDOR")),
 
     QUOTATIONS("quotations",
             route("/api/v1/quotes", "QUOTE"),
