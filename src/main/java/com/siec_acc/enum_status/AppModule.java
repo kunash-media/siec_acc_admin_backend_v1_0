@@ -6,11 +6,17 @@ public enum AppModule {
     REPORTS("reports"),
 
     PROJECTS("projects",
-            lookup("/api/projects/v1", "PROJECT")),
+            route("/api/projects/v1", "PROJECT"),
+            lookup("/api/projects/v1/project-list", "PROJECT"),
+            lookup("/api/projects/v1/get-all-projects", "PROJECT"),
+            lookup("/api/projects/v1/get-project", "PROJECT")),
 
     PRODUCTS("products",
-            lookup("/api/products/v1", "PRODUCT"),
-            lookup("/api/variants/v1", "VARIANT")),
+            route("/api/products/v1", "PRODUCT"),
+            lookup("/api/products/v1/get-product-list", "PRODUCT"),
+            lookup("/api/products/v1/get-product", "PRODUCT"),
+            route("/api/variants/v1", "VARIANT"),
+            lookup("/api/variants/v1/get-variants-by-product", "VARIANT")),
 
     CLIENTS("clients",
             route("/api/clients/v1", "CLIENT"),
@@ -52,6 +58,8 @@ public enum AppModule {
 
     INVENTORY("inventory",
             route("/api/inventory/v1", "INVENTORY"),
+            lookup("/api/inventory/v1/get-product-stock", "INVENTORY"),
+            lookup("/api/inventory/v1/get-variant-stock", "INVENTORY"),
             lookup("/api/warehouses/v1", "WAREHOUSE")),
 
     EXPENSES("expenses",

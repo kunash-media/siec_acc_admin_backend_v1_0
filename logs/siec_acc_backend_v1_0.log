@@ -1,92 +1,940 @@
-2026-11-02T01:05:43.677+05:30  INFO 17368 --- [siec-accounting] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
-2026-11-02T01:05:43.698+05:30  INFO 17368 --- [siec-accounting] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
-2026-11-02T01:05:43.717+05:30  INFO 17368 --- [siec-accounting] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-11-02T01:05:43.727+05:30  INFO 17368 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-11-02T01:05:43.733+05:30  INFO 17368 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2026-11-02T10:55:18.800+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.siec_acc.SiecAccountingApplication   : Starting SiecAccountingApplication using Java 24.0.2 with PID 18660 (C:\SIEC_Accounting_Project\siec-accounting_backend_v1_0\target\classes started by admim in C:\SIEC_Accounting_Project\siec-accounting_backend_v1_0)
-2026-11-02T10:55:18.806+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.siec_acc.SiecAccountingApplication   : No active profile set, falling back to 1 default profile: "default"
-2026-11-02T10:55:18.899+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\admim\.m2\repository\io\github\cdimascio\java-dotenv\5.2.2\java-dotenv-5.2.2.jar referenced one or more files that do not exist: file:/C:/Users/admim/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/kotlin-stdlib-1.4.0.jar,file:/C:/Users/admim/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/kotlin-stdlib-common-1.4.0.jar,file:/C:/Users/admim/.m2/repository/io/github/cdimascio/java-dotenv/5.2.2/annotations-13.0.jar
-2026-11-02T10:55:18.899+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2026-11-02T10:55:18.900+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2026-11-02T10:55:21.133+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2026-11-02T10:55:21.136+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
-2026-11-02T10:55:21.226+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ActivityLogRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.228+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.AdminRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.231+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ApprovalRequestRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.234+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ApprovalRuleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.237+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ClientRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.238+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.CustomerPaymentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.241+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.DeliveryChallanRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.244+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ExpenseRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.246+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.GoodsReceiptRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.248+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.InventoryHistoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.251+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.InventoryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.253+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.InvoiceRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.255+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ItemRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.258+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.OrganizationDocumentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.260+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.OrganizationRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.263+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProductRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.265+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProformaRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.267+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProjectDocumentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.268+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProjectInvoiceQueryRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.270+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProjectLinkRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.273+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.ProjectRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.275+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.PurchaseBillRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.279+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.PurchaseOrderRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.280+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.PurchaseRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.282+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.QuoteRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.284+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.RoleRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.287+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.SalesOrderRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.289+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.VariantRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.292+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.VendorPaymentRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.294+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.VendorRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.296+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.siec_acc.repository.WarehouseRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
-2026-11-02T10:55:21.297+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 149 ms. Found 0 JDBC repository interfaces.
-2026-11-02T10:55:21.318+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2026-11-02T10:55:21.320+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-11-02T10:55:21.555+05:30  INFO 18660 --- [siec-accounting] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 226 ms. Found 31 JPA repository interfaces.
-2026-11-02T10:55:23.219+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 9093 (http)
-2026-11-02T10:55:23.257+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-11-02T10:55:23.257+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
-2026-11-02T10:55:23.353+05:30  INFO 18660 --- [siec-accounting] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 4452 ms
-2026-11-02T10:55:23.740+05:30  INFO 18660 --- [siec-accounting] [restartedMain] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-11-02T10:55:23.882+05:30  INFO 18660 --- [siec-accounting] [restartedMain] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
-2026-11-02T10:55:25.841+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-11-02T10:55:25.894+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-11-02T10:55:26.189+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@caf9ed7
-2026-11-02T10:55:26.190+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-11-02T10:55:26.344+05:30  INFO 18660 --- [siec-accounting] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [jdbc:mysql://localhost:3306/siec_acc_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&allowPublicKeyRetrieval=true]
-	Database driver: MySQL Connector/J
-	Database dialect: MySQLDialect
-	Database version: 8.0.41
-	Default catalog/schema: siec_acc_db/undefined
-	Autocommit mode: undefined/unknown
-	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
-	JDBC fetch size: none
-	Pool: DataSourceConnectionProvider
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2026-11-02T10:55:30.875+05:30  INFO 18660 --- [siec-accounting] [restartedMain] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-11-02T10:55:31.298+05:30  INFO 18660 --- [siec-accounting] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-11-02T10:55:31.625+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-11-02T10:55:40.560+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.siec_acc.security.SecurityConfig     : SecurityConfig bean initialized
-2026-11-02T10:55:40.606+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.siec_acc.security.AuthController     : AuthController initialized
-2026-11-02T10:55:40.997+05:30  WARN 18660 --- [siec-accounting] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-11-02T10:55:41.109+05:30  INFO 18660 --- [siec-accounting] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2026-11-02T10:55:41.109+05:30  WARN 18660 --- [siec-accounting] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2026-11-02T10:55:41.675+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.siec_acc.security.SecurityConfig     : SecurityFilterChain configured successfully (OAuth2 removed)
-2026-11-02T10:55:44.171+05:30  INFO 18660 --- [siec-accounting] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 9093 (http) with context path '/'
-2026-11-02T10:55:44.186+05:30  INFO 18660 --- [siec-accounting] [restartedMain] com.siec_acc.SiecAccountingApplication   : Started SiecAccountingApplication in 26.381 seconds (process running for 27.695)
-2026-11-02T11:05:13.765+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-11-02T11:05:13.765+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-11-02T11:05:13.771+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
-2026-11-02T11:05:14.541+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
-2026-11-02T11:05:14.541+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
-2026-11-02T11:05:14.549+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
-2026-11-02T11:05:14.549+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
-2026-11-02T11:05:14.731+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.ClientController   : API HIT: GET /get-all-clients | status=all gst=all type=all search= page=1 size=10
-2026-11-02T11:05:14.737+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customers | status=all gst=all type=all search= page=1 size=10
-2026-11-02T11:05:14.911+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
-2026-11-02T11:05:14.911+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
-2026-11-02T11:05:14.911+05:30  INFO 18660 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:22:05.871+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:22:05.871+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:22:05.901+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:22:05.871+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:22:05.901+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:22:05.914+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:22:05.912+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:22:05.929+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.siec_acc.controller.ProductController  : API HIT: GET /get-all-products
+2026-11-03T00:22:05.958+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.s.serviceImpl.ProductServiceImpl     : Fetching all products
+2026-11-03T00:22:06.009+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:22:06.009+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:22:06.012+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:22:13.901+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:22:13.901+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:22:13.902+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:22:13.902+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:22:13.912+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.InventoryController       : API HIT: GET /get-product-stock/PRD-1005
+2026-11-03T00:22:13.933+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.siec_acc.controller.VariantController  : API HIT: GET /get-variants-by-product/PRD-1005
+2026-11-03T00:22:13.934+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.s.serviceImpl.VariantServiceImpl     : Fetching variants for productStrId: PRD-1005
+2026-11-03T00:23:14.894+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:14.895+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:14.895+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:14.895+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:14.995+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:14.996+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:14.996+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:23:14.998+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:14.998+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:15.081+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:15.081+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:15.086+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:15.086+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:15.092+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:23:15.093+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:23:15.138+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:15.138+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:15.177+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:15.177+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:15.184+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:15.185+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:15.261+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:15.261+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:20.765+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:20.765+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:36.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:36.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:36.750+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:36.752+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:36.787+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:23:36.787+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:23:40.267+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:40.267+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:40.270+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:40.270+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:40.270+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:23:40.270+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:40.272+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:40.277+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.siec_acc.controller.ProductController  : API HIT: GET /get-all-products
+2026-11-03T00:23:40.277+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.s.serviceImpl.ProductServiceImpl     : Fetching all products
+2026-11-03T00:23:40.384+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:40.384+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:40.386+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:23:42.085+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:42.085+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:42.085+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:42.085+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:42.088+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.InventoryController       : API HIT: GET /get-product-stock/PRD-1005
+2026-11-03T00:23:42.088+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.siec_acc.controller.VariantController  : API HIT: GET /get-variants-by-product/PRD-1005
+2026-11-03T00:23:42.088+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.s.serviceImpl.VariantServiceImpl     : Fetching variants for productStrId: PRD-1005
+2026-11-03T00:23:44.637+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:44.639+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:44.640+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.InventoryController       : API HIT: GET /get-product-stock/PRD-1005
+2026-11-03T00:23:47.931+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:47.933+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:47.934+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.siec_acc.controller.VendorController   : GET /api/vendor/vendor-list -> Fetching all vendor list
+2026-11-03T00:23:47.935+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.s.serviceImpl.VendorServiceImpl      : Fetching vendor summary list (vendorPrimeId, vendorStrId, vendorName, companyName)
+2026-11-03T00:23:49.574+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:23:49.575+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:23:49.576+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.siec_acc.controller.VendorController   : GET /api/vendor/vendor-list -> Fetching all vendor list
+2026-11-03T00:23:49.578+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.s.serviceImpl.VendorServiceImpl      : Fetching vendor summary list (vendorPrimeId, vendorStrId, vendorName, companyName)
+2026-11-03T00:24:03.067+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:03.067+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:03.072+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.siec_acc.controller.ProductController  : API HIT: GET /get-product-list | page=0 | size=20
+2026-11-03T00:24:03.075+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.s.serviceImpl.ProductServiceImpl     : Fetching product list | page=0 | size=20 | search=false
+2026-11-03T00:24:34.681+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:34.682+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:34.682+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:34.682+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:34.687+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.siec_acc.controller.VendorController   : GET /api/vendor/get-all-vendor -> page=0, size=100, sortBy=createdAt, sortDir=desc
+2026-11-03T00:24:34.689+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.s.serviceImpl.VendorServiceImpl      : Fetching all vendors. page=0, size=100, sortBy=createdAt, sortDir=desc
+2026-11-03T00:24:34.750+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:34.750+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:34.754+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:24:42.919+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:42.919+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:42.926+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:42.926+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:42.933+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.siec_acc.controller.ClientController   : API HIT: GET /get-all-clients | status=all gst=all type=all search= page=1 size=10
+2026-11-03T00:24:42.933+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.s.serviceImpl.ClientServiceImpl      : Fetching customers | status=all gst=all type=all search= page=1 size=10
+2026-11-03T00:24:42.979+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:42.979+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:42.980+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:24:46.095+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:46.095+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:46.099+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:46.099+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:46.101+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.siec_acc.controller.ProjectController  : API HIT: GET /get-all-projects | status=all search= page=null size=null
+2026-11-03T00:24:46.164+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:46.164+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:46.164+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:24:48.834+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:48.835+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:48.839+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:48.842+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:48.844+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.ProjectController  : API HIT: GET /get-all-projects | status=all search= page=null size=null
+2026-11-03T00:24:48.933+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:48.933+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:48.934+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:24:49.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:49.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:49.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:49.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:50.005+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:50.005+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:50.005+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:50.006+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:50.006+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:50.006+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:24:50.006+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:24:50.006+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:30.150+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:30.150+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:30.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:30.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:30.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:25:30.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:30.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:30.156+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.siec_acc.controller.ProductController  : API HIT: GET /get-all-products
+2026-11-03T00:25:30.156+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.s.serviceImpl.ProductServiceImpl     : Fetching all products
+2026-11-03T00:25:30.225+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:30.229+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:30.229+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:25:31.557+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:31.559+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:31.562+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:31.562+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:31.564+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.siec_acc.controller.ProjectController  : API HIT: GET /get-all-projects | status=all search= page=null size=null
+2026-11-03T00:25:31.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:31.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:31.648+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:25:33.158+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:33.158+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:33.158+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:33.158+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:33.158+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:33.162+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:33.164+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:33.164+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:33.164+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:33.165+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:33.170+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:33.170+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:34.936+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:34.938+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:34.941+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.siec_acc.controller.ProjectController  : API HIT: GET /get-all-projects | status=all search= page=null size=null
+2026-11-03T00:25:40.239+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:25:40.239+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:25:45.025+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:25:45.025+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:25:45.087+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:25:45.087+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:25:45.116+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:25:45.116+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:25:48.056+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:48.057+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:48.061+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:48.061+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:48.063+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.siec_acc.controller.ProjectController  : API HIT: GET /get-all-projects | status=all search= page=null size=null
+2026-11-03T00:25:48.169+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:48.169+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:48.169+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:25:49.350+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:49.352+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:49.352+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:49.354+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:49.354+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:49.355+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:49.355+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:49.355+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:49.355+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:49.355+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:49.371+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:49.380+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.502+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.502+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.504+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.504+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.505+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:25:53.505+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.507+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.507+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.524+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.524+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.647+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.647+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.672+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.672+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.678+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:25:53.678+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:25:53.678+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:25:53.684+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:26:02.741+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:26:02.741+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:04.322+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.324+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.322+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.328+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.331+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:39:04.362+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.362+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.364+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.364+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.366+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.366+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.358+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.369+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.373+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.375+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.397+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.397+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:04.503+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:39:04.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:39:04.575+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:04.576+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:04.586+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:04.586+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:04.719+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:04.720+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:04.720+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:39:04.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:04.787+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:04.970+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:04.970+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:05.064+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:05.064+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:05.068+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:05.068+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:05.071+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:39:05.071+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:39:05.232+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:05.232+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:05.233+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:05.233+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:05.241+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:05.243+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:05.977+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:05.977+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:23.951+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:23.951+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:23.980+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:23.980+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.000+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:39:24.155+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.155+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.209+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.210+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.262+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.262+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.263+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.263+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.263+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.263+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.299+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.299+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.300+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.300+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.305+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.305+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.352+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.352+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.354+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:39:24.361+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.362+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.363+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:39:24.365+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.365+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.368+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.368+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.368+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:39:24.368+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:39:24.370+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:39:24.472+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.472+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.479+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.479+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.480+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:39:24.482+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:39:24.563+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.563+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.565+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.565+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.583+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.583+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:39:24.750+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:39:24.750+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:02.853+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.853+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.855+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.855+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:40:02.860+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.863+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.870+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.871+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.892+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.892+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.894+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.896+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.997+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:02.997+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:02.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:40:02.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:03.000+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:03.000+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:40:03.000+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:03.002+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:03.039+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.039+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.044+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.044+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.151+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.151+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.151+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.151+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.153+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:40:03.321+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.321+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.321+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.321+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.323+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:40:03.323+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:40:03.404+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.406+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.418+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.418+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.425+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.425+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:03.612+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:03.612+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.423+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.423+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.430+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.430+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.472+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.472+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.474+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:40:05.484+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.486+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.486+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.486+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.486+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.486+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.488+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:40:05.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.515+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.515+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.520+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.520+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.535+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.535+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.563+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.563+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.634+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.634+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.660+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.660+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.661+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:40:05.663+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:40:05.684+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.684+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.684+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.684+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.686+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:40:05.686+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:40:05.686+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:40:05.686+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:40:05.736+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.736+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.739+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.740+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:05.747+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:05.747+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:40:06.119+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:40:06.120+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.171+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.171+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.173+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.173+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.271+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.273+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.273+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:43:08.291+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.293+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.527+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.527+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.548+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.548+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.550+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:43:08.550+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:43:08.672+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.672+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.673+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.673+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.674+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.674+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:08.905+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:08.905+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.265+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.265+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.280+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.280+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.434+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.436+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.436+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:43:36.440+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.441+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.498+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.498+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.498+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.498+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.501+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:43:36.501+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:43:36.592+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.592+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.595+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.595+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:36.595+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:36.595+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:43:37.301+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:43:37.301+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.721+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:03.721+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.724+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:03.724+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.873+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:03.873+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.874+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:44:03.874+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:03.874+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.968+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:03.969+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:03.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:03.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:44:03.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:44:04.041+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:04.041+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:04.045+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:04.047+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:04.047+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:04.047+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:04.189+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:44:04.189+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:44:25.365+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:25.365+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:25.378+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:25.378+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:25.378+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:25.378+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:25.378+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:44:25.379+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.ProductController  : API HIT: GET /get-all-products
+2026-11-03T00:44:25.379+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.ProductServiceImpl     : Fetching all products
+2026-11-03T00:44:25.471+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:25.471+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:25.472+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:44:56.844+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:56.844+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:56.854+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:56.854+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:56.854+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:56.854+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:56.854+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:44:56.854+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:44:56.944+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:56.944+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:56.944+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:44:59.222+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:44:59.225+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:44:59.228+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.InventoryController       : API HIT: GET /get-history/PRD-1003
+2026-11-03T00:45:04.078+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:45:04.078+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:45:04.081+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.siec_acc.controller.ProductController  : API HIT: GET /get-product-list | page=0 | size=20
+2026-11-03T00:45:04.086+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.s.serviceImpl.ProductServiceImpl     : Fetching product list | page=0 | size=20 | search=true
+2026-11-03T00:45:04.856+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:45:04.856+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:45:04.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.siec_acc.controller.ProductController  : API HIT: GET /get-product-list | page=0 | size=20
+2026-11-03T00:45:04.857+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.s.serviceImpl.ProductServiceImpl     : Fetching product list | page=0 | size=20 | search=true
+2026-11-03T00:45:06.991+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:45:06.991+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:45:06.991+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.siec_acc.controller.ProductController  : API HIT: GET /get-product-list | page=0 | size=20
+2026-11-03T00:45:06.993+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.s.serviceImpl.ProductServiceImpl     : Fetching product list | page=0 | size=20 | search=true
+2026-11-03T00:45:22.367+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:45:22.367+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:45:22.369+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.siec_acc.controller.ProductController  : API HIT: GET /get-product-list | page=0 | size=20
+2026-11-03T00:45:22.371+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.s.serviceImpl.ProductServiceImpl     : Fetching product list | page=0 | size=20 | search=true
+2026-11-03T00:46:17.657+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:17.659+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:17.666+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:17.666+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:17.666+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:46:17.668+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:17.668+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:17.668+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:46:17.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:17.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:17.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:17.874+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:17.875+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:17.884+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:17.885+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:17.955+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:17.955+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:17.955+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:17.955+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:17.957+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:18.104+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:18.104+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:18.104+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:46:18.104+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:46:18.106+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:18.106+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:18.185+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:18.185+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:18.194+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:18.194+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:18.201+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:18.201+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:18.464+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:18.464+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.741+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:19.741+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.741+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:19.741+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.770+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:19.770+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:19.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:19.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:19.776+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:46:19.781+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:19.781+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:19.783+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:46:19.838+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:19.840+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.843+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:19.892+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:19.892+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.937+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:19.937+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.944+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:19.944+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:19.947+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:46:19.948+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:46:19.971+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:19.971+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:19.971+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:20.440+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:20.441+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:20.441+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:20.443+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:20.449+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:20.449+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:20.631+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:20.631+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.087+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:30.087+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:30.101+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:30.101+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:30.102+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:30.102+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:30.102+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:46:30.102+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:46:30.171+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.171+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.180+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:30.180+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:30.182+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:30.183+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.183+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.281+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.284+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.284+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:30.285+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.285+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.360+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.360+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.360+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.360+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.361+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:46:30.361+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:46:30.469+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.469+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.471+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.471+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.471+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.471+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:30.726+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:30.728+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:51.642+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:51.642+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:51.644+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:51.644+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:51.644+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:46:51.644+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:51.646+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:51.646+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:46:51.734+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:51.737+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:51.737+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:51.837+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:51.838+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:51.847+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:51.847+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:51.985+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:51.985+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:51.985+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:51.987+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:51.987+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:52.045+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:52.045+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:52.045+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:52.047+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:52.048+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:46:52.048+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:46:52.111+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:52.111+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:52.111+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:52.111+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:52.112+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:52.112+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:52.211+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:52.211+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:59.236+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:59.236+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:59.241+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:59.241+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:59.241+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:46:59.243+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:59.243+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:59.245+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:46:59.263+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:59.263+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:59.265+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:59.265+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:59.331+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:59.331+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:59.332+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:59.352+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:59.352+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:46:59.356+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:46:59.356+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:46:59.356+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:46:59.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:46:59.999+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:47:00.001+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:47:00.001+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:47:00.001+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:47:00.003+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:47:00.094+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:47:00.094+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:47:00.167+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:47:00.169+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:47:00.171+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:47:00.171+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:47:00.253+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:47:00.253+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.375+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:38.375+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:38.385+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:38.385+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:38.387+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:48:38.388+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:38.388+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:38.388+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:48:38.463+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.463+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.467+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.467+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.481+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:38.481+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:38.481+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:48:38.564+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.564+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.564+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.564+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.565+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:48:38.598+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.598+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.599+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.599+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.599+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:48:38.599+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:48:38.673+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.673+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.676+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.677+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.681+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.681+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:38.829+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:38.829+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.464+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:53.464+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:53.484+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:53.484+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:53.485+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:48:53.485+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:53.487+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:53.487+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:48:53.499+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.499+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.507+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.507+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.562+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.562+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.562+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.562+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.564+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:48:53.576+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:48:53.576+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:48:53.576+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:48:53.603+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.603+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:48:53.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:48:53.647+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.647+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.652+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.652+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.669+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.669+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:48:53.735+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:48:53.735+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.220+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:49:13.222+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:49:13.230+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:49:13.230+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:49:13.230+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:49:13.230+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:49:13.230+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:49:13.230+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:49:13.296+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:49:13.296+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:49:13.297+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:49:13.300+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.300+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.305+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.305+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.399+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.399+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.399+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.399+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.399+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:49:13.442+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.443+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.444+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.444+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.445+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.siec_acc.controller.AdminController    : GET /api/admin → Fetching all admins
+2026-11-03T00:49:13.445+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.s.serviceImpl.AdminServiceImpl       : Fetching all admins
+2026-11-03T00:49:13.535+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.535+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.540+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.540+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.542+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.543+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:13.687+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:13.689+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:49:42.349+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:49:42.349+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:49:42.349+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.InventoryController       : API HIT: GET /get-history/PRD-1003
+2026-11-03T00:49:54.446+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:49:54.446+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:09.094+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:09.095+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:09.144+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:09.144+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:09.174+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:09.176+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:11.527+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:11.527+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:11.535+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:11.536+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:11.536+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:50:11.536+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:11.536+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:11.536+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:50:11.634+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:11.634+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:11.635+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:50:18.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:18.154+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:36.969+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:36.969+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:37.014+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:37.014+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:37.041+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:37.041+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:50:39.619+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:39.619+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:39.643+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:39.644+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:39.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:39.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:39.645+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.WarehouseController       : API HIT: GET /get-all-warehouses
+2026-11-03T00:50:39.647+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.InventoryController       : API HIT: GET /get-all-inventory
+2026-11-03T00:50:39.766+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:39.766+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:39.766+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:50:43.228+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:50:43.228+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:50:43.228+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.InventoryController       : API HIT: GET /get-history/PRD-1003
+2026-11-03T00:50:47.225+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:50:47.225+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:51:50.771+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:51:50.771+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:51:50.839+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:51:50.839+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:51:50.840+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:52:01.599+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:01.599+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:01.602+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:01.602+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:01.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:52:01.689+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:01.689+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:01.689+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:52:01.706+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:01.706+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:01.708+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:52:03.432+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:03.432+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:03.436+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:03.436+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:03.436+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:52:03.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:03.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:03.506+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:52:03.510+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:03.511+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:03.511+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:52:04.907+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:04.907+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:04.910+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:04.910+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:04.911+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:52:04.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:04.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:04.973+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:52:04.974+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:04.974+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:04.974+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:52:18.671+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:52:18.671+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-9] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:52:28.966+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:52:28.966+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:52:29.011+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:52:29.011+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:52:29.034+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 8317289305
+2026-11-03T00:52:29.034+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 8317289305 via JWT
+2026-11-03T00:52:33.530+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:33.530+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:33.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:33.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:33.532+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:52:33.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:33.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:33.604+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:52:33.610+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:33.610+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:33.611+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:52:36.306+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:36.306+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:36.310+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:52:39.968+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:39.968+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:39.968+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:52:42.227+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:42.227+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:42.229+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:52:48.571+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:48.571+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:48.572+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:52:51.344+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:51.344+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:51.344+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-8] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:52:56.792+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:52:56.792+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:52:56.795+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-5] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:53:00.465+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:00.465+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-10] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:00.465+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:00.465+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:00.469+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-3] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092
+2026-11-03T00:53:00.555+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:00.555+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:00.555+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-4] c.s.controller.OrganizationController    : GET /api/organization
+2026-11-03T00:53:00.555+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:00.555+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:00.561+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-6] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/documents
+2026-11-03T00:53:03.980+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:03.990+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:03.991+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-1] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:53:08.931+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:08.931+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-7] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:12.452+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] com.siec_acc.security.JwtUtil            : JWT token successfully validated for user: 9876543210
+2026-11-03T00:53:12.452+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.security.JwtAuthenticationFilter     : Successfully authenticated user: 9876543210 via JWT
+2026-11-03T00:53:12.455+05:30  INFO 21040 --- [siec-accounting] [http-nio-9093-exec-2] c.s.controller.OrganizationController    : GET /api/organization/ORG-F79A7092/logo
+2026-11-03T00:54:22.892+05:30  INFO 21040 --- [siec-accounting] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-11-03T00:54:22.912+05:30  INFO 21040 --- [siec-accounting] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-11-03T00:54:22.944+05:30  INFO 21040 --- [siec-accounting] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-03T00:54:22.960+05:30  INFO 21040 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-11-03T00:54:22.965+05:30  INFO 21040 --- [siec-accounting] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -26,13 +26,6 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
-//    @GetMapping("/get-inventory/{productStrId}")
-//    public ResponseEntity<ApiResponse<InventoryResponseDTO>> getInventory(@PathVariable String productStrId) {
-//        logger.info("API HIT: GET /get-inventory/{}", productStrId);
-//        InventoryResponseDTO response = inventoryService.getInventoryByProductStrId(productStrId);
-//        return ResponseEntity.ok(ApiResponse.success("Inventory fetched successfully.", response));
-//    }
-
     // used by "Vendor Purchase -> Existing Item" flow on the frontend
     @PatchMapping("/add-stock/{productStrId}")
     public ResponseEntity<ApiResponse<InventoryResponseDTO>> addStock(
