@@ -72,18 +72,14 @@ public class QuoteResponseDto {
     private LocalDateTime quoteCreatedAt;
     private LocalDateTime quoteUpdatedAt;
 
+    private String quoteSalesOrderId;
+
 
     public QuoteResponseDto(){}
 
-    public QuoteResponseDto(Long quotePrimeId, String quoteStrId, LocalDate quoteDate,
-                            LocalDate quoteValidTill, Long quoteClientPrimeId,
-                            String quoteClientName, String quoteClientCompanyName,
-                            String quoteClientGstin, String quoteClientEmail,
-                            String quoteClientState, String quoteClientStateCode,
-                            String quoteClientCountry, String quoteClientBillingAddress,
-                            String quoteShippingAddress, String quoteCompanyStateCode,
-                            String quotePlaceOfSupply, String quotePlaceOfSupplyStateCode,
-                            QuoteGstType quoteGstType, CurrencyType quoteCurrency, BigDecimal quoteExchangeRate, BigDecimal quoteSubTotal, BigDecimal quoteDiscountPercent, BigDecimal quoteDiscountAmount, BigDecimal quoteTaxableAmount, BigDecimal quoteCgstAmount, BigDecimal quoteSgstAmount, BigDecimal quoteIgstAmount, BigDecimal quoteShippingCharges, BigDecimal quoteOtherCharges, BigDecimal quoteRoundOff, BigDecimal quoteTotalAmount, BigDecimal quoteTotalAmountInr, QuoteStatus quoteStatus, String quoteReferenceNumber, String quoteCustomerNotes, String quoteTerms, String quoteTemplateId, Boolean quoteConvertedToSo, String quotePdfUrl, List<QuoteItemResponseDto> quoteItems, LocalDateTime quoteCreatedAt, LocalDateTime quoteUpdatedAt) {
+    public QuoteResponseDto(Long quotePrimeId, String quoteStrId, LocalDate quoteDate, LocalDate quoteValidTill,
+                            Long quoteClientPrimeId, String quoteClientName,
+                            String quoteClientCompanyName, String quoteClientGstin, String quoteClientEmail, String quoteClientState, String quoteClientStateCode, String quoteClientCountry, String quoteClientBillingAddress, String quoteShippingAddress, String quoteCompanyStateCode, String quotePlaceOfSupply, String quotePlaceOfSupplyStateCode, QuoteGstType quoteGstType, CurrencyType quoteCurrency, BigDecimal quoteExchangeRate, BigDecimal quoteSubTotal, BigDecimal quoteDiscountPercent, BigDecimal quoteDiscountAmount, BigDecimal quoteTaxableAmount, BigDecimal quoteCgstAmount, BigDecimal quoteSgstAmount, BigDecimal quoteIgstAmount, BigDecimal quoteShippingCharges, BigDecimal quoteOtherCharges, BigDecimal quoteRoundOff, BigDecimal quoteTotalAmount, BigDecimal quoteTotalAmountInr, QuoteStatus quoteStatus, String quoteReferenceNumber, String quoteCustomerNotes, String quoteTerms, String quoteTemplateId, Boolean quoteConvertedToSo, String quotePdfUrl, List<QuoteItemResponseDto> quoteItems, LocalDateTime quoteCreatedAt, LocalDateTime quoteUpdatedAt, String quoteSalesOrderId) {
         this.quotePrimeId = quotePrimeId;
         this.quoteStrId = quoteStrId;
         this.quoteDate = quoteDate;
@@ -126,6 +122,7 @@ public class QuoteResponseDto {
         this.quoteItems = quoteItems;
         this.quoteCreatedAt = quoteCreatedAt;
         this.quoteUpdatedAt = quoteUpdatedAt;
+        this.quoteSalesOrderId = quoteSalesOrderId;
     }
 
     public Long getQuotePrimeId() {
@@ -462,5 +459,13 @@ public class QuoteResponseDto {
 
     public void setQuoteUpdatedAt(LocalDateTime quoteUpdatedAt) {
         this.quoteUpdatedAt = quoteUpdatedAt;
+    }
+
+    public String getQuoteSalesOrderId() {
+        return quoteSalesOrderId;
+    }
+
+    public void setQuoteSalesOrderId(String quoteSalesOrderId) {
+        this.quoteSalesOrderId = quoteSalesOrderId;
     }
 }

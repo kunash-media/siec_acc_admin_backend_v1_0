@@ -18,4 +18,6 @@ public interface QuoteService {
     FileDownloadDto downloadQuotePdf(String quoteStrId);
 
     PagedResponseDto<QuoteSummaryResponseDto> getQuoteSummaries(int pageNumber, int pageSize);
+
+    QuoteResponseDto changeQuoteStatusManually(Long quotePrimeId, QuoteStatus status);
 }

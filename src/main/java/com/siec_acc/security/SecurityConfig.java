@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -29,7 +30,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AdminUserDetailsService adminUserDetailsService;
-//    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    //private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           AdminUserDetailsService adminUserDetailsService
@@ -91,8 +92,11 @@ public class SecurityConfig {
                             .requestMatchers("/api/admin/bootstrap").permitAll()
                             .requestMatchers("/api/admin/auth/me").authenticated()
                             .requestMatchers("/api/admin/auth/**").permitAll()
+                            //.requestMatchers("/api/users/auth/**").permitAll()
                             .requestMatchers("/api/users/auth/**").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/api/public/share/**").permitAll()
                             .requestMatchers("/api/admin/**").authenticated()
+                            .requestMatchers("/api/**").authenticated()
                             .anyRequest().permitAll();
                 })
                 // OAuth2 Login REMOVED

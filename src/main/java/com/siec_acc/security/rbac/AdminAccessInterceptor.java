@@ -16,8 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -69,7 +67,10 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
 
         AdminDetails admin = currentAdmin();
         if (admin == null) {
-            if (!enforce) return true;                        // shadow mode: behave exactly as today
+            if (!enforce) {                                   // shadow mode: behave exactly as today, but say so
+                if (mutating) logger.warn("[rbac] NO LOGIN on {} {}", method, path);
+                return true;
+            }                       // shadow mode: behave exactly as today
             return deny(response, 401, "Login required");
         }
 
@@ -197,7 +198,7 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
             return EnumSet.of(PermissionAction.CREATE, PermissionAction.EDIT);
         // documents and links change an existing project; they are not new or deleted projects
         if (isProjectPart(path)) return EnumSet.of(PermissionAction.EDIT);
-        if (hasVerb(path, "approve") || hasVerb(path, "reject") || path.contains("/patch-sales-order/"))
+        if (hasVerb(path, "approve") || hasVerb(path, "reject") || path.contains("/patch-sales-order/") || isStockCorrection(path))
             return EnumSet.of(PermissionAction.APPROVE);
         if (hasVerb(path, "delete")) return EnumSet.of(PermissionAction.DELETE);
         return switch (method) {
@@ -206,6 +207,11 @@ public class AdminAccessInterceptor implements HandlerInterceptor {
             case "DELETE" -> EnumSet.of(PermissionAction.DELETE);
             default -> EnumSet.of(PermissionAction.VIEW);
         };
+    }
+
+    private static boolean isStockCorrection(String path) {
+        return path.contains("/adjust-stock") || path.contains("/adjust-variant-stock")
+                || path.contains("/reduce-stock") || path.contains("/reduce-variant-stock");
     }
 
     private static boolean isProjectPart(String path) {

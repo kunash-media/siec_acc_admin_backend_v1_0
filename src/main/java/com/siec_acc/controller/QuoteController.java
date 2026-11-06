@@ -126,4 +126,11 @@ public class QuoteController {
             @RequestParam(defaultValue = "25") int pageSize) {
         return ResponseEntity.ok(quoteService.getQuoteSummaries(pageNumber, pageSize));
     }
+
+    // Manual status change (any status -> any status, blocked once converted to SO)
+    @PatchMapping("/patch-status-manual/{quotePrimeId}")
+    public ResponseEntity<QuoteResponseDto> changeStatusManually(@PathVariable Long quotePrimeId,
+                                                                 @RequestParam QuoteStatus status) {
+        return ResponseEntity.ok(quoteService.changeQuoteStatusManually(quotePrimeId, status));
+    }
 }

@@ -11,7 +11,7 @@ public class SiecAccountingApplication {
 
 	public static void main(String[] args) {
 
-		// Load .env file (if present)
+		// Lqoad .env file (if present)
 		Dotenv dotenv = Dotenv.configure()
 				.directory("./") 	// Look in root folder
 				.ignoreIfMissing() 		// Avoid errors if .env is missing (e.g., in production)

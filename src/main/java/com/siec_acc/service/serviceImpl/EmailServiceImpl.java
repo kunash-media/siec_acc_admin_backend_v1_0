@@ -13,6 +13,7 @@ import com.siec_acc.repository.InvoiceRepository;
 import com.siec_acc.repository.ProformaRepository;
 import com.siec_acc.repository.QuoteRepository;
 import com.siec_acc.service.EmailService;
+import com.siec_acc.service.rbac.ShareLinkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -40,8 +41,12 @@ public class EmailServiceImpl implements EmailService {
     private final ProformaRepository proformaRepository;
     private final QuoteRepository quoteRepository;
     private final DeliveryChallanRepository dcRepository;
+    private final ShareLinkService shareLinkService;
 
-    public EmailServiceImpl(JavaMailSender mailSender, InvoiceRepository invoiceRepository, ProformaRepository proformaRepository, QuoteRepository quoteRepository, DeliveryChallanRepository dcRepository) {
+    public EmailServiceImpl(JavaMailSender mailSender, InvoiceRepository invoiceRepository,
+                            ProformaRepository proformaRepository, QuoteRepository quoteRepository,
+                            DeliveryChallanRepository dcRepository, ShareLinkService shareLinkService) {
+        this.shareLinkService = shareLinkService;
         this.mailSender = mailSender;
         this.invoiceRepository = invoiceRepository;
         this.proformaRepository = proformaRepository;
@@ -88,7 +93,9 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new InvoiceNotFoundException(
                         "Invoice not found with id: " + requestDto.getInvoicePrimeId()));
 
-        String pdfLink = buildPublicUrl(invoice.getInvoicePdfUrl());
+//        String pdfLink = buildPublicUrl(invoice.getInvoicePdfUrl());
+
+        String pdfLink = signedLink(ShareLinkService.DocType.INVOICE, invoice.getInvoiceStrId(), invoice.getInvoicePdfUrl());
 
         String subject = "Invoice " + invoice.getInvoiceStrId() + " from " + companyName;
         StringBuilder body = new StringBuilder();
@@ -124,7 +131,9 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new ProformaNotFoundException(
                         "Proforma invoice not found with id: " + requestDto.getProformaPrimeId()));
 
-        String pdfLink = buildPublicUrl(proforma.getProformaPdfUrl());
+        //String pdfLink = buildPublicUrl(proforma.getProformaPdfUrl());
+
+        String pdfLink = signedLink(ShareLinkService.DocType.PROFORMA, proforma.getProformaStrId(), proforma.getProformaPdfUrl());
 
         String subject = "Proforma Invoice " + proforma.getProformaStrId() + " from " + companyName;
         StringBuilder body = new StringBuilder();
@@ -176,7 +185,9 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new QuoteNotFoundException(
                         "Quotation not found with id: " + requestDto.getQuotePrimeId()));
 
-        String pdfLink = buildPublicUrl(quote.getQuotePdfUrl());
+//        String pdfLink = buildPublicUrl(quote.getQuotePdfUrl());
+
+        String pdfLink = signedLink(ShareLinkService.DocType.QUOTE, quote.getQuoteStrId(), quote.getQuotePdfUrl());
 
         String clientName = quote.getQuoteClientCompanyName() != null
                 ? quote.getQuoteClientCompanyName() : quote.getQuoteClientName();
@@ -229,6 +240,12 @@ public class EmailServiceImpl implements EmailService {
         return base + path;
     }
 
+    private String signedLink(ShareLinkService.DocType type, String strId, String pdfUrl) {
+        if (pdfUrl == null || pdfUrl.isBlank()) return null;
+        return shareLinkService.buildUrl(type, strId);
+    }
+
+
     private String safe(String value) {
         return value == null ? "Customer" : value;
     }
@@ -243,7 +260,9 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Delivery challan not found with id: " + requestDto.getDcPrimeId()));
 
-        String pdfLink = buildPublicUrl(dc.getDcPdfUrl());
+//        String pdfLink = buildPublicUrl(dc.getDcPdfUrl());
+        String pdfLink = signedLink(ShareLinkService.DocType.DC, dc.getDcStrId(), dc.getDcPdfUrl());
+
         String clientName = dc.getDcClientCompanyName() != null ? dc.getDcClientCompanyName() : dc.getDcClientName();
 
         String subject = "Delivery Challan " + dc.getDcStrId() + " from " + companyName;

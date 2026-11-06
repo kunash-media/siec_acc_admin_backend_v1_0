@@ -144,6 +144,10 @@ public class QuoteEntity {
     @Column(name = "quote_converted_to_so")
     private Boolean quoteConvertedToSo;
 
+    // SalesOrderEntity.id (e.g. "SO-001") created from this quote
+    @Column(name = "quote_sales_order_id", length = 50)
+    private String quoteSalesOrderId;
+
     // ---- Stored PDF ----
     @Column(name = "quote_pdf_url")
     private String quotePdfUrl;
@@ -183,7 +187,8 @@ public class QuoteEntity {
 
     public QuoteEntity(){}
 
-    public QuoteEntity(Long quotePrimeId, String quoteStrId, LocalDate quoteDate, LocalDate quoteValidTill, Long quoteClientPrimeId, String quoteClientName, String quoteClientCompanyName, String quoteClientGstin, String quoteClientEmail, String quoteClientState, String quoteClientStateCode, String quoteClientCountry, String quoteClientBillingAddress, String quoteShippingAddress, String quoteCompanyStateCode, String quotePlaceOfSupply, String quotePlaceOfSupplyStateCode, QuoteGstType quoteGstType, CurrencyType quoteCurrency, BigDecimal quoteExchangeRate, BigDecimal quoteSubTotal, BigDecimal quoteDiscountPercent, BigDecimal quoteDiscountAmount, BigDecimal quoteTaxableAmount, BigDecimal quoteCgstAmount, BigDecimal quoteSgstAmount, BigDecimal quoteIgstAmount, BigDecimal quoteShippingCharges, BigDecimal quoteOtherCharges, BigDecimal quoteRoundOff, BigDecimal quoteTotalAmount, BigDecimal quoteTotalAmountInr, QuoteStatus quoteStatus, String quoteReferenceNumber, String quoteCustomerNotes, String quoteTerms, String quoteTemplateId, Boolean quoteConvertedToSo, String quotePdfUrl, String quotePdfContentType, String quotePdfFileName, byte[] quotePdfBlob, List<QuoteItemEntity> quoteItems, LocalDateTime quoteCreatedAt, LocalDateTime quoteUpdatedAt) {
+    public QuoteEntity(Long quotePrimeId, String quoteStrId, LocalDate quoteDate, LocalDate quoteValidTill, Long quoteClientPrimeId, String quoteClientName, String quoteClientCompanyName, String quoteClientGstin, String quoteClientEmail, String quoteClientState, String quoteClientStateCode, String quoteClientCountry, String quoteClientBillingAddress, String quoteShippingAddress, String quoteCompanyStateCode, String quotePlaceOfSupply, String quotePlaceOfSupplyStateCode, QuoteGstType quoteGstType, CurrencyType quoteCurrency, BigDecimal quoteExchangeRate, BigDecimal quoteSubTotal, BigDecimal quoteDiscountPercent, BigDecimal quoteDiscountAmount, BigDecimal quoteTaxableAmount, BigDecimal quoteCgstAmount, BigDecimal quoteSgstAmount, BigDecimal quoteIgstAmount, BigDecimal quoteShippingCharges, BigDecimal quoteOtherCharges, BigDecimal quoteRoundOff, BigDecimal quoteTotalAmount, BigDecimal quoteTotalAmountInr, QuoteStatus quoteStatus, String quoteReferenceNumber, String quoteCustomerNotes, String quoteTerms, String quoteTemplateId, Boolean quoteConvertedToSo, String quoteSalesOrderId, String quotePdfUrl, String quotePdfContentType, String quotePdfFileName, byte[] quotePdfBlob, List<QuoteItemEntity> quoteItems,
+                       LocalDateTime quoteCreatedAt, LocalDateTime quoteUpdatedAt) {
         this.quotePrimeId = quotePrimeId;
         this.quoteStrId = quoteStrId;
         this.quoteDate = quoteDate;
@@ -222,6 +227,7 @@ public class QuoteEntity {
         this.quoteTerms = quoteTerms;
         this.quoteTemplateId = quoteTemplateId;
         this.quoteConvertedToSo = quoteConvertedToSo;
+        this.quoteSalesOrderId = quoteSalesOrderId;
         this.quotePdfUrl = quotePdfUrl;
         this.quotePdfContentType = quotePdfContentType;
         this.quotePdfFileName = quotePdfFileName;
@@ -589,5 +595,13 @@ public class QuoteEntity {
 
     public void setQuoteUpdatedAt(LocalDateTime quoteUpdatedAt) {
         this.quoteUpdatedAt = quoteUpdatedAt;
+    }
+
+    public String getQuoteSalesOrderId() {
+        return quoteSalesOrderId;
+    }
+
+    public void setQuoteSalesOrderId(String quoteSalesOrderId) {
+        this.quoteSalesOrderId = quoteSalesOrderId;
     }
 }

@@ -197,7 +197,8 @@ public class AuthController {
             String mobile = jwtUtil.extractUsername(refreshToken);
             UserDetails userDetails = adminUserDetailsService.loadUserByUsername(mobile);
 
-            if (!jwtUtil.validateToken(refreshToken, userDetails)) {
+            if (!jwtUtil.validateToken(refreshToken, userDetails)
+                    || !userDetails.isEnabled() || !userDetails.isAccountNonLocked()) {
                 logger.warn("Invalid or expired refresh token for: {}", mobile);
                 return ResponseEntity.status(401).body("Refresh token invalid or expired");
             }

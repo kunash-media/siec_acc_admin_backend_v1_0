@@ -2,14 +2,19 @@ package com.siec_acc.service.serviceImpl;
 
 import com.siec_acc.dto.request.QuoteItemRequestDto;
 import com.siec_acc.dto.request.QuoteRequestDto;
+import com.siec_acc.dto.request.SalesOrderItemRequestDto;
+import com.siec_acc.dto.request.SalesOrderRequestDto;
 import com.siec_acc.dto.response.*;
+import com.siec_acc.entity.ClientEntity;
 import com.siec_acc.entity.QuoteEntity;
 import com.siec_acc.entity.QuoteItemEntity;
 import com.siec_acc.enum_status.QuoteGstType;
 import com.siec_acc.enum_status.QuoteStatus;
 import com.siec_acc.exceptions.*;
+import com.siec_acc.repository.ClientRepository;
 import com.siec_acc.repository.QuoteRepository;
 import com.siec_acc.service.QuoteService;
+import com.siec_acc.service.SalesOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -17,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,16 +37,24 @@ public class QuoteServiceImpl implements QuoteService {
     private static final Logger logger = LoggerFactory.getLogger(QuoteServiceImpl.class);
     private static final BigDecimal HUNDRED = BigDecimal.valueOf(100);
 
+    private final QuoteRepository quoteRepository;
+    private final SalesOrderService salesOrderService;
+    private final ClientRepository clientRepository;
+    private final TransactionTemplate tx;
+    // Same single-instance assumption as SalesOrderServiceImpl.numberLock: stops a double click creating two SOs
+    private final Object convertLock = new Object();
+
+    public QuoteServiceImpl(QuoteRepository quoteRepository, QuoteRepository quoteRepository1, SalesOrderService salesOrderService, ClientRepository clientRepository, TransactionTemplate tx) {
+        this.quoteRepository = quoteRepository;
+        this.salesOrderService = salesOrderService;
+        this.clientRepository = clientRepository;
+        this.tx = tx;
+    }
+
     // Manual status moves via PATCH. (Edit form can still set status directly, like invoice.)
     private static final Map<QuoteStatus, Set<QuoteStatus>> ALLOWED_MOVES = Map.of(
             QuoteStatus.DRAFT, EnumSet.of(QuoteStatus.SENT),
             QuoteStatus.SENT, EnumSet.of(QuoteStatus.ACCEPTED, QuoteStatus.DECLINED));
-
-    private final QuoteRepository quoteRepository;
-
-    public QuoteServiceImpl(QuoteRepository quoteRepository) {
-        this.quoteRepository = quoteRepository;
-    }
 
     // ---------------- CREATE ----------------
     @Override
@@ -151,16 +165,93 @@ public class QuoteServiceImpl implements QuoteService {
     }
 
     // No Sales Order entity yet: only flags the quote. Hook SO creation in here later.
+    // Creates a real Sales Order (pending) from an ACCEPTED quote, then flags the quote with the new SO id.
     @Override
-    @Transactional
     public QuoteResponseDto convertToSalesOrder(Long quotePrimeId) {
-        QuoteEntity entity = findEntityOrThrow(quotePrimeId);
-        if (entity.getQuoteStatus() != QuoteStatus.ACCEPTED || Boolean.TRUE.equals(entity.getQuoteConvertedToSo())) {
-            throw new InvalidQuoteException("Only an accepted quotation that isn't already converted can be converted to a Sales Order.");
+        synchronized (convertLock) {
+            // 1) read + validate + build request (own tx so lazy items load)
+            SalesOrderRequestDto soRequest = tx.execute(s -> {
+                QuoteEntity q = findEntityOrThrow(quotePrimeId);
+                if (q.getQuoteStatus() != QuoteStatus.ACCEPTED || Boolean.TRUE.equals(q.getQuoteConvertedToSo())) {
+                    throw new InvalidQuoteException("Only an accepted quotation that isn't already converted can be converted to a Sales Order.");
+                }
+                return buildSalesOrderRequest(q);
+            });
+
+            // 2) create the SO through the existing flow (own tx, committed)
+            SalesOrderResponseDto so = salesOrderService.createSalesOrder(soRequest);
+
+            // 3) flag the quote
+            try {
+                return tx.execute(s -> {
+                    QuoteEntity q = findEntityOrThrow(quotePrimeId);
+                    q.setQuoteConvertedToSo(true);
+                    q.setQuoteSalesOrderId(so.getId());
+                    logger.info("Quote {} converted to Sales Order {} ({})", q.getQuoteStrId(), so.getNumber(), so.getId());
+                    return toResponseDto(quoteRepository.save(q));
+                });
+            } catch (RuntimeException ex) {
+                logger.error("Sales Order {} was created from quotePrimeId={} but the quote could not be flagged", so.getId(), quotePrimeId, ex);
+                throw ex;
+            }
         }
-        entity.setQuoteConvertedToSo(true);
-        logger.info("Quote {} flagged as converted to SO", entity.getQuoteStrId());
-        return toResponseDto(quoteRepository.save(entity));
+    }
+
+    private SalesOrderRequestDto buildSalesOrderRequest(QuoteEntity q) {
+        ClientEntity client = clientRepository.findById(q.getQuoteClientPrimeId())
+                .orElseThrow(() -> new InvalidQuoteException("The client on quotation " + q.getQuoteStrId() + " no longer exists."));
+
+        // SO has a single header tax %: effective rate = total tax / taxable amount
+        BigDecimal taxable = orDefault(q.getQuoteTaxableAmount(), BigDecimal.ZERO);
+        BigDecimal totalTax = orDefault(q.getQuoteCgstAmount(), BigDecimal.ZERO)
+                .add(orDefault(q.getQuoteSgstAmount(), BigDecimal.ZERO))
+                .add(orDefault(q.getQuoteIgstAmount(), BigDecimal.ZERO));
+        BigDecimal taxPct = taxable.signum() > 0
+                ? totalTax.multiply(HUNDRED).divide(taxable, 2, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+
+        // merge same item (same rate) into one line; SO rejects duplicate items
+        Map<String, SalesOrderItemRequestDto> merged = new LinkedHashMap<>();
+        for (QuoteItemEntity i : q.getQuoteItems()) {
+            if (i.getQuoteItemProductId() == null) {
+                throw new InvalidQuoteException("Item '" + i.getQuoteItemName() + "' isn't linked to a product, so the quotation can't be converted.");
+            }
+            BigDecimal qty = i.getQuoteItemQty();
+            if (qty.stripTrailingZeros().scale() > 0) {
+                throw new InvalidQuoteException("Item '" + i.getQuoteItemName() + "' has a fractional quantity (" + qty.stripTrailingZeros().toPlainString()
+                        + "). Sales Orders accept whole quantities only.");
+            }
+            String itemId = soItemId(i);
+            SalesOrderItemRequestDto line = merged.get(itemId);
+            if (line == null) {
+                line = new SalesOrderItemRequestDto();
+                line.setItemId(itemId);
+                line.setQty(qty.intValueExact());
+                line.setRate(i.getQuoteItemRate().doubleValue());
+                merged.put(itemId, line);
+            } else if (line.getRate().compareTo(i.getQuoteItemRate().doubleValue()) == 0) {
+                line.setQty(line.getQty() + qty.intValueExact());
+            } else {
+                throw new InvalidQuoteException("Item '" + i.getQuoteItemName() + "' appears twice with different rates, so it can't be converted.");
+            }
+        }
+
+        LocalDate today = LocalDate.now();
+        SalesOrderRequestDto r = new SalesOrderRequestDto();
+        r.setClientId(client.getClientStrId());
+        r.setDate(today.toString());
+        r.setExpectedDelivery(today.plusDays(30).toString());
+        r.setDeliveryLocation(q.getQuoteShippingAddress());
+        r.setDiscount(orDefault(q.getQuoteDiscountPercent(), BigDecimal.ZERO).doubleValue());
+        r.setTax(taxPct.doubleValue());
+        r.setNotes(q.getQuoteCustomerNotes());
+        r.setQuotationReference(q.getQuoteStrId());
+        r.setItems(new ArrayList<>(merged.values()));
+        return r;
+    }
+
+    // Single place that decides which id the SO line stores. Must match what the SO page / ItemEntity uses.
+    private String soItemId(QuoteItemEntity i) {
+        return String.valueOf(i.getQuoteItemProductId());
     }
 
     // ---------------- PDF ----------------
@@ -225,6 +316,16 @@ public class QuoteServiceImpl implements QuoteService {
         }
         if (dto.getQuoteValidTill().isBefore(dto.getQuoteDate())) {
             throw new InvalidQuoteException("Valid-till date can't be before the quotation date.");
+        }
+        BigDecimal discount = dto.getQuoteDiscountPercent();
+        if (discount != null && (discount.compareTo(BigDecimal.ZERO) < 0 || discount.compareTo(HUNDRED) > 0)) {
+            throw new InvalidQuoteException("Discount must be between 0% and 100%.");
+        }
+        if (dto.getQuoteShippingCharges() != null && dto.getQuoteShippingCharges().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidQuoteException("Shipping charges must be greater than 0. Leave it empty if there is no shipping charge.");
+        }
+        if (dto.getQuoteOtherCharges() != null && dto.getQuoteOtherCharges().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidQuoteException("Other charges must be greater than 0. Leave it empty if there are no other charges.");
         }
     }
 
@@ -414,6 +515,7 @@ public class QuoteServiceImpl implements QuoteService {
                 .quoteTerms(e.getQuoteTerms())
                 .quoteTemplateId(e.getQuoteTemplateId())
                 .quoteConvertedToSo(e.getQuoteConvertedToSo())
+                .quoteSalesOrderId(e.getQuoteSalesOrderId())
                 .quotePdfUrl(e.getQuotePdfUrl())
                 .quoteItems(items)
                 .quoteCreatedAt(e.getQuoteCreatedAt())
@@ -444,5 +546,24 @@ public class QuoteServiceImpl implements QuoteService {
                 .totalElements(page.getTotalElements())
                 .totalPages(page.getTotalPages())
                 .build();
+    }
+
+    // Manual override from the "Change Status" action: any status -> any other status.
+    @Override
+    @Transactional
+    public QuoteResponseDto changeQuoteStatusManually(Long quotePrimeId, QuoteStatus status) {
+        QuoteEntity entity = findEntityOrThrow(quotePrimeId);
+        if (status == null) {
+            throw new InvalidQuoteException("Please choose a status.");
+        }
+        if (Boolean.TRUE.equals(entity.getQuoteConvertedToSo())) {
+            throw new InvalidQuoteException("Quotation " + entity.getQuoteStrId() + " is already converted to a Sales Order, so its status can't be changed.");
+        }
+        if (entity.getQuoteStatus() == status) {
+            throw new InvalidQuoteException("Quotation " + entity.getQuoteStrId() + " is already " + status + ".");
+        }
+        entity.setQuoteStatus(status);
+        logger.info("Quote {} status manually changed -> {}", entity.getQuoteStrId(), status);
+        return toResponseDto(quoteRepository.save(entity));
     }
 }
