@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SalesOrderRepository extends JpaRepository<SalesOrderEntity, String> {
 
@@ -16,4 +17,7 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrderEntity, St
     /** All order numbers of one financial year, e.g. prefix "SO/26-27/". */
     @Query("select s.number from SalesOrderEntity s where s.number like concat(:prefix, '%')")
     List<String> findNumbersByPrefix(@Param("prefix") String prefix);
+
+    // Used to make conversion idempotent (see convertToSalesOrder)
+    Optional<SalesOrderEntity> findFirstByQuotationReferenceAndStatusNotOrderByIdAsc(String quotationReference, String status);
 }
