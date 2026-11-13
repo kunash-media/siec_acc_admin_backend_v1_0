@@ -1,4 +1,5 @@
 package com.siec_acc.entity;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

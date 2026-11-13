@@ -4,10 +4,12 @@ import com.siec_acc.entity.SalesOrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface SalesOrderRepository extends JpaRepository<SalesOrderEntity, String> {
 
     /** All primary keys (SO-001, SO-002 ...) - used to find the highest sequence in use. */

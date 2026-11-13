@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import jakarta.persistence.LockModeType;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+
+@Repository
 public interface VendorPaymentRepository extends JpaRepository<VendorPaymentEntity, Long> {
 
     Optional<VendorPaymentEntity> findByVpStrId(String vpStrId);

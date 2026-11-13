@@ -1,7 +1,5 @@
 package com.siec_acc.dto.request;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.math.BigDecimal;
 import java.util.List;
 
