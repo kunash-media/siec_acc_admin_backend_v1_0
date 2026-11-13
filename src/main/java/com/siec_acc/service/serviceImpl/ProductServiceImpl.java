@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
                 .productDescription(requestDTO.getProductDescription())
                 .productSellingPrice(requestDTO.getProductSellingPrice())
                 .productMrpPrice(requestDTO.getProductMrpPrice())
-                .productGstRate(requestDTO.getProductGstRate())
+                .productGstRate(normalizeGstRate(requestDTO.getProductGstRate()))
                 .productVendorName(requestDTO.getProductVendorName())
                 .productVendorCompany(requestDTO.getProductVendorCompany())
                 .build();
@@ -132,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
         product.setProductDescription(requestDTO.getProductDescription());
         product.setProductSellingPrice(requestDTO.getProductSellingPrice());
         product.setProductMrpPrice(requestDTO.getProductMrpPrice());
-        product.setProductGstRate(requestDTO.getProductGstRate());
+        product.setProductGstRate(normalizeGstRate(requestDTO.getProductGstRate()));
         product.setProductVendorName(requestDTO.getProductVendorName());
         product.setProductVendorCompany(requestDTO.getProductVendorCompany());
 
@@ -167,8 +167,7 @@ public class ProductServiceImpl implements ProductService {
         if (requestDTO.getProductDescription() != null) product.setProductDescription(requestDTO.getProductDescription());
         if (requestDTO.getProductSellingPrice() != null) product.setProductSellingPrice(requestDTO.getProductSellingPrice());
         if (requestDTO.getProductMrpPrice() != null) product.setProductMrpPrice(requestDTO.getProductMrpPrice());
-        if (requestDTO.getProductGstRate() != null) product.setProductGstRate(requestDTO.getProductGstRate());
-        if (requestDTO.getProductVendorName() != null) product.setProductVendorName(requestDTO.getProductVendorName());
+        if (requestDTO.getProductGstRate() != null) product.setProductGstRate(normalizeGstRate(requestDTO.getProductGstRate()));        if (requestDTO.getProductVendorName() != null) product.setProductVendorName(requestDTO.getProductVendorName());
         if (requestDTO.getProductVendorCompany() != null) product.setProductVendorCompany(requestDTO.getProductVendorCompany());
 
         ProductEntity patched = productRepository.save(product);
@@ -227,6 +226,18 @@ public class ProductServiceImpl implements ProductService {
             logger.warn("Duplicate SKU while updating product: {}", newSku);
             throw new DuplicateResourceException("A product with SKU '" + newSku + "' already exists.");
         }
+    }
+
+    // GST rate: optional; if present must be numeric 0-100 with at most 2 decimals. Blank -> null.
+    private String normalizeGstRate(String raw) {
+        if (raw == null) return null;
+        String s = raw.trim();
+        if (s.isEmpty()) return null;
+        if (!s.matches("\\d{1,3}(\\.\\d{1,2})?") || new BigDecimal(s).compareTo(BigDecimal.valueOf(100)) > 0) {
+            logger.warn("Rejected invalid GST rate: {}", raw);
+            throw new IllegalArgumentException("GST rate must be a number between 0 and 100 (up to 2 decimals).");
+        }
+        return s;
     }
 
     private BigDecimal getCurrentStock(ProductEntity product) {

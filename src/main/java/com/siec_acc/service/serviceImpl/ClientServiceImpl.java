@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,6 +67,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public ClientResponseDto createClient(ClientRequestDto requestDto) {
         logger.info("Creating new client with name: {}", requestDto.getName());
+        validateAndNormalizeIdentity(requestDto, true);
 
         ClientEntity client = new ClientEntity();
         client.setClientName(requestDto.getName());
@@ -103,7 +105,9 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public ClientResponseDto updateClient(String id, ClientRequestDto requestDto) {
+
         logger.info("Updating customer: {}", id);
+        validateAndNormalizeIdentity(requestDto, false);
         ClientEntity client = getClientEntityOrThrow(id);
 
         if (requestDto.getName() != null) client.setClientName(requestDto.getName());
@@ -116,6 +120,7 @@ public class ClientServiceImpl implements ClientService {
         if (requestDto.getBillingAddress() != null) client.setClientBillingAddress(requestDto.getBillingAddress());
         if (requestDto.getShippingAddress() != null) client.setClientShippingAddress(requestDto.getShippingAddress());
         if (requestDto.getCity() != null) client.setClientCity(requestDto.getCity());
+        if (requestDto.getState() != null) client.setClientState(requestDto.getState());
         if (requestDto.getClientCountry() != null) client.setClientCountry(requestDto.getClientCountry());
 
         if (requestDto.getPincode() != null) client.setClientPincode(requestDto.getPincode());
@@ -136,6 +141,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public ClientResponseDto patchClient(String id, ClientRequestDto requestDto) {
         logger.info("Patching customer: {}", id);
+        validateAndNormalizeIdentity(requestDto, false);
         ClientEntity client = getClientEntityOrThrow(id);
 
         if (requestDto.getName() != null) client.setClientName(requestDto.getName());
@@ -291,6 +297,38 @@ public class ClientServiceImpl implements ClientService {
     }
 
     // ---------- helpers ----------
+
+    private static final Pattern NAME_PATTERN =
+           Pattern.compile("^[\\p{L}\\p{M}]+(\\s[\\p{L}\\p{M}]+)*$");
+    private static final java.util.regex.Pattern EMAIL_PATTERN =
+            Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}$");
+
+    // Validates + normalises name and email on the request. null = "not sent" (allowed on update/patch).
+    private void validateAndNormalizeIdentity(ClientRequestDto d, boolean nameRequired) {
+        String name = d.getName();
+        if (name == null) {
+            if (nameRequired) throw new IllegalArgumentException("Client name is required.");
+        } else {
+            name = name.trim().replaceAll("\\s+", " ");
+            if (name.isEmpty()) throw new IllegalArgumentException("Client name cannot be empty.");
+            if (name.length() > 100 || !NAME_PATTERN.matcher(name).matches()) {
+                logger.warn("Rejected invalid client name: {}", d.getName());
+                throw new IllegalArgumentException("Client name can contain only letters and spaces.");
+            }
+            d.setName(name);
+        }
+
+        String email = d.getEmail();
+        if (email != null) {
+            email = email.trim().toLowerCase(Locale.ROOT);
+            if (!email.isEmpty() && (email.length() > 120 || !EMAIL_PATTERN.matcher(email).matches())) {
+                logger.warn("Rejected invalid client email: {}", d.getEmail());
+                throw new IllegalArgumentException("Please enter a valid email address, e.g. name@company.com.");
+            }
+            d.setEmail(email);
+        }
+    }
+
 
     private ClientEntity getClientEntityOrThrow(String id) {
         return clientRepository.findByClientStrId(id)
