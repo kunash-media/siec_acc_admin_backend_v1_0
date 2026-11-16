@@ -314,8 +314,86 @@ public class VendorServiceImpl implements VendorService {
                 .orElseThrow(() -> new NoSuchElementException("Vendor not found with ID: " + id));
     }
 
+    private static final java.util.regex.Pattern LETTERS_RX =
+            java.util.regex.Pattern.compile("^[\\p{L}\\p{M}]+(\\s[\\p{L}\\p{M}]+)*$");
+    private static final java.util.regex.Pattern EMAIL_RX =
+            java.util.regex.Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}$");
+    private static final java.util.regex.Pattern PHONE_CHARS_RX =
+            java.util.regex.Pattern.compile("^[0-9+\\-\\s()]+$");
+
+    private String vLetters(String raw, String label, int max, boolean required) {
+        if (raw == null) {
+            if (required) throw new IllegalArgumentException(label + " is required.");
+            return null;
+        }
+        String s = raw.trim().replaceAll("\\s+", " ");
+        if (s.isEmpty()) {
+            if (required) throw new IllegalArgumentException(label + " is required.");
+            return s;
+        }
+        if (s.length() > max || !LETTERS_RX.matcher(s).matches()) {
+            logger.warn("Rejected invalid {}: {}", label, raw);
+            throw new IllegalArgumentException(label + " can contain only letters and spaces.");
+        }
+        return s;
+    }
+
+    private String vEmail(String raw, String label) {
+        if (raw == null) return null;
+        String s = raw.trim().toLowerCase(Locale.ROOT);
+        if (!s.isEmpty() && (s.length() > 120 || !EMAIL_RX.matcher(s).matches())) {
+            logger.warn("Rejected invalid {}: {}", label, raw);
+            throw new IllegalArgumentException(label + " must be a valid email address, e.g. name@company.com.");
+        }
+        return s;
+    }
+
+    private String vPhone(String raw, String label) {
+        if (raw == null) return null;
+        String s = raw.trim();
+        if (s.isEmpty()) return s;
+        if (!PHONE_CHARS_RX.matcher(s).matches()) {
+            throw new IllegalArgumentException(label + " can contain only digits.");
+        }
+        String digits = s.replaceAll("\\D", "");
+        if (digits.length() == 12 && digits.startsWith("91")) digits = digits.substring(2);
+        else if (digits.length() == 11 && digits.startsWith("0")) digits = digits.substring(1);
+        if (digits.length() != 10) {
+            throw new IllegalArgumentException(label + " must be exactly 10 digits.");
+        }
+        return digits;
+    }
+
+    private String vPincode(String raw) {
+        if (raw == null) return null;
+        String s = raw.trim();
+        if (!s.isEmpty() && !s.matches("\\d{6}")) {
+            throw new IllegalArgumentException("Pincode must be exactly 6 digits.");
+        }
+        return s;
+    }
+
+    // Validates + normalises name/email/phone/city/pincode and secondary contacts. null = "not sent" (PATCH).
+    private void validateAndNormalize(VendorRequestDto d, boolean full) {
+        if (full || d.getVendorName() != null) d.setVendorName(vLetters(d.getVendorName(), "Vendor name", 100, true));
+        d.setEmail(vEmail(d.getEmail(), "Email"));
+        d.setPhone(vPhone(d.getPhone(), "Phone number"));
+        d.setCity(vLetters(d.getCity(), "City", 60, false));
+        d.setPincode(vPincode(d.getPincode()));
+
+        if (d.getSecondaryContacts() != null) {
+            for (SecondaryContactDto c : d.getSecondaryContacts()) {
+                if (c == null) continue;
+                c.setName(vLetters(c.getName(), "Contact name", 100, false));
+                c.setMobile(vPhone(c.getMobile(), "Contact mobile"));
+                c.setEmail(vEmail(c.getEmail(), "Contact email"));
+            }
+        }
+    }
+
     private void copy(VendorRequestDto d, VendorEntity e, boolean full) {
         if (d == null) return;
+        validateAndNormalize(d, full);
         if (full || d.getVendorName() != null) e.setVendorName(d.getVendorName());
         if (full || d.getCompanyName() != null) e.setCompanyName(d.getCompanyName());
         if (full || d.getVendorType() != null) e.setVendorType(d.getVendorType());

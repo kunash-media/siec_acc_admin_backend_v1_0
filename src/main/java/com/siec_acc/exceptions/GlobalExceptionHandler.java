@@ -60,7 +60,4 @@ public class GlobalExceptionHandler {
         logger.warn("Unreadable request body: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error("Invalid request body (check dates and number formats)."));
     }
-
-
-
 }
