@@ -10,4 +10,6 @@ public interface DashboardService {
     DashboardDto.TopExpenses getTopExpenses(String period);
     List<DashboardDto.ActiveProject> getActiveProjects(int limit);
     List<DashboardDto.Alert> getAlerts(int limit);
+
+    DashboardDto.ProjectExport getProjectExport(String projectStrId);
 }

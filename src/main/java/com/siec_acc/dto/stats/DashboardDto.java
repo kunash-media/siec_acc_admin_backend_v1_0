@@ -1,5 +1,9 @@
 package com.siec_acc.dto.stats;
 
+import com.siec_acc.dto.response.*;
+import com.siec_acc.dto.response.ProjectBudgetDto;
+import com.siec_acc.dto.response.ProjectExpenseDto;
+import com.siec_acc.dto.response.ProjectPurchaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -136,5 +140,14 @@ public final class DashboardDto {
         private String description;
         private LocalDateTime occurredAt; // may be null
         private String link;              // may be null
+    }
+
+    @Data @Builder @NoArgsConstructor @AllArgsConstructor
+    public static class ProjectExport {
+        private ProjectResponseDto project;
+        private ProjectBudgetDto budget;
+        private List<ProjectSaleDto> sales;
+        private List<ProjectPurchaseDto> purchases;
+        private List<ProjectExpenseDto> expenses;
     }
 }

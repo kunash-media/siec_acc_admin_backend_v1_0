@@ -192,7 +192,7 @@ public class VendorResponseDto {
         private Long fileSize;
 
         public DocumentDto() {}
-        public DocumentDto(Long documentId, String documentType, String documentUrl, Long fileSize) {
+        public DocumentDto(Long documentId, String documentType, String documentUrl, Long fileSize, String fileName) {
             this.documentId = documentId;
             this.documentType = documentType;
             this.documentUrl = documentUrl;

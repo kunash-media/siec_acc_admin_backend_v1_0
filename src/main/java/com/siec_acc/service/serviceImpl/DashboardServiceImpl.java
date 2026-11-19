@@ -561,4 +561,20 @@ public class DashboardServiceImpl implements DashboardService {
         if (o instanceof Timestamp) return ((Timestamp) o).toLocalDateTime();
         return null;
     }
+
+    @Override
+    public DashboardDto.ProjectExport getProjectExport(String projectStrId) {
+        if (projectStrId == null || projectStrId.isBlank()) {
+            throw new IllegalArgumentException("Project ID is required.");
+        }
+        String id = projectStrId.trim();
+        ProjectResponseDto project = projectService.getProject(id);   // throws ResourceNotFoundException (404) if missing
+        return DashboardDto.ProjectExport.builder()
+                .project(project)
+                .budget(projectService.getBudget(id))
+                .sales(projectService.getSales(id))
+                .purchases(projectService.getPurchases(id))
+                .expenses(projectService.getExpenses(id))
+                .build();
+    }
 }

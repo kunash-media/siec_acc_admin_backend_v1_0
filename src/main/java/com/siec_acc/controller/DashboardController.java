@@ -46,4 +46,10 @@ public class DashboardController {
             @RequestParam(defaultValue = "5") int limit) {
         return ResponseEntity.ok(ApiResponse.success("Alerts fetched.", dashboardService.getAlerts(limit)));
     }
+
+    @GetMapping("/projects/{projectStrId}/export")
+    public ResponseEntity<ApiResponse<DashboardDto.ProjectExport>> projectExport(@PathVariable String projectStrId) {
+        return ResponseEntity.ok(ApiResponse.success("Project export data fetched.",
+                dashboardService.getProjectExport(projectStrId)));
+    }
 }

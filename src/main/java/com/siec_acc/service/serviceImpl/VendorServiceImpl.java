@@ -373,6 +373,45 @@ public class VendorServiceImpl implements VendorService {
         return s;
     }
 
+    private static final java.util.regex.Pattern GSTIN_RX =
+            java.util.regex.Pattern.compile("^(0[1-9]|[12][0-9]|3[0-8]|9[79])[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$");
+    private static final java.util.regex.Pattern PAN_RX =
+            java.util.regex.Pattern.compile("^[A-Z]{5}[0-9]{4}[A-Z]$");
+    private static final java.util.regex.Pattern IFSC_RX =
+            java.util.regex.Pattern.compile("^[A-Z]{4}0[A-Z0-9]{6}$");
+    private static final java.util.regex.Pattern BANK_NAME_RX =
+            java.util.regex.Pattern.compile("^[A-Za-z]+( [A-Za-z]+)*$");
+
+    // Uppercases + trims, then requires the pattern. Blank is allowed (field is optional).
+    private String vCode(String raw, java.util.regex.Pattern rx, String label, String format) {
+        if (raw == null) return null;
+        String s = raw.trim().toUpperCase(Locale.ROOT);
+        if (!s.isEmpty() && !rx.matcher(s).matches()) {
+            logger.warn("Rejected invalid {}: {}", label, raw);
+            throw new IllegalArgumentException(label + " must be in the format " + format + ".");
+        }
+        return s;
+    }
+
+    private String vBankName(String raw) {
+        if (raw == null) return null;
+        String s = raw.trim().replaceAll("\\s+", " ");
+        if (!s.isEmpty() && (s.length() > 60 || !BANK_NAME_RX.matcher(s).matches())) {
+            logger.warn("Rejected invalid bank name: {}", raw);
+            throw new IllegalArgumentException("Bank name can contain only letters and spaces.");
+        }
+        return s;
+    }
+
+    private String vAccountNumber(String raw) {
+        if (raw == null) return null;
+        String s = raw.trim();
+        if (!s.isEmpty() && !s.matches("\\d{1,18}")) {
+            throw new IllegalArgumentException("Account number must contain only digits (up to 18).");
+        }
+        return s;
+    }
+
     // Validates + normalises name/email/phone/city/pincode and secondary contacts. null = "not sent" (PATCH).
     private void validateAndNormalize(VendorRequestDto d, boolean full) {
         if (full || d.getVendorName() != null) d.setVendorName(vLetters(d.getVendorName(), "Vendor name", 100, true));
@@ -380,6 +419,11 @@ public class VendorServiceImpl implements VendorService {
         d.setPhone(vPhone(d.getPhone(), "Phone number"));
         d.setCity(vLetters(d.getCity(), "City", 60, false));
         d.setPincode(vPincode(d.getPincode()));
+        d.setGstin(vCode(d.getGstin(), GSTIN_RX, "GSTIN", "22AAAAA0000A1Z5 (15 characters)"));
+        d.setPan(vCode(d.getPan(), PAN_RX, "PAN", "AAAAA9999A (10 characters)"));
+        d.setBankName(vBankName(d.getBankName()));
+        d.setBankAccount(vAccountNumber(d.getBankAccount()));
+        d.setBankIfsc(vCode(d.getBankIfsc(), IFSC_RX, "IFSC code", "AAAA0XXXXXX (11 characters)"));
 
         if (d.getSecondaryContacts() != null) {
             for (SecondaryContactDto c : d.getSecondaryContacts()) {
@@ -463,7 +507,8 @@ public class VendorServiceImpl implements VendorService {
                         doc.getDocumentId(),
                         doc.getDocumentType(),
                         doc.getDocumentUrl(),
-                        doc.getFileSize()
+                        doc.getFileSize(),
+                        doc.getFileName()
                 ));
             }
         }

@@ -180,6 +180,19 @@ public class VendorController {
         }
     }
 
+    private MediaType detectMediaType(byte[] b, MediaType declared) {
+        if (b != null && b.length >= 12) {
+            if (b[0] == 0x25 && b[1] == 0x50 && b[2] == 0x44 && b[3] == 0x46) return MediaType.APPLICATION_PDF;
+            if ((b[0] & 0xFF) == 0x89 && b[1] == 0x50 && b[2] == 0x4E && b[3] == 0x47) return MediaType.IMAGE_PNG;
+            if ((b[0] & 0xFF) == 0xFF && (b[1] & 0xFF) == 0xD8 && (b[2] & 0xFF) == 0xFF) return MediaType.IMAGE_JPEG;
+            if (b[0] == 0x52 && b[1] == 0x49 && b[2] == 0x46 && b[3] == 0x46
+                    && b[8] == 0x57 && b[9] == 0x45 && b[10] == 0x42 && b[11] == 0x50) {
+                return MediaType.parseMediaType("image/webp");
+            }
+        }
+        return declared;
+    }
+
     @DeleteMapping("/document/{vendorId}/{documentId}")
     public ResponseEntity<?> deleteDocument(
             @PathVariable String vendorId,
