@@ -355,6 +355,25 @@ public class ClientServiceImpl implements ClientService {
             }
             d.setGstin(gstin);
         }
+
+        String pan = d.getPan();
+        if (pan != null) {
+            pan = pan.trim().toUpperCase(Locale.ROOT);
+            if (!pan.isEmpty() && !pan.matches("^[A-Z]{5}[0-9]{4}[A-Z]$")) {
+                throw new IllegalArgumentException("PAN must be in the format AAAAA9999A (10 characters).");
+            }
+            d.setPan(pan);
+        }
+
+        BigDecimal credit = d.getCreditLimit();
+        if (credit != null) {
+            if (credit.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new IllegalArgumentException("Credit limit must be greater than 0. Leave it empty for no limit.");
+            }
+            if (credit.scale() > 2 || credit.compareTo(new BigDecimal("999999999999")) > 0) {
+                throw new IllegalArgumentException("Credit limit can have at most 2 decimals and cannot exceed 999999999999.");
+            }
+        }
     }
 
 

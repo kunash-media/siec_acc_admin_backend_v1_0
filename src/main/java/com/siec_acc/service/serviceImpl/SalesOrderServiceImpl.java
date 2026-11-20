@@ -326,8 +326,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
             if (it.getQty() == null || it.getQty() <= 0) {
                 throw new InvalidOperationException("Quantity must be greater than 0 for item '" + itemId + "'.");
             }
-            if (it.getRate() == null || it.getRate().isNaN() || it.getRate().isInfinite() || it.getRate() < 0) {
-                throw new InvalidOperationException("Rate cannot be negative for item '" + itemId + "'.");
+            if (it.getRate() == null || it.getRate().isNaN() || it.getRate().isInfinite() || it.getRate() <= 0) {
+                throw new InvalidOperationException("Rate must be greater than 0 for item '" + itemId + "'.");
             }
             if (!seen.add(itemId)) {
                 throw new InvalidOperationException("Item '" + itemId + "' appears more than once - merge the lines.");
