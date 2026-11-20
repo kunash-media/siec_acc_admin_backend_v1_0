@@ -303,6 +303,61 @@ public class ClientServiceImpl implements ClientService {
     private static final java.util.regex.Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}$");
 
+
+    private static final java.util.regex.Pattern C_UNICODE_LETTERS_RX =
+            java.util.regex.Pattern.compile("^[\\p{L}\\p{M}]+(\\s[\\p{L}\\p{M}]+)*$");
+    private static final java.util.regex.Pattern C_ASCII_LETTERS_RX =
+            java.util.regex.Pattern.compile("^[A-Za-z]+( [A-Za-z]+)*$");
+    private static final java.util.regex.Pattern C_GSTIN_RX =
+            java.util.regex.Pattern.compile("^(0[1-9]|[12][0-9]|3[0-8]|9[79])[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$");
+
+    private String cText(String raw, java.util.regex.Pattern rx, String label, int max) {
+        if (raw == null) return null;
+        String s = raw.trim().replaceAll("\\s+", " ");
+        if (!s.isEmpty() && (s.length() > max || !rx.matcher(s).matches())) {
+            logger.warn("Rejected invalid {}: {}", label, raw);
+            throw new IllegalArgumentException(label + " can contain only letters and spaces.");
+        }
+        return s;
+    }
+
+    private String cPhone(String raw) {
+        if (raw == null) return null;
+        String s = raw.trim();
+        if (s.isEmpty()) return s;
+        if (!s.matches("^[0-9+\\-\\s()]+$")) throw new IllegalArgumentException("Contact number can contain only digits.");
+        String digits = s.replaceAll("\\D", "");
+        if (digits.length() == 12 && digits.startsWith("91")) digits = digits.substring(2);
+        else if (digits.length() == 11 && digits.startsWith("0")) digits = digits.substring(1);
+        if (digits.length() != 10) throw new IllegalArgumentException("Contact number must be exactly 10 digits.");
+        return digits;
+    }
+
+    // Validates + normalises phone, city, state, pincode, GSTIN and client type. null = "not sent".
+    private void validateAndNormalizeDetails(ClientRequestDto d) {
+        d.setPhone(cPhone(d.getPhone()));
+        d.setCity(cText(d.getCity(), C_UNICODE_LETTERS_RX, "City", 60));
+        d.setState(cText(d.getState(), C_ASCII_LETTERS_RX, "State", 60));
+        d.setCustomerType(cText(d.getCustomerType(), C_ASCII_LETTERS_RX, "Client type", 30));
+
+        String pin = d.getPincode();
+        if (pin != null) {
+            pin = pin.trim();
+            if (!pin.isEmpty() && !pin.matches("\\d{1,10}")) throw new IllegalArgumentException("Pincode can contain only digits.");
+            d.setPincode(pin);
+        }
+
+        String gstin = d.getGstin();
+        if (gstin != null) {
+            gstin = gstin.trim().toUpperCase(Locale.ROOT);
+            if (!gstin.isEmpty() && !C_GSTIN_RX.matcher(gstin).matches()) {
+                throw new IllegalArgumentException("GSTIN must be a valid 15-character GST number, e.g. 27AAPFU0939F1ZV.");
+            }
+            d.setGstin(gstin);
+        }
+    }
+
+
     // Validates + normalises name and email on the request. null = "not sent" (allowed on update/patch).
     private void validateAndNormalizeIdentity(ClientRequestDto d, boolean nameRequired) {
         String name = d.getName();
@@ -327,6 +382,7 @@ public class ClientServiceImpl implements ClientService {
             }
             d.setEmail(email);
         }
+        validateAndNormalizeDetails(d);
     }
 
 
