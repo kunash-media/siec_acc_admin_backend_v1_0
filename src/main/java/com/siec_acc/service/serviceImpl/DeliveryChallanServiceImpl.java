@@ -65,6 +65,7 @@ public class DeliveryChallanServiceImpl implements DeliveryChallanService {
     @Transactional
     public DeliveryChallanResponseDto createDc(DeliveryChallanRequestDto dto, byte[] fileBytes, String contentType, String fileName) {
         validate(dto);
+        assertDateNotPast(dto.getDcDate(), null);
         String dcStrId = generateNextDcNumber();
         DeliveryChallanEntity entity = DeliveryChallanEntity.builder()
                 .dcStrId(dcStrId)
@@ -87,6 +88,7 @@ public class DeliveryChallanServiceImpl implements DeliveryChallanService {
         DeliveryChallanEntity entity = findOrThrow(dcPrimeId);
         requireDraft(entity, "edited");
         validate(dto);
+        assertDateNotPast(dto.getDcDate(), entity.getDcDate());
         applyRequest(entity, dto);
         return toResponseDto(dcRepository.save(entity));
     }
@@ -262,6 +264,13 @@ public class DeliveryChallanServiceImpl implements DeliveryChallanService {
                     || i.getDcItemRate() == null || i.getDcItemRate().compareTo(BigDecimal.ZERO) < 0) {
                 throw new InvalidOperationException("Every item needs a quantity greater than 0 and a valid rate.");
             }
+            if (i.getDcItemQty().stripTrailingZeros().scale() > 3) {
+                throw new InvalidOperationException("Quantity can have at most 3 decimal places.");
+            }
+            BigDecimal gst = i.getDcItemGstPercent();
+            if (gst != null && (gst.signum() < 0 || gst.compareTo(HUNDRED) > 0 || gst.stripTrailingZeros().scale() > 2)) {
+                throw new InvalidOperationException("GST % must be between 0 and 100 (up to 2 decimals).");
+            }
         }
         if (dto.getDcDate() == null || dto.getDcClientPrimeId() == null || dto.getDcType() == null) {
             throw new InvalidOperationException("Challan date, challan type and client are required.");
@@ -271,8 +280,15 @@ public class DeliveryChallanServiceImpl implements DeliveryChallanService {
         }
     }
 
-    private void applyRequest(DeliveryChallanEntity e, DeliveryChallanRequestDto d) {
-        e.setDcDate(d.getDcDate());
+    // Past dates rejected on create; on update only when the date is actually being changed.
+    private void assertDateNotPast(LocalDate newDate, LocalDate existingDate) {
+        if (newDate.equals(existingDate)) return;
+        if (newDate.isBefore(LocalDate.now())) {
+            throw new InvalidOperationException("Challan date cannot be earlier than today.");
+        }
+    }
+
+    private void applyRequest(DeliveryChallanEntity e, DeliveryChallanRequestDto d) {        e.setDcDate(d.getDcDate());
         e.setDcType(d.getDcType());
 
         e.setDcClientPrimeId(d.getDcClientPrimeId());

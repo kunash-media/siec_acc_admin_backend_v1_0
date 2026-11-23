@@ -102,6 +102,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                 dto.getDiscount(), dto.getTax(), dto.getNotes(),
                 dto.getQuotationReference(), dto.getPiReference(), dto.getProjectReference());
         List<ItemLine> lines = validateItems(dto.getItems());
+        assertDatesNotPast(header, null);
 
         synchronized (numberLock) {
             SalesOrderResponseDto response = transactionTemplate.execute(status -> {
@@ -175,8 +176,9 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                 dto.getDiscount(), dto.getTax(), dto.getNotes(),
                 dto.getQuotationReference(), dto.getPiReference(), dto.getProjectReference());
         List<ItemLine> lines = validateItems(dto.getItems());
-
+        assertDatesNotPast(header, entity);
         applyHeader(entity, header);
+
         replaceItemsAndTotals(entity, lines);
 
         SalesOrderEntity saved = salesOrderRepository.save(entity);
@@ -216,6 +218,8 @@ public class SalesOrderServiceImpl implements SalesOrderService {
                     dto.getQuotationReference() != null ? dto.getQuotationReference() : entity.getQuotationReference(),
                     dto.getPiReference() != null ? dto.getPiReference() : entity.getPiReference(),
                     dto.getProjectReference() != null ? dto.getProjectReference() : entity.getProjectReference());
+
+            assertDatesNotPast(header, entity);
             applyHeader(entity, header);
 
             if (dto.getItems() != null) {
@@ -352,6 +356,20 @@ public class SalesOrderServiceImpl implements SalesOrderService {
     // ==================================================================
     // building the entity
     // ==================================================================
+
+    // Past dates are rejected on create; on update/patch only when that date is actually being changed.
+    private void assertDatesNotPast(Header h, SalesOrderEntity existing) {
+        LocalDate today = LocalDate.now();
+        boolean dateChanged = existing == null || !h.date().equals(existing.getDate());
+        boolean deliveryChanged = existing == null || !h.expectedDelivery().equals(existing.getExpectedDelivery());
+        if (dateChanged && h.date().isBefore(today)) {
+            throw new InvalidOperationException("Order date cannot be earlier than today.");
+        }
+        if (deliveryChanged && h.expectedDelivery().isBefore(today)) {
+            throw new InvalidOperationException("Expected delivery date cannot be earlier than today.");
+        }
+    }
+
     private void applyHeader(SalesOrderEntity e, Header h) {
         e.setClientId(h.clientId());
         e.setDate(h.date());
