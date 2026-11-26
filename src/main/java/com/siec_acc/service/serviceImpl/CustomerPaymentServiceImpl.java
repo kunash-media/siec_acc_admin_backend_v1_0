@@ -22,11 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,7 +63,8 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
         payment.setPaymentId(generatePaymentId());
         payment.setOrganization(organization);
         applyFields(payment, request, client, false);
-        attachInvoice(payment, request.getInvoicePrimeId());
+        validatePaymentRules(payment, null);
+        attachInvoice(payment, request.getInvoicePrimeId(), null);
         calculateAmounts(payment);
         CustomerPaymentEntity saved = customerPaymentRepository.save(payment);
         recalculateInvoice(saved.getInvoicePrimeId());
@@ -113,6 +111,7 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
                 .findAllByOrganization_OrganizationIdOrderByPaymentDateDescPaymentPrimeIdDesc(organizationId);
 
         Map<String, CustomerPaymentSummaryDTO> summaryMap = new LinkedHashMap<>();
+        Map<String, java.util.Set<Long>> countedInvoices = new java.util.HashMap<>();
 
         for (CustomerPaymentEntity payment : payments) {
             String clientStrId = payment.getClientStrId();
@@ -135,9 +134,17 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
             });
 
             summary.setTotalTransactions(summary.getTotalTransactions() + 1);
-            summary.setTotalPayment(summary.getTotalPayment().add(zero(payment.getAmount())));
-            summary.setTotalAllocated(summary.getTotalAllocated().add(zero(payment.getAllocatedAmount())));
-            summary.setOutstanding(summary.getOutstanding().add(calculateOutstanding(payment)));
+            if (isReceived(payment)) {
+                summary.setTotalPayment(summary.getTotalPayment().add(zero(payment.getAmount())));
+            }
+            Long invId = payment.getInvoicePrimeId();
+            if (invId != null && countedInvoices.computeIfAbsent(clientStrId, k -> new java.util.HashSet<>()).add(invId)) {
+                InvoiceEntity inv = invoiceRepository.findById(invId).orElse(null);
+                if (inv != null) {
+                    summary.setTotalAllocated(summary.getTotalAllocated().add(invoiceTotal(inv)));
+                    summary.setOutstanding(summary.getOutstanding().add(invoiceBalance(inv)));
+                }
+            }
             if (summary.getLastPaymentDate() == null ||
                     (payment.getPaymentDate() != null && payment.getPaymentDate().isAfter(summary.getLastPaymentDate()))) {
                 summary.setLastPaymentDate(payment.getPaymentDate());
@@ -156,8 +163,10 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
         ClientEntity client = findClient(request.getClientStrId());
         Long previousInvoiceId = payment.getInvoicePrimeId();
         payment.setOrganization(findOrganization(request.getOrganizationId()));
+        LocalDate previousDate = payment.getPaymentDate();
         applyFields(payment, request, client, false);
-        attachInvoice(payment, request.getInvoicePrimeId());
+        validatePaymentRules(payment, previousDate);
+        attachInvoice(payment, request.getInvoicePrimeId(), previousInvoiceId);
         calculateAmounts(payment);
         CustomerPaymentEntity saved = customerPaymentRepository.save(payment);
         recalculateInvoice(previousInvoiceId);
@@ -179,9 +188,11 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
         if (request.getClientStrId() != null && !request.getClientStrId().isBlank()) {
             applyClient(payment, findClient(request.getClientStrId()));
         }
+        LocalDate previousDate = payment.getPaymentDate();
         applyFields(payment, request, null, true);
-        if (request.getInvoicePrimeId() != null) attachInvoice(payment, request.getInvoicePrimeId());
+        if (request.getInvoicePrimeId() != null) attachInvoice(payment, request.getInvoicePrimeId(), previousInvoiceId);
         validateSavedPayment(payment);
+        validatePaymentRules(payment, previousDate);
         calculateAmounts(payment);
         CustomerPaymentEntity saved = customerPaymentRepository.save(payment);
         recalculateInvoice(previousInvoiceId);
@@ -265,13 +276,22 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
         payment.setClientStrId(client.getClientStrId());
     }
 
-    private void attachInvoice(CustomerPaymentEntity payment, Long invoicePrimeId) {
+    private void attachInvoice(CustomerPaymentEntity payment, Long invoicePrimeId, Long previousInvoiceId) {
         if (invoicePrimeId == null) {
             payment.setInvoicePrimeId(null);
             return;
         }
         InvoiceEntity invoice = invoiceRepository.findById(invoicePrimeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Invoice not found with ID: " + invoicePrimeId));
+        if (!invoicePrimeId.equals(previousInvoiceId)) {   // only when newly linking, so editing an old payment still works
+            String st = invoice.getInvoiceStatus() == null ? "" : invoice.getInvoiceStatus().name();
+            if ("CANCELLED".equalsIgnoreCase(st) || "CANCELED".equalsIgnoreCase(st) || "VOID".equalsIgnoreCase(st)) {
+                throw new IllegalArgumentException("Payments cannot be recorded against a cancelled invoice.");
+            }
+            if ("PAID".equalsIgnoreCase(st) || invoiceBalance(invoice).signum() <= 0) {
+                throw new IllegalArgumentException("Invoice " + invoice.getInvoiceStrId() + " is already fully paid.");
+            }
+        }
         if (invoice.getInvoiceCustomerId() == null || payment.getClientStrId() == null) {
             throw new IllegalArgumentException("The selected invoice must belong to the selected customer.");
         }
@@ -325,6 +345,46 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
         }
     }
 
+    private static final BigDecimal MAX_PAYMENT_AMOUNT = new BigDecimal("100000000");
+    private static final java.util.Set<String> REFERENCE_MODES = java.util.Set.of("bank transfer", "upi", "cheque");
+
+    private BigDecimal invoiceTotal(InvoiceEntity i) {
+        return zero(i.getInvoiceTotalAmountInr() == null ? i.getInvoiceTotalAmount() : i.getInvoiceTotalAmountInr());
+    }
+    private BigDecimal invoiceBalance(InvoiceEntity i) {
+        return invoiceTotal(i).subtract(zero(i.getInvoicePaidAmount())).max(BigDecimal.ZERO);
+    }
+    private boolean isReceived(CustomerPaymentEntity p) {
+        return p.getStatus() == null || "RECEIVED".equalsIgnoreCase(p.getStatus());
+    }
+
+    private void validatePaymentRules(CustomerPaymentEntity p, LocalDate previousDate) {
+        BigDecimal amount = p.getAmount();
+        if (amount.stripTrailingZeros().scale() > 2) {
+            throw new IllegalArgumentException("Amount can have at most 2 decimal places.");
+        }
+        if (amount.compareTo(MAX_PAYMENT_AMOUNT) > 0) {
+            throw new IllegalArgumentException("Amount cannot exceed 10,00,00,000.");
+        }
+        if (p.getPaymentDate() != null && p.getPaymentDate().isAfter(LocalDate.now())
+                && !p.getPaymentDate().equals(previousDate)) {
+            throw new IllegalArgumentException("Payment date cannot be in the future.");
+        }
+        String mode = p.getPaymentMode() == null ? "" : p.getPaymentMode().trim().toLowerCase(Locale.ROOT);
+        String ref = p.getReferenceNumber() == null ? "" : p.getReferenceNumber().trim();
+        if (ref.isEmpty() && REFERENCE_MODES.contains(mode)) {
+            throw new IllegalArgumentException("Reference number is required for " + p.getPaymentMode().trim() + " payments.");
+        }
+        if (!ref.isEmpty()) {
+            for (CustomerPaymentEntity other : customerPaymentRepository.findAllByReferenceNumberIgnoreCase(ref)) {
+                boolean same = other.getPaymentId() != null && other.getPaymentId().equals(p.getPaymentId());
+                if (!same && !"BOUNCED".equalsIgnoreCase(other.getStatus())) {
+                    throw new DuplicateResourceException("Reference number '" + ref + "' is already used by receipt " + other.getReceiptNumber() + ".");
+                }
+            }
+        }
+    }
+
     private String generatePaymentId() {
         return "CP-" + UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase();
     }
@@ -365,6 +425,12 @@ public class CustomerPaymentServiceImpl implements CustomerPaymentService {
         response.setInvoicePrimeId(payment.getInvoicePrimeId());
         response.setAllocatedAmount(payment.getAllocatedAmount());
         response.setOutstandingAmount(payment.getOutstandingAmount());
+        if (payment.getInvoicePrimeId() != null) {
+            invoiceRepository.findById(payment.getInvoicePrimeId()).ifPresent(inv -> {
+                response.setAllocatedAmount(invoiceTotal(inv));
+                response.setOutstandingAmount(invoiceBalance(inv));
+            });
+        }
         response.setStatus(payment.getStatus());
         response.setNotes(payment.getNotes());
         response.setCreatedAt(payment.getCreatedAt());

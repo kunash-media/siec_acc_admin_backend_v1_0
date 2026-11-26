@@ -17,4 +17,6 @@ public interface CustomerPaymentRepository extends JpaRepository<CustomerPayment
     List<CustomerPaymentEntity> findAllByOrganization_OrganizationIdOrderByPaymentDateDescPaymentPrimeIdDesc(String organizationId);
     List<CustomerPaymentEntity> findAllByOrganization_OrganizationIdAndClientStrIdOrderByPaymentDateDescPaymentPrimeIdDesc(String organizationId, String clientStrId);
     List<CustomerPaymentEntity> findAllByInvoicePrimeId(Long invoicePrimeId);
+
+    List<CustomerPaymentEntity> findAllByReferenceNumberIgnoreCase(String referenceNumber);
 }

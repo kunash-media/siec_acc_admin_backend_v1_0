@@ -50,6 +50,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             throw new InvoiceItemRequiredException("Please add at least one item to the invoice before saving.");
         }
 
+        validateInvoice(requestDto, null);
         String invoiceStrId = generateNextInvoiceNumber();
         logger.info("Creating invoice {} for customerId={}", invoiceStrId, requestDto.getInvoiceCustomerId());
 
@@ -96,9 +97,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         attachItems(entity, requestDto.getInvoiceItems());
         applyTotals(entity);
+        applyPaidRules(entity);
 
         InvoiceEntity saved = invoiceRepository.save(entity);
-        logger.info("Invoice {} created successfully (invoicePrimeId={})", saved.getInvoiceStrId(), saved.getInvoicePrimeId());
+        logger.info("Invoice {} created successfully");
         return toResponseDto(saved);
     }
 
@@ -133,8 +135,10 @@ public class InvoiceServiceImpl implements InvoiceService {
             throw new InvoiceItemRequiredException("Please add at least one item to the invoice before saving.");
         }
 
+        validateInvoice(requestDto, entity);
         entity.setInvoiceDate(requestDto.getInvoiceDate());
         entity.setInvoiceDueDate(requestDto.getInvoiceDueDate());
+
         entity.setInvoiceCustomerId(requestDto.getInvoiceCustomerId());
         entity.setInvoiceCustomerName(requestDto.getInvoiceCustomerName());
         entity.setInvoiceCustomerGst(requestDto.getInvoiceCustomerGst());
@@ -172,6 +176,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         entity.getInvoiceItems().clear();
         attachItems(entity, requestDto.getInvoiceItems());
         applyTotals(entity);
+        applyPaidRules(entity);
 
         InvoiceEntity saved = invoiceRepository.save(entity);
         logger.info("Invoice {} updated successfully (invoicePrimeId={})", saved.getInvoiceStrId(), saved.getInvoicePrimeId());
@@ -337,6 +342,48 @@ public class InvoiceServiceImpl implements InvoiceService {
     // e.g. baseUrl + "/api/v1/invoices/INV-25-26-001" -> downloads the PDF.
     private String buildRelativeUrl(String invoiceStrId) {
         return "/api/v1/invoices/" + invoiceStrId;
+    }
+
+
+    private static final java.util.regex.Pattern PLACE_RX = java.util.regex.Pattern.compile("^[A-Za-z]+( [A-Za-z]+)*$");
+
+    private void validateInvoice(InvoiceRequestDto d, InvoiceEntity existing) {
+        LocalDate today = LocalDate.now();
+        if (d.getInvoiceDate() == null) throw new IllegalArgumentException("Invoice date is required.");
+        if (d.getInvoiceDueDate() == null) throw new IllegalArgumentException("Due date is required.");
+        if ((existing == null || !d.getInvoiceDate().equals(existing.getInvoiceDate())) && d.getInvoiceDate().isBefore(today))
+            throw new IllegalArgumentException("Invoice date cannot be earlier than today.");
+        if ((existing == null || !d.getInvoiceDueDate().equals(existing.getInvoiceDueDate())) && d.getInvoiceDueDate().isBefore(today))
+            throw new IllegalArgumentException("Due date cannot be earlier than today.");
+        if (d.getInvoiceDueDate().isBefore(d.getInvoiceDate()))
+            throw new IllegalArgumentException("Due date cannot be before the invoice date.");
+        if (d.getInvoiceExchangeRate() != null && d.getInvoiceExchangeRate().signum() <= 0)
+            throw new IllegalArgumentException("Exchange rate must be greater than 0.");
+        BigDecimal disc = d.getInvoiceDiscountPercent();
+        if (disc != null && (disc.signum() < 0 || disc.compareTo(BigDecimal.valueOf(100)) > 0))
+            throw new IllegalArgumentException("Discount must be between 0 and 100.");
+        if (d.getInvoiceShippingCharges() != null && d.getInvoiceShippingCharges().signum() < 0)
+            throw new IllegalArgumentException("Shipping charges cannot be negative.");
+        if (d.getInvoiceOtherCharges() != null && d.getInvoiceOtherCharges().signum() < 0)
+            throw new IllegalArgumentException("Other charges cannot be negative.");
+        String pos = d.getInvoicePlaceOfSupply();
+        if (pos != null && !pos.isBlank() && (pos.trim().length() > 60 || !PLACE_RX.matcher(pos.trim()).matches()))
+            throw new IllegalArgumentException("Place of supply can contain only letters and spaces.");
+        for (InvoiceItemRequestDto i : d.getInvoiceItems()) {
+            if (i.getInvoiceItemQty() == null || i.getInvoiceItemQty().signum() <= 0)
+                throw new IllegalArgumentException("Quantity must be greater than 0 for item '" + i.getInvoiceItemName() + "'.");
+            if (i.getInvoiceItemRate() == null || i.getInvoiceItemRate().signum() <= 0)
+                throw new IllegalArgumentException("Rate must be greater than 0 for item '" + i.getInvoiceItemName() + "'.");
+        }
+    }
+
+    // PARTIAL needs 0 < paid < total; PAID syncs paid to total.
+    private void applyPaidRules(InvoiceEntity e) {
+        BigDecimal paid = defaultIfNull(e.getInvoicePaidAmount(), BigDecimal.ZERO), total = e.getInvoiceTotalAmount();
+        if (paid.signum() < 0) throw new IllegalArgumentException("Amount paid cannot be negative.");
+        if (e.getInvoiceStatus() == InvoiceStatus.PARTIAL && (paid.signum() <= 0 || paid.compareTo(total) >= 0))
+            throw new IllegalArgumentException("For a Partial Paid invoice, the amount paid must be greater than 0 and less than the total (" + total + ").");
+        if (e.getInvoiceStatus() == InvoiceStatus.PAID) e.setInvoicePaidAmount(total);
     }
 
     private InvoiceEntity findEntityOrThrow(Long invoicePrimeId) {

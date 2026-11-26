@@ -59,6 +59,7 @@ public class ProformaServiceImpl implements ProformaService {
             throw new InvoiceItemRequiredException("Please add at least one item to the proforma invoice before saving.");
         }
 
+        validateProforma(requestDto, null);
         String proformaStrId = generateNextProformaNumber();
         logger.info("Creating proforma {} for customerId={}", proformaStrId, requestDto.getProformaCustomerId());
 
@@ -135,6 +136,7 @@ public class ProformaServiceImpl implements ProformaService {
             throw new InvoiceItemRequiredException("Please add at least one item to the proforma invoice before saving.");
         }
 
+        validateProforma(requestDto, entity);
         entity.setProformaDate(requestDto.getProformaDate());
         entity.setProformaValidUntil(requestDto.getProformaValidUntil());
         entity.setProformaCustomerId(requestDto.getProformaCustomerId());
@@ -370,6 +372,40 @@ public class ProformaServiceImpl implements ProformaService {
     private String buildRelativeUrl(String proformaStrId) {
         return "/api/v1/proformas/" + proformaStrId;
     }
+
+    private static final java.util.regex.Pattern PLACE_RX = java.util.regex.Pattern.compile("^[A-Za-z]+( [A-Za-z]+)*$");
+
+    private void validateProforma(ProformaRequestDto d, ProformaEntity existing) {
+        LocalDate today = LocalDate.now();
+        if (d.getProformaDate() == null) throw new IllegalArgumentException("Proforma date is required.");
+        if (d.getProformaValidUntil() == null) throw new IllegalArgumentException("Valid until date is required.");
+        if ((existing == null || !d.getProformaDate().equals(existing.getProformaDate())) && d.getProformaDate().isBefore(today))
+            throw new IllegalArgumentException("Proforma date cannot be earlier than today.");
+        if ((existing == null || !d.getProformaValidUntil().equals(existing.getProformaValidUntil())) && d.getProformaValidUntil().isBefore(today))
+            throw new IllegalArgumentException("Valid until date cannot be earlier than today.");
+        if (d.getProformaValidUntil().isBefore(d.getProformaDate()))
+            throw new IllegalArgumentException("Valid until date cannot be before the proforma date.");
+        if (d.getProformaExchangeRate() != null && d.getProformaExchangeRate().signum() <= 0)
+            throw new IllegalArgumentException("Exchange rate must be greater than 0.");
+        BigDecimal disc = d.getProformaDiscountPercent();
+        if (disc != null && (disc.signum() < 0 || disc.compareTo(BigDecimal.valueOf(100)) > 0))
+            throw new IllegalArgumentException("Discount must be between 0 and 100.");
+        if (d.getProformaShippingCharges() != null && d.getProformaShippingCharges().signum() < 0)
+            throw new IllegalArgumentException("Shipping charges cannot be negative.");
+        if (d.getProformaOtherCharges() != null && d.getProformaOtherCharges().signum() < 0)
+            throw new IllegalArgumentException("Other charges cannot be negative.");
+        String pos = d.getProformaPlaceOfSupply();
+        if (pos != null && !pos.isBlank() && (pos.trim().length() > 60 || !PLACE_RX.matcher(pos.trim()).matches()))
+            throw new IllegalArgumentException("Place of supply can contain only letters and spaces.");
+        for (ProformaItemRequestDto i : d.getProformaItems()) {
+            if (i.getProformaItemQty() == null || i.getProformaItemQty().signum() <= 0)
+                throw new IllegalArgumentException("Quantity must be greater than 0 for item '" + i.getProformaItemName() + "'.");
+            if (i.getProformaItemRate() == null || i.getProformaItemRate().signum() <= 0)
+                throw new IllegalArgumentException("Rate must be greater than 0 for item '" + i.getProformaItemName() + "'.");
+        }
+    }
+
+
 
     private ProformaEntity findEntityOrThrow(Long proformaPrimeId) {
         return proformaRepository.findById(proformaPrimeId)
