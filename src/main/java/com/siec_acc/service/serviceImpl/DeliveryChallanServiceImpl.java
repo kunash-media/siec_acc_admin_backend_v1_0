@@ -260,9 +260,17 @@ public class DeliveryChallanServiceImpl implements DeliveryChallanService {
             if (i.getDcItemProductId() == null) {
                 throw new InvalidOperationException("Every item must be selected from the product list.");
             }
-            if (i.getDcItemQty() == null || i.getDcItemQty().compareTo(BigDecimal.ZERO) <= 0
-                    || i.getDcItemRate() == null || i.getDcItemRate().compareTo(BigDecimal.ZERO) < 0) {
-                throw new InvalidOperationException("Every item needs a quantity greater than 0 and a valid rate.");
+            if (i.getDcItemQty() == null || i.getDcItemQty().compareTo(BigDecimal.ZERO) <= 0) {
+                throw new InvalidOperationException("Quantity must be greater than 0 for item '" + i.getDcItemName() + "'.");
+            }
+            if (i.getDcItemRate() == null) {
+                throw new InvalidOperationException("Rate is required for item '" + i.getDcItemName() + "'.");
+            }
+            if (i.getDcItemRate().signum() <= 0) {
+                throw new InvalidOperationException("Rate must be greater than 0 for item '" + i.getDcItemName() + "'.");
+            }
+            if (i.getDcItemRate().stripTrailingZeros().scale() > 2) {
+                throw new InvalidOperationException("Rate can have at most 2 decimal places for item '" + i.getDcItemName() + "'.");
             }
             if (i.getDcItemQty().stripTrailingZeros().scale() > 3) {
                 throw new InvalidOperationException("Quantity can have at most 3 decimal places.");

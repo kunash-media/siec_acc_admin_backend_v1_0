@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Backs the "Invoices" tab on the frontend — CRUD, filters (status/customer/
@@ -33,7 +32,6 @@ import java.util.List;
 public class InvoiceController {
 
     private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
-
     private final InvoiceService invoiceService;
 
     public InvoiceController(InvoiceService invoiceService) {
